@@ -3,7 +3,7 @@
 /// [GitHub Repository](https://github.com/dpilger26/NumCpp)
 ///
 /// License
-/// Copyright 2018-2022 David Pilger
+/// Copyright 2018-2023 David Pilger
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy of this
 /// software and associated documentation files(the "Software"), to deal in the Software
@@ -37,55 +37,51 @@
 
 #include <limits>
 
-namespace nc
+namespace nc::special
 {
-    namespace special
+    //============================================================================
+    // Method Description:
+    /// Returns the factorial of the input value
+    ///
+    /// @param inValue
+    /// @return double
+    ///
+    inline double factorial(uint32 inValue)
     {
-        //============================================================================
-        // Method Description:
-        /// Returns the factorial of the input value
-        ///
-        /// @param inValue
-        /// @return double
-        ///
-        inline double factorial(uint32 inValue)
-        {
 #ifndef NUMCPP_NO_USE_BOOST
-            if (inValue <= boost::math::max_factorial<double>::value)
-            {
-                return boost::math::factorial<double>(inValue);   
-            }
-
-            return std::numeric_limits<double>::infinity();
-#else
-            double result = 1.0;
-            for (uint32 i = 2; i <= inValue; ++i)
-            {
-                result *= static_cast<double>(i);
-            }
-            
-            return result;
-#endif
-        }
-
-        //============================================================================
-        // Method Description:
-        /// Returns the factorial of the input value
-        ///
-        /// @param inArray
-        /// @return NdArray<double>
-        ///
-        inline NdArray<double> factorial(const NdArray<uint32>& inArray)
+        if (inValue <= boost::math::max_factorial<double>::value)
         {
-            NdArray<double> returnArray(inArray.shape());
-
-            stl_algorithms::transform(inArray.cbegin(), inArray.cend(), returnArray.begin(),
-                [](uint32 inValue) -> double
-                { 
-                    return factorial(inValue); 
-                });
-
-            return returnArray;
+            return boost::math::factorial<double>(inValue);
         }
-    }  // namespace special
-}  // namespace nc
+
+        return std::numeric_limits<double>::infinity();
+#else
+        double result = 1.;
+        for (uint32 i = 2; i <= inValue; ++i)
+        {
+            result *= static_cast<double>(i);
+        }
+
+        return result;
+#endif
+    }
+
+    //============================================================================
+    // Method Description:
+    /// Returns the factorial of the input value
+    ///
+    /// @param inArray
+    /// @return NdArray<double>
+    ///
+    inline NdArray<double> factorial(const NdArray<uint32>& inArray)
+    {
+        NdArray<double> returnArray(inArray.shape());
+
+        stl_algorithms::transform(inArray.cbegin(),
+                                  inArray.cend(),
+                                  returnArray.begin(),
+                                  [](uint32 inValue) -> double { return factorial(inValue); });
+
+        return returnArray;
+    }
+} // namespace nc::special

@@ -3,7 +3,7 @@
 /// [GitHub Repository](https://github.com/dpilger26/NumCpp)
 ///
 /// License
-/// Copyright 2018-2022 David Pilger
+/// Copyright 2018-2023 David Pilger
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy of this
 /// software and associated documentation files(the "Software"), to deal in the Software
@@ -27,13 +27,13 @@
 ///
 #pragma once
 
+#include <cmath>
+#include <string>
+
 #include "NumCpp/Core/Internal/Error.hpp"
 #include "NumCpp/Core/Internal/StaticAsserts.hpp"
 #include "NumCpp/Core/Internal/StlAlgorithms.hpp"
 #include "NumCpp/NdArray.hpp"
-
-#include <cmath>
-#include <string>
 
 namespace nc
 {
@@ -58,12 +58,13 @@ namespace nc
         }
 
         NdArray<dtype> returnArray(inArray1.shape());
-        stl_algorithms::transform(inArray1.cbegin(), inArray1.cend(), inArray2.cbegin(), returnArray.begin(),
-            [](dtype inValue1, dtype inValue2) -> dtype
-            { 
-                return inValue2 < dtype{ 0 } ? std::abs(inValue1) * -1 : std::abs(inValue1);
-            });
+        stl_algorithms::transform(inArray1.cbegin(),
+                                  inArray1.cend(),
+                                  inArray2.cbegin(),
+                                  returnArray.begin(),
+                                  [](dtype inValue1, dtype inValue2) -> dtype
+                                  { return inValue2 < dtype{ 0 } ? std::abs(inValue1) * -1 : std::abs(inValue1); });
 
         return returnArray;
     }
-}  // namespace nc
+} // namespace nc

@@ -3,7 +3,7 @@
 /// [GitHub Repository](https://github.com/dpilger26/NumCpp)
 ///
 /// License
-/// Copyright 2018-2022 David Pilger
+/// Copyright 2018-2023 David Pilger
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy of this
 /// software and associated documentation files(the "Software"), to deal in the Software
@@ -44,7 +44,7 @@ namespace nc
     /// @return NdArray
     ///
     template<typename dtype>
-    NdArray<dtype> empty(uint32 inNumRows, uint32 inNumCols) 
+    NdArray<dtype> empty(uint32 inNumRows, uint32 inNumCols)
     {
         return NdArray<dtype>(inNumRows, inNumCols);
     }
@@ -59,7 +59,7 @@ namespace nc
     /// @return NdArray
     ///
     template<typename dtype>
-    NdArray<dtype> empty(const Shape& inShape) 
+    NdArray<dtype> empty(const Shape& inShape)
     {
         return NdArray<dtype>(inShape);
     }

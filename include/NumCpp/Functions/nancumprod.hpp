@@ -3,7 +3,7 @@
 /// [GitHub Repository](https://github.com/dpilger26/NumCpp)
 ///
 /// License
-/// Copyright 2018-2022 David Pilger
+/// Copyright 2018-2023 David Pilger
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy of this
 /// software and associated documentation files(the "Software"), to deal in the Software
@@ -27,13 +27,13 @@
 ///
 #pragma once
 
+#include <cmath>
+
 #include "NumCpp/Core/Internal/StaticAsserts.hpp"
 #include "NumCpp/Core/Internal/StlAlgorithms.hpp"
 #include "NumCpp/Core/Types.hpp"
 #include "NumCpp/Functions/cumprod.hpp"
 #include "NumCpp/NdArray.hpp"
-
-#include <cmath>
 
 namespace nc
 {
@@ -48,16 +48,20 @@ namespace nc
     /// @return NdArray
     ///
     template<typename dtype>
-    NdArray<dtype> nancumprod(const NdArray<dtype>& inArray, Axis inAxis = Axis::NONE) 
+    NdArray<dtype> nancumprod(const NdArray<dtype>& inArray, Axis inAxis = Axis::NONE)
     {
         STATIC_ASSERT_FLOAT(dtype);
 
         NdArray<dtype> arrayCopy(inArray);
-        stl_algorithms::for_each(arrayCopy.begin(), arrayCopy.end(),
-            [](dtype& value) noexcept -> void
-            { 
-                if (std::isnan(value)) { value = dtype{ 1 }; };
-            });
+        stl_algorithms::for_each(arrayCopy.begin(),
+                                 arrayCopy.end(),
+                                 [](dtype& value) noexcept -> void
+                                 {
+                                     if (std::isnan(value))
+                                     {
+                                         value = dtype{ 1 };
+                                     };
+                                 });
 
         return cumprod(arrayCopy, inAxis);
     }

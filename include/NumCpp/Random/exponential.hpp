@@ -3,7 +3,7 @@
 /// [GitHub Repository](https://github.com/dpilger26/NumCpp)
 ///
 /// License
-/// Copyright 2018-2022 David Pilger
+/// Copyright 2018-2023 David Pilger
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy of this
 /// software and associated documentation files(the "Software"), to deal in the Software
@@ -27,34 +27,36 @@
 ///
 #pragma once
 
+#include <algorithm>
+#include <random>
+
 #include "NumCpp/Core/Internal/StaticAsserts.hpp"
 #include "NumCpp/Core/Shape.hpp"
 #include "NumCpp/NdArray.hpp"
 #include "NumCpp/Random/generator.hpp"
 
-#include <algorithm>
-#include <random>
-
-namespace nc
+namespace nc::random
 {
-    namespace random
+    namespace detail
     {
         //============================================================================
         // Method Description:
         /// Single random value sampled from the "exponential" distrubution.
         ///
-        /// NumPy Reference: https://docs.scipy.org/doc/numpy/reference/generated/numpy.random.exponential.html#numpy.random.exponential
+        /// NumPy Reference:
+        /// https://docs.scipy.org/doc/numpy/reference/generated/numpy.random.exponential.html#numpy.random.exponential
         ///
+        /// @param generator: instance of a random number generator
         /// @param inScaleValue (default 1)
         /// @return NdArray
         ///
-        template<typename dtype>
-        dtype exponential(dtype inScaleValue = 1) 
+        template<typename dtype, typename GeneratorType = std::mt19937>
+        dtype exponential(GeneratorType& generator, dtype inScaleValue = 1)
         {
             STATIC_ASSERT_ARITHMETIC(dtype);
 
             std::exponential_distribution<dtype> dist(inScaleValue);
-            return dist(generator_); 
+            return dist(generator);
         }
 
         //============================================================================
@@ -62,14 +64,16 @@ namespace nc
         /// Create an array of the given shape and populate it with
         /// random samples from a "exponential" distrubution.
         ///
-        /// NumPy Reference: https://docs.scipy.org/doc/numpy/reference/generated/numpy.random.exponential.html#numpy.random.exponential
+        /// NumPy Reference:
+        /// https://docs.scipy.org/doc/numpy/reference/generated/numpy.random.exponential.html#numpy.random.exponential
         ///
+        /// @param generator: instance of a random number generator
         /// @param inShape
         /// @param inScaleValue (default 1)
         /// @return NdArray
         ///
-        template<typename dtype>
-        NdArray<dtype> exponential(const Shape& inShape, dtype inScaleValue = 1) 
+        template<typename dtype, typename GeneratorType = std::mt19937>
+        NdArray<dtype> exponential(GeneratorType& generator, const Shape& inShape, dtype inScaleValue = 1)
         {
             STATIC_ASSERT_ARITHMETIC(dtype);
 
@@ -77,13 +81,45 @@ namespace nc
 
             std::exponential_distribution<dtype> dist(inScaleValue);
 
-            std::for_each(returnArray.begin(), returnArray.end(),
-                [&dist](dtype& value) -> void
-                {
-                    value = dist(generator_); 
-                });
+            std::for_each(returnArray.begin(),
+                          returnArray.end(),
+                          [&generator, &dist](dtype& value) -> void { value = dist(generator); });
 
             return returnArray;
         }
-    }  // namespace random
-}  // namespace nc
+    } // namespace detail
+
+    //============================================================================
+    // Method Description:
+    /// Single random value sampled from the "exponential" distrubution.
+    ///
+    /// NumPy Reference:
+    /// https://docs.scipy.org/doc/numpy/reference/generated/numpy.random.exponential.html#numpy.random.exponential
+    ///
+    /// @param inScaleValue (default 1)
+    /// @return NdArray
+    ///
+    template<typename dtype>
+    dtype exponential(dtype inScaleValue = 1)
+    {
+        return detail::exponential(generator_, inScaleValue);
+    }
+
+    //============================================================================
+    // Method Description:
+    /// Create an array of the given shape and populate it with
+    /// random samples from a "exponential" distrubution.
+    ///
+    /// NumPy Reference:
+    /// https://docs.scipy.org/doc/numpy/reference/generated/numpy.random.exponential.html#numpy.random.exponential
+    ///
+    /// @param inShape
+    /// @param inScaleValue (default 1)
+    /// @return NdArray
+    ///
+    template<typename dtype>
+    NdArray<dtype> exponential(const Shape& inShape, dtype inScaleValue = 1)
+    {
+        return detail::exponential(generator_, inShape, inScaleValue);
+    }
+} // namespace nc::random

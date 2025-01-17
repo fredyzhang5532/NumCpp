@@ -3,7 +3,7 @@
 /// [GitHub Repository](https://github.com/dpilger26/NumCpp)
 ///
 /// License
-/// Copyright 2018-2022 David Pilger
+/// Copyright 2018-2023 David Pilger
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy of this
 /// software and associated documentation files(the "Software"), to deal in the Software
@@ -39,8 +39,8 @@ namespace nc
     /// @return number of bytes
     ///
     template<typename dtype>
-    uint64 nbytes(const NdArray<dtype>& inArray) noexcept 
+    uint64 nbytes(const NdArray<dtype>& inArray) noexcept
     {
         return inArray.nbytes();
     }
-}  // namespace nc
+} // namespace nc

@@ -3,7 +3,7 @@
 /// [GitHub Repository](https://github.com/dpilger26/NumCpp)
 ///
 /// License
-/// Copyright 2018-2022 David Pilger
+/// Copyright 2018-2023 David Pilger
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy of this
 /// software and associated documentation files(the "Software"), to deal in the Software
@@ -27,10 +27,11 @@
 ///
 #pragma once
 
+#include <initializer_list>
+#include <vector>
+
 #include "NumCpp/Functions/column_stack.hpp"
 #include "NumCpp/NdArray.hpp"
-
-#include <initializer_list>
 
 namespace nc
 {
@@ -46,8 +47,25 @@ namespace nc
     /// @return NdArray
     ///
     template<typename dtype>
-    NdArray<dtype> hstack(std::initializer_list<NdArray<dtype> > inArrayList)
+    NdArray<dtype> hstack(std::initializer_list<NdArray<dtype>> inArrayList)
     {
-        return column_stack(inArrayList);
+        return detail::column_stack<dtype>(inArrayList.begin(), inArrayList.end());
+    }
+
+    //============================================================================
+    // Method Description:
+    /// Stack arrays in sequence horizontally (column wise).
+    ///
+    /// NumPy Reference: https://www.numpy.org/devdocs/reference/generated/numpy.hstack.html
+    ///
+    ///
+    /// @param inArrayList: {list} of arrays to stack
+    ///
+    /// @return NdArray
+    ///
+    template<typename dtype>
+    NdArray<dtype> hstack(std::vector<NdArray<dtype>> inArrayList)
+    {
+        return detail::column_stack<dtype>(inArrayList.begin(), inArrayList.end());
     }
 } // namespace nc

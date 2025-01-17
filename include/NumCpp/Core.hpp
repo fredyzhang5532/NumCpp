@@ -3,7 +3,7 @@
 /// [GitHub Repository](https://github.com/dpilger26/NumCpp)
 ///
 /// License
-/// Copyright 2018-2022 David Pilger
+/// Copyright 2018-2023 David Pilger
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy of this
 /// software and associated documentation files(the "Software"), to deal in the Software
@@ -30,6 +30,7 @@
 #include "NumCpp/Core/Constants.hpp"
 #include "NumCpp/Core/DataCube.hpp"
 #include "NumCpp/Core/DtypeInfo.hpp"
+#include "NumCpp/Core/Enums.hpp"
 #include "NumCpp/Core/Internal/Version.hpp"
 #include "NumCpp/Core/Shape.hpp"
 #include "NumCpp/Core/Slice.hpp"

@@ -3,7 +3,7 @@
 /// [GitHub Repository](https://github.com/dpilger26/NumCpp)
 ///
 /// License
-/// Copyright 2018-2022 David Pilger
+/// Copyright 2018-2023 David Pilger
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy of this
 /// software and associated documentation files(the "Software"), to deal in the Software
@@ -27,12 +27,12 @@
 ///
 #pragma once
 
+#include <algorithm>
+#include <complex>
+
 #include "NumCpp/Core/Internal/StaticAsserts.hpp"
 #include "NumCpp/Functions/stdev.hpp"
 #include "NumCpp/NdArray.hpp"
-
-#include <algorithm>
-#include <complex>
 
 namespace nc
 {
@@ -48,15 +48,12 @@ namespace nc
     /// @return NdArray
     ///
     template<typename dtype>
-    NdArray<double> var(const NdArray<dtype>& inArray, Axis inAxis = Axis::NONE) 
+    NdArray<double> var(const NdArray<dtype>& inArray, Axis inAxis = Axis::NONE)
     {
         STATIC_ASSERT_ARITHMETIC(dtype);
 
         NdArray<double> stdValues = stdev(inArray, inAxis);
-        const auto function = [](double& value) -> void
-        {
-            value *= value;
-        };
+        const auto      function  = [](double& value) -> void { value *= value; };
 
         stl_algorithms::for_each(stdValues.begin(), stdValues.end(), function);
         return stdValues;
@@ -74,17 +71,14 @@ namespace nc
     /// @return NdArray
     ///
     template<typename dtype>
-    NdArray<std::complex<double>> var(const NdArray<std::complex<dtype>>& inArray, Axis inAxis = Axis::NONE) 
+    NdArray<std::complex<double>> var(const NdArray<std::complex<dtype>>& inArray, Axis inAxis = Axis::NONE)
     {
         STATIC_ASSERT_ARITHMETIC(dtype);
 
         NdArray<std::complex<double>> stdValues = stdev(inArray, inAxis);
-        const auto function = [](std::complex<double>& value) -> void
-        {
-            value *= value;
-        };
+        const auto                    function  = [](std::complex<double>& value) -> void { value *= value; };
 
         stl_algorithms::for_each(stdValues.begin(), stdValues.end(), function);
         return stdValues;
     }
-}  // namespace nc
+} // namespace nc

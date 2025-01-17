@@ -3,7 +3,7 @@
 /// [GitHub Repository](https://github.com/dpilger26/NumCpp)
 ///
 /// License
-/// Copyright 2018-2022 David Pilger
+/// Copyright 2018-2023 David Pilger
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy of this
 /// software and associated documentation files(the "Software"), to deal in the Software
@@ -28,6 +28,9 @@
 
 #pragma once
 
+#include <string>
+#include <vector>
+
 #include "NumCpp/Core/Internal/Error.hpp"
 #include "NumCpp/Core/Internal/StaticAsserts.hpp"
 #include "NumCpp/Core/Types.hpp"
@@ -38,61 +41,58 @@
 #include "NumCpp/ImageProcessing/windowExceedances.hpp"
 #include "NumCpp/NdArray.hpp"
 
-#include <string>
-#include <vector>
-
-namespace nc
+namespace nc::imageProcessing
 {
-    namespace imageProcessing
+    //============================================================================
+    // Method Description:
+    /// Generates a list of centroids givin an input exceedance
+    /// rate
+    ///
+    /// @param inImageArray
+    /// @param inRate: exceedance rate
+    /// @param inWindowType: (string "pre", or "post" for where to apply the exceedance windowing)
+    /// @param inBorderWidth: border to apply (default 0)
+    /// @return std::vector<Centroid>
+    ///
+    template<typename dtype>
+    std::vector<Centroid<dtype>> generateCentroids(const NdArray<dtype>& inImageArray,
+                                                   double                inRate,
+                                                   const std::string&    inWindowType,
+                                                   uint8                 inBorderWidth = 0)
     {
-        //============================================================================
-        // Method Description:
-        /// Generates a list of centroids givin an input exceedance
-        /// rate
-        ///
-        /// @param inImageArray
-        /// @param inRate: exceedance rate
-        /// @param inWindowType: (string "pre", or "post" for where to apply the exceedance windowing)
-        /// @param inBorderWidth: border to apply (default 0)
-        /// @return std::vector<Centroid>
-        ///
-        template<typename dtype>
-        std::vector<Centroid<dtype> > generateCentroids(const NdArray<dtype>& inImageArray, double inRate, const std::string& inWindowType, uint8 inBorderWidth = 0)
+        STATIC_ASSERT_ARITHMETIC(dtype);
+
+        uint8 borderWidthPre  = 0;
+        uint8 borderWidthPost = 0;
+        if (inWindowType == "pre")
         {
-            STATIC_ASSERT_ARITHMETIC(dtype);
-
-            uint8 borderWidthPre = 0;
-            uint8 borderWidthPost = 0;
-            if (inWindowType == "pre")
-            {
-                borderWidthPre = inBorderWidth;
-            }
-            else if (inWindowType == "post")
-            {
-                borderWidthPost = inBorderWidth;
-            }
-            else
-            {
-                THROW_INVALID_ARGUMENT_ERROR("input window type options are ['pre', 'post']");
-            }
-
-            // generate the threshold
-            dtype threshold = generateThreshold(inImageArray, inRate);
-
-            // apply the threshold to get xcds
-            NdArray<bool> xcds = applyThreshold(inImageArray, threshold);
-
-            // window around the xcds
-            if (borderWidthPre > 0)
-            {
-                xcds = windowExceedances(xcds, borderWidthPre);
-            }
-
-            // cluster the exceedances
-            std::vector<Cluster<dtype> > clusters = clusterPixels(inImageArray, xcds, borderWidthPost);
-
-            // centroid the clusters
-            return centroidClusters(clusters);
+            borderWidthPre = inBorderWidth;
         }
-    }  // namespace imageProcessing
-}  // namespace nc
+        else if (inWindowType == "post")
+        {
+            borderWidthPost = inBorderWidth;
+        }
+        else
+        {
+            THROW_INVALID_ARGUMENT_ERROR("input window type options are ['pre', 'post']");
+        }
+
+        // generate the threshold
+        dtype threshold = generateThreshold(inImageArray, inRate);
+
+        // apply the threshold to get xcds
+        NdArray<bool> xcds = applyThreshold(inImageArray, threshold);
+
+        // window around the xcds
+        if (borderWidthPre > 0)
+        {
+            xcds = windowExceedances(xcds, borderWidthPre);
+        }
+
+        // cluster the exceedances
+        std::vector<Cluster<dtype>> clusters = clusterPixels(inImageArray, xcds, borderWidthPost);
+
+        // centroid the clusters
+        return centroidClusters(clusters);
+    }
+} // namespace nc::imageProcessing

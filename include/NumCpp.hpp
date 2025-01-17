@@ -6,7 +6,7 @@
 ///
 ///
 /// @section License
-/// Copyright 2018-2022 David Pilger
+/// Copyright 2018-2023 David Pilger
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy of this
 /// software and associated documentation files(the "Software"), to deal in the Software
@@ -26,28 +26,30 @@
 /// DEALINGS IN THE SOFTWARE.
 ///
 /// @section Testing
-/// **C++ Standards:**  
-/// C++14  
-/// C++17  
-/// C++2a  
+/// **C++ Standards:**
+/// C++14
+/// C++17
+/// C++20
 ///
-/// **Compilers:**  
-/// Visual Studio: 2017, 2019  
-/// GNU: 6.5, 7.5, 8.4, 9.3, 10.1  
-/// Clang: 6, 7, 8, 9, 10  
-/// 
-/// **Boost Versions:**  
-/// 1.68, 1.70, 1.72, and 1.73  
+/// **Compilers:**
+/// Visual Studio: 2017, 2019
+/// GNU: 6.5, 7.5, 8.4, 9.3, 10.1
+/// Clang: 6, 7, 8, 9, 10
+///
+/// **Boost Versions:**
+/// 1.68, 1.70, 1.72, and 1.73
 ///
 #pragma once
 
 #include "NumCpp/Coordinates.hpp"
 #include "NumCpp/Core.hpp"
+#include "NumCpp/DateTime.hpp"
 #include "NumCpp/Filter.hpp"
 #include "NumCpp/Functions.hpp"
 #include "NumCpp/ImageProcessing.hpp"
 #include "NumCpp/Integrate.hpp"
 #include "NumCpp/Linalg.hpp"
+#include "NumCpp/Logging.hpp"
 #include "NumCpp/NdArray.hpp"
 #include "NumCpp/Polynomial.hpp"
 #include "NumCpp/PythonInterface.hpp"
@@ -70,4 +72,3 @@
 /// \example ReadMe.cpp
 /// Examples from the Quick Start Guide in README.md at [GitHub Repository](https://github.com/dpilger26/NumCpp)
 ///
-

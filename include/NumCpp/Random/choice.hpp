@@ -3,7 +3,7 @@
 /// [GitHub Repository](https://github.com/dpilger26/NumCpp)
 ///
 /// License
-/// Copyright 2018-2022 David Pilger
+/// Copyright 2018-2023 David Pilger
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy of this
 /// software and associated documentation files(the "Software"), to deal in the Software
@@ -27,6 +27,9 @@
 ///
 #pragma once
 
+#include <algorithm>
+
+#include "NumCpp/Core/Enums.hpp"
 #include "NumCpp/Core/Internal/Error.hpp"
 #include "NumCpp/Core/Shape.hpp"
 #include "NumCpp/Core/Types.hpp"
@@ -34,23 +37,22 @@
 #include "NumCpp/Random/permutation.hpp"
 #include "NumCpp/Random/randInt.hpp"
 
-#include <algorithm>
-
-namespace nc
+namespace nc::random
 {
-    namespace random
+    namespace detail
     {
         //============================================================================
         // Method Description:
         /// Chooses a random sample from an input array.
         ///
+        /// @param generator: instance of a random number generator
         /// @param inArray
         /// @return NdArray
         ///
-        template<typename dtype>
-        dtype choice(const NdArray<dtype>& inArray)
+        template<typename dtype, typename GeneratorType = std::mt19937>
+        dtype choice(GeneratorType& generator, const NdArray<dtype>& inArray)
         {
-            uint32 randIdx = random::randInt<uint32>(0, inArray.size());
+            uint32 randIdx = detail::randInt<uint32>(generator, inArray.size());
             return inArray[randIdx];
         }
 
@@ -58,32 +60,62 @@ namespace nc
         // Method Description:
         /// Chooses inNum random samples from an input array.
         ///
+        /// @param generator: instance of a random number generator
         /// @param inArray
         /// @param inNum
         /// @param replace: Whether the sample is with or without replacement
         /// @return NdArray
         ///
-        template<typename dtype>
-        NdArray<dtype> choice(const NdArray<dtype>& inArray, uint32 inNum, bool replace = true)
+        template<typename dtype, typename GeneratorType = std::mt19937>
+        NdArray<dtype> choice(GeneratorType&        generator,
+                              const NdArray<dtype>& inArray,
+                              uint32                inNum,
+                              Replace               replace = Replace::YES)
         {
-            if (!replace && inNum > inArray.size())
+            if (replace == Replace::NO && inNum > inArray.size())
             {
-                THROW_INVALID_ARGUMENT_ERROR("when 'replace' == false 'inNum' must be <= inArray.size()");
+                THROW_INVALID_ARGUMENT_ERROR("when Replace::NO 'inNum' must be <= inArray.size()");
             }
 
-            if (replace)
+            if (replace == Replace::YES)
             {
                 NdArray<dtype> outArray(1, inNum);
-                std::for_each(outArray.begin(), outArray.end(),
-                    [&inArray](dtype& value) -> void
-                    { 
-                        value = choice(inArray); 
-                    });
+                std::for_each(outArray.begin(),
+                              outArray.end(),
+                              [&generator, &inArray](dtype& value) -> void { value = choice(generator, inArray); });
 
                 return outArray;
             }
 
-            return permutation(inArray)[Slice(inNum)];
+            return detail::permutation(generator, inArray)[Slice(inNum)];
         }
-    }  // namespace random
-}  // namespace nc
+    } // namespace detail
+
+    //============================================================================
+    // Method Description:
+    /// Chooses a random sample from an input array.
+    ///
+    /// @param inArray
+    /// @return NdArray
+    ///
+    template<typename dtype>
+    dtype choice(const NdArray<dtype>& inArray)
+    {
+        return detail::choice(generator_, inArray);
+    }
+
+    //============================================================================
+    // Method Description:
+    /// Chooses inNum random samples from an input array.
+    ///
+    /// @param inArray
+    /// @param inNum
+    /// @param replace: Whether the sample is with or without replacement
+    /// @return NdArray
+    ///
+    template<typename dtype>
+    NdArray<dtype> choice(const NdArray<dtype>& inArray, uint32 inNum, Replace replace = Replace::YES)
+    {
+        return detail::choice(generator_, inArray, inNum, replace);
+    }
+} // namespace nc::random

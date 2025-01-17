@@ -3,7 +3,7 @@
 /// [GitHub Repository](https://github.com/dpilger26/NumCpp)
 ///
 /// License
-/// Copyright 2018-2022 David Pilger
+/// Copyright 2018-2023 David Pilger
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy of this
 /// software and associated documentation files(the "Software"), to deal in the Software
@@ -27,6 +27,12 @@
 ///
 #pragma once
 
+#include <algorithm>
+#include <cmath>
+#include <string>
+#include <vector>
+
+#include "NumCpp/Core/Enums.hpp"
 #include "NumCpp/Core/Internal/Error.hpp"
 #include "NumCpp/Core/Internal/StaticAsserts.hpp"
 #include "NumCpp/Core/Internal/StlAlgorithms.hpp"
@@ -38,11 +44,6 @@
 #include "NumCpp/Functions/percentile.hpp"
 #include "NumCpp/NdArray.hpp"
 #include "NumCpp/Utils/essentiallyEqual.hpp"
-
-#include <algorithm>
-#include <cmath>
-#include <string>
-#include <vector>
 
 namespace nc
 {
@@ -59,8 +60,10 @@ namespace nc
     /// @return NdArray
     ///
     template<typename dtype>
-    NdArray<double> nanpercentile(const NdArray<dtype>& inArray, double inPercentile,
-        Axis inAxis = Axis::NONE, const std::string& inInterpMethod = "linear")
+    NdArray<double> nanpercentile(const NdArray<dtype>& inArray,
+                                  double                inPercentile,
+                                  Axis                  inAxis         = Axis::NONE,
+                                  InterpolationMethod   inInterpMethod = InterpolationMethod::LINEAR)
     {
         STATIC_ASSERT_FLOAT(dtype);
 
@@ -84,9 +87,12 @@ namespace nc
                     return returnArray;
                 }
 
-                return percentile(NdArray<double>(arrayCopy.data(), 
-                    static_cast<typename NdArray<dtype>::size_type>(arrayCopy.size()), false), 
-                    inPercentile, Axis::NONE, inInterpMethod);
+                return percentile(NdArray<double>(arrayCopy.data(),
+                                                  static_cast<typename NdArray<dtype>::size_type>(arrayCopy.size()),
+                                                  PointerPolicy::SHELL),
+                                  inPercentile,
+                                  Axis::NONE,
+                                  inInterpMethod);
             }
             case Axis::COL:
             {
@@ -96,9 +102,11 @@ namespace nc
                 for (uint32 row = 0; row < inShape.rows; ++row)
                 {
                     NdArray<double> outValue = nanpercentile(NdArray<dtype>(&inArray.front(row), inShape.cols),
-                        inPercentile, Axis::NONE, inInterpMethod);
+                                                             inPercentile,
+                                                             Axis::NONE,
+                                                             inInterpMethod);
 
-                    if (outValue.size() == 1)
+                    if (outValue.isscalar())
                     {
                         returnArray[row] = outValue.item();
                     }
@@ -112,26 +120,7 @@ namespace nc
             }
             case Axis::ROW:
             {
-                NdArray<dtype> arrayTrans = inArray.transpose();
-                const Shape inShape = arrayTrans.shape();
-
-                NdArray<double> returnArray(1, inShape.rows);
-                for (uint32 row = 0; row < inShape.rows; ++row)
-                {
-                    NdArray<double> outValue = nanpercentile(NdArray<dtype>(&arrayTrans.front(row), inShape.cols, false),
-                        inPercentile, Axis::NONE, inInterpMethod);
-
-                    if (outValue.size() == 1)
-                    {
-                        returnArray[row] = outValue.item();
-                    }
-                    else
-                    {
-                        returnArray[row] = constants::nan;
-                    }
-                }
-
-                return returnArray;
+                return nanpercentile(inArray.transpose(), inPercentile, Axis::COL, inInterpMethod);
             }
             default:
             {

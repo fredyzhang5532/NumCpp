@@ -3,7 +3,7 @@
 /// [GitHub Repository](https://github.com/dpilger26/NumCpp)
 ///
 /// License
-/// Copyright 2018-2022 David Pilger
+/// Copyright 2018-2023 David Pilger
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy of this
 /// software and associated documentation files(the "Software"), to deal in the Software
@@ -27,31 +27,28 @@
 ///
 #pragma once
 
-#include "NumCpp/Core/Internal/StaticAsserts.hpp"
-
 #include <complex>
 #include <sstream>
 #include <string>
 
-namespace nc
-{
-    namespace utils
-    {
-        //============================================================================
-        /// Converts the value into a string
-        ///
-        /// @param inValue
-        ///
-        /// @return std::string
-        ///
-        template<typename dtype>
-        std::string value2str(dtype inValue) 
-        {
-            STATIC_ASSERT_ARITHMETIC_OR_COMPLEX(dtype);
+#include "NumCpp/Core/Internal/StaticAsserts.hpp"
 
-            std::stringstream ss;
-            ss << inValue;
-            return ss.str();
-        }
-    } // namespace utils
-} // namespace nc
+namespace nc::utils
+{
+    //============================================================================
+    /// Converts the value into a string
+    ///
+    /// @param inValue
+    ///
+    /// @return std::string
+    ///
+    template<typename dtype>
+    std::string value2str(dtype inValue)
+    {
+        STATIC_ASSERT_ARITHMETIC_OR_COMPLEX(dtype);
+
+        std::stringstream ss;
+        ss << inValue;
+        return ss.str();
+    }
+} // namespace nc::utils

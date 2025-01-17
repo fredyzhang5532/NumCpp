@@ -3,7 +3,7 @@
 /// [GitHub Repository](https://github.com/dpilger26/NumCpp)
 ///
 /// License
-/// Copyright 2018-2022 David Pilger
+/// Copyright 2018-2023 David Pilger
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy of this
 /// software and associated documentation files(the "Software"), to deal in the Software
@@ -27,9 +27,9 @@
 ///
 #pragma once
 
-#include "NumCpp/NdArray.hpp"
 #include "NumCpp/Core/Internal/StaticAsserts.hpp"
 #include "NumCpp/Core/Internal/StlAlgorithms.hpp"
+#include "NumCpp/NdArray.hpp"
 #include "NumCpp/Utils/powerf.hpp"
 
 namespace nc
@@ -43,12 +43,12 @@ namespace nc
     /// @return value
     ///
     template<typename dtype1, typename dtype2>
-    double nth_root(dtype1 inValue, dtype2 inRoot) noexcept 
+    double nth_root(dtype1 inValue, dtype2 inRoot) noexcept
     {
         STATIC_ASSERT_ARITHMETIC(dtype1);
         STATIC_ASSERT_ARITHMETIC(dtype2);
 
-        return utils::powerf(static_cast<double>(inValue), 1.0 / static_cast<double>(inRoot));
+        return utils::powerf(static_cast<double>(inValue), 1. / static_cast<double>(inRoot));
     }
 
     //============================================================================
@@ -60,15 +60,14 @@ namespace nc
     /// @return NdArray
     ///
     template<typename dtype1, typename dtype2>
-    NdArray<double> nth_root(const NdArray<dtype1>& inArray, dtype2 inRoot) 
+    NdArray<double> nth_root(const NdArray<dtype1>& inArray, dtype2 inRoot)
     {
         NdArray<double> returnArray(inArray.shape());
-        stl_algorithms::transform(inArray.cbegin(), inArray.cend(), returnArray.begin(),
-            [inRoot](dtype1 inValue) noexcept -> double
-            {
-                return nth_root(inValue, inRoot); 
-            });
+        stl_algorithms::transform(inArray.cbegin(),
+                                  inArray.cend(),
+                                  returnArray.begin(),
+                                  [inRoot](dtype1 inValue) noexcept -> double { return nth_root(inValue, inRoot); });
 
         return returnArray;
     }
-}  // namespace nc
+} // namespace nc

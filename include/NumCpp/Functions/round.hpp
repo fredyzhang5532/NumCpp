@@ -3,7 +3,7 @@
 /// [GitHub Repository](https://github.com/dpilger26/NumCpp)
 ///
 /// License
-/// Copyright 2018-2022 David Pilger
+/// Copyright 2018-2023 David Pilger
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy of this
 /// software and associated documentation files(the "Software"), to deal in the Software
@@ -42,7 +42,7 @@ namespace nc
     /// @return value
     ///
     template<typename dtype>
-    dtype round(dtype inValue, uint8 inDecimals = 0) 
+    dtype round(dtype inValue, uint8 inDecimals = 0)
     {
         NdArray<dtype> input = { inValue };
         return input.round(inDecimals).item();
@@ -58,8 +58,8 @@ namespace nc
     /// @return NdArray
     ///
     template<typename dtype>
-    NdArray<dtype> round(const NdArray<dtype>& inArray, uint8 inDecimals = 0) 
+    NdArray<dtype> round(const NdArray<dtype>& inArray, uint8 inDecimals = 0)
     {
         return inArray.round(inDecimals);
     }
-}  // namespace nc
+} // namespace nc

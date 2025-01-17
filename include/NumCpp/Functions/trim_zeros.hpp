@@ -3,7 +3,7 @@
 /// [GitHub Repository](https://github.com/dpilger26/NumCpp)
 ///
 /// License
-/// Copyright 2018-2022 David Pilger
+/// Copyright 2018-2023 David Pilger
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy of this
 /// software and associated documentation files(the "Software"), to deal in the Software
@@ -27,13 +27,13 @@
 ///
 #pragma once
 
+#include <string>
+
 #include "NumCpp/Core/Internal/Error.hpp"
 #include "NumCpp/Core/Internal/StaticAsserts.hpp"
 #include "NumCpp/Core/Internal/StlAlgorithms.hpp"
 #include "NumCpp/Core/Types.hpp"
 #include "NumCpp/NdArray.hpp"
-
-#include <string>
 
 namespace nc
 {
@@ -58,11 +58,11 @@ namespace nc
             uint32 place = 0;
             for (auto value : inArray)
             {
-                if (value != dtype{ 0 })
+                if (!utils::essentiallyEqual(value, dtype{ 0 }))
                 {
                     break;
                 }
-                
+
                 ++place;
             }
 
@@ -82,7 +82,7 @@ namespace nc
             uint32 place = inArray.size();
             for (uint32 i = inArray.size() - 1; i > 0; --i)
             {
-                if (inArray[i] != dtype{ 0 })
+                if (!utils::essentiallyEqual(inArray[i], dtype{ 0 }))
                 {
                     break;
                 }
@@ -90,7 +90,7 @@ namespace nc
                 --place;
             }
 
-            if (place == 0 || (place == 1 && inArray[0] == dtype{ 0 }))
+            if (place == 0 || (place == 1 && utils::essentiallyEqual(inArray[0], dtype{ 0 })))
             {
                 return NdArray<dtype>(0);
             }
@@ -106,7 +106,7 @@ namespace nc
             uint32 placeBegin = 0;
             for (auto value : inArray)
             {
-                if (value != dtype{ 0 })
+                if (!utils::essentiallyEqual(value, dtype{ 0 }))
                 {
                     break;
                 }
@@ -122,7 +122,7 @@ namespace nc
             uint32 placeEnd = inArray.size();
             for (uint32 i = inArray.size() - 1; i > 0; --i)
             {
-                if (inArray[i] != dtype{ 0 })
+                if (!utils::essentiallyEqual(inArray[i], dtype{ 0 }))
                 {
                     break;
                 }
@@ -130,7 +130,7 @@ namespace nc
                 --placeEnd;
             }
 
-            if (placeEnd == 0 || (placeEnd == 1 && inArray[0] == dtype{ 0 }))
+            if (placeEnd == 0 || (placeEnd == 1 && utils::essentiallyEqual(inArray[0], dtype{ 0 })))
             {
                 return NdArray<dtype>(0);
             }
@@ -140,8 +140,8 @@ namespace nc
 
             return returnArray;
         }
-        
+
         THROW_INVALID_ARGUMENT_ERROR("trim options are 'f' = front, 'b' = back, 'fb' = front and back.");
         return {};
     }
-}  // namespace nc
+} // namespace nc

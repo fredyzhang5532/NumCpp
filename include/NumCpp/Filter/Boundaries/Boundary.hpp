@@ -3,7 +3,7 @@
 /// [GitHub Repository](https://github.com/dpilger26/NumCpp)
 ///
 /// License
-/// Copyright 2018-2022 David Pilger
+/// Copyright 2018-2023 David Pilger
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy of this
 /// software and associated documentation files(the "Software"), to deal in the Software
@@ -27,13 +27,17 @@
 ///
 #pragma once
 
-namespace nc
+namespace nc::filter
 {
-    namespace filter
+    //================================================================================
+    // Enum Description:
+    /// Boundary condition to apply to the image filter
+    enum class Boundary
     {
-        //================================================================================
-        // Enum Description:
-        /// Boundary condition to apply to the image filter
-        enum class Boundary { REFLECT = 0, CONSTANT, NEAREST, MIRROR, WRAP };
-    } // namespace filter
-} // namespace nc
+        REFLECT = 0,
+        CONSTANT,
+        NEAREST,
+        MIRROR,
+        WRAP
+    };
+} // namespace nc::filter

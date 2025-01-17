@@ -3,7 +3,7 @@
 /// [GitHub Repository](https://github.com/dpilger26/NumCpp)
 ///
 /// License
-/// Copyright 2018-2022 David Pilger
+/// Copyright 2018-2023 David Pilger
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy of this
 /// software and associated documentation files(the "Software"), to deal in the Software
@@ -31,9 +31,9 @@
 #include "NumCpp/Core/Internal/StaticAsserts.hpp"
 #include "NumCpp/Random/randFloat.hpp"
 
-namespace nc
+namespace nc::random
 {
-    namespace random
+    namespace detail
     {
         //============================================================================
         // Method Description:
@@ -42,18 +42,20 @@ namespace nc
         /// Samples are uniformly distributed over the half -
         /// open interval[low, high) (includes low, but excludes high)
         ///
-        /// NumPy Reference: https://docs.scipy.org/doc/numpy/reference/generated/numpy.random.uniform.html#numpy.random.uniform
+        /// NumPy Reference:
+        /// https://docs.scipy.org/doc/numpy/reference/generated/numpy.random.uniform.html#numpy.random.uniform
         ///
+        /// @param generator: instance of a random number generator
         /// @param inLow
         /// @param inHigh
         /// @return NdArray
         ///
-        template<typename dtype>
-        dtype uniform(dtype inLow, dtype inHigh)
+        template<typename dtype, typename GeneratorType = std::mt19937>
+        dtype uniform(GeneratorType& generator, dtype inLow, dtype inHigh)
         {
             STATIC_ASSERT_FLOAT(dtype);
 
-            return randFloat(inLow, inHigh);
+            return detail::randFloat(generator, inLow, inHigh);
         }
 
         //============================================================================
@@ -63,19 +65,62 @@ namespace nc
         /// Samples are uniformly distributed over the half -
         /// open interval[low, high) (includes low, but excludes high)
         ///
-        /// NumPy Reference: https://docs.scipy.org/doc/numpy/reference/generated/numpy.random.uniform.html#numpy.random.uniform
+        /// NumPy Reference:
+        /// https://docs.scipy.org/doc/numpy/reference/generated/numpy.random.uniform.html#numpy.random.uniform
         ///
+        /// @param generator: instance of a random number generator
         /// @param inShape
         /// @param inLow
         /// @param inHigh
         /// @return NdArray
         ///
-        template<typename dtype>
-        NdArray<dtype> uniform(const Shape& inShape, dtype inLow, dtype inHigh)
+        template<typename dtype, typename GeneratorType = std::mt19937>
+        NdArray<dtype> uniform(GeneratorType& generator, const Shape& inShape, dtype inLow, dtype inHigh)
         {
             STATIC_ASSERT_FLOAT(dtype);
 
-            return randFloat(inShape, inLow, inHigh);
+            return detail::randFloat(generator, inShape, inLow, inHigh);
         }
-    } // namespace random
-} // namespace nc
+    } // namespace detail
+
+    //============================================================================
+    // Method Description:
+    /// Draw sample from a uniform distribution.
+    ///
+    /// Samples are uniformly distributed over the half -
+    /// open interval[low, high) (includes low, but excludes high)
+    ///
+    /// NumPy Reference:
+    /// https://docs.scipy.org/doc/numpy/reference/generated/numpy.random.uniform.html#numpy.random.uniform
+    ///
+    /// @param inLow
+    /// @param inHigh
+    /// @return NdArray
+    ///
+    template<typename dtype>
+    dtype uniform(dtype inLow, dtype inHigh)
+    {
+        return detail::uniform(generator_, inLow, inHigh);
+    }
+
+    //============================================================================
+    // Method Description:
+    /// Draw samples from a uniform distribution.
+    ///
+    /// Samples are uniformly distributed over the half -
+    /// open interval[low, high) (includes low, but excludes high)
+    ///
+    /// NumPy Reference:
+    /// https://docs.scipy.org/doc/numpy/reference/generated/numpy.random.uniform.html#numpy.random.uniform
+    ///
+    /// @param inShape
+    /// @param inLow
+    /// @param inHigh
+    /// @return NdArray
+    ///
+    template<typename dtype>
+    NdArray<dtype> uniform(const Shape& inShape, dtype inLow, dtype inHigh)
+    {
+        return detail::uniform(generator_, inShape, inLow, inHigh);
+    }
+} // namespace nc::random

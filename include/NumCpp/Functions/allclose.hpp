@@ -3,7 +3,7 @@
 /// [GitHub Repository](https://github.com/dpilger26/NumCpp)
 ///
 /// License
-/// Copyright 2018-2022 David Pilger
+/// Copyright 2018-2023 David Pilger
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy of this
 /// software and associated documentation files(the "Software"), to deal in the Software
@@ -27,14 +27,14 @@
 ///
 #pragma once
 
+#include <cmath>
+#include <string>
+
 #include "NumCpp/Core/Internal/Error.hpp"
 #include "NumCpp/Core/Internal/StaticAsserts.hpp"
 #include "NumCpp/Functions/abs.hpp"
 #include "NumCpp/Functions/all.hpp"
 #include "NumCpp/NdArray.hpp"
-
-#include <cmath>
-#include <string>
 
 namespace nc
 {
@@ -70,4 +70,4 @@ namespace nc
 
         return true;
     }
-}  // namespace nc
+} // namespace nc

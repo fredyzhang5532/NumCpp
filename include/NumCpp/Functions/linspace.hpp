@@ -3,7 +3,7 @@
 /// [GitHub Repository](https://github.com/dpilger26/NumCpp)
 ///
 /// License
-/// Copyright 2018-2022 David Pilger
+/// Copyright 2018-2023 David Pilger
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy of this
 /// software and associated documentation files(the "Software"), to deal in the Software
@@ -27,12 +27,12 @@
 ///
 #pragma once
 
+#include <string>
+
+#include "NumCpp/Core/Enums.hpp"
 #include "NumCpp/Core/Internal/Error.hpp"
 #include "NumCpp/Core/Internal/StaticAsserts.hpp"
 #include "NumCpp/NdArray.hpp"
-
-
-#include <string>
 
 namespace nc
 {
@@ -58,7 +58,7 @@ namespace nc
     /// @return NdArray
     ///
     template<typename dtype>
-    NdArray<dtype> linspace(dtype inStart, dtype inStop, uint32 inNum = 50, bool endPoint = true)
+    NdArray<dtype> linspace(dtype inStart, dtype inStop, uint32 inNum = 50, EndPoint endPoint = EndPoint::YES)
     {
         STATIC_ASSERT_ARITHMETIC(dtype);
 
@@ -78,17 +78,17 @@ namespace nc
             THROW_INVALID_ARGUMENT_ERROR("stop value must be greater than the start value.");
         }
 
-        if (endPoint)
+        if (endPoint == EndPoint::YES)
         {
             if (inNum == 2)
             {
                 NdArray<dtype> returnArray = { inStart, inStop };
                 return returnArray;
             }
-            
+
             NdArray<dtype> returnArray(1, inNum);
             returnArray.front() = inStart;
-            returnArray.back() = inStop;
+            returnArray.back()  = inStop;
 
             dtype step = (inStop - inStart) / static_cast<dtype>(inNum - 1);
 
@@ -99,14 +99,14 @@ namespace nc
 
             return returnArray;
         }
-        
+
         if (inNum == 2)
         {
-            dtype step = (inStop - inStart) / (inNum);
+            dtype          step        = (inStop - inStart) / (inNum);
             NdArray<dtype> returnArray = { inStart, inStart + step };
             return returnArray;
         }
-        
+
         NdArray<dtype> returnArray(1, inNum);
         returnArray.front() = inStart;
 
@@ -119,4 +119,4 @@ namespace nc
 
         return returnArray;
     }
-}  // namespace nc
+} // namespace nc

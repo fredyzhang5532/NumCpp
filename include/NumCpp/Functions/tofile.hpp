@@ -3,7 +3,7 @@
 /// [GitHub Repository](https://github.com/dpilger26/NumCpp)
 ///
 /// License
-/// Copyright 2018-2022 David Pilger
+/// Copyright 2018-2023 David Pilger
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy of this
 /// software and associated documentation files(the "Software"), to deal in the Software
@@ -27,9 +27,9 @@
 ///
 #pragma once
 
-#include "NumCpp/NdArray.hpp"
-
 #include <string>
+
+#include "NumCpp/NdArray.hpp"
 
 namespace nc
 {
@@ -41,7 +41,6 @@ namespace nc
     ///
     /// @param inArray
     /// @param inFilename
-    /// @return None
     ///
     template<typename dtype>
     void tofile(const NdArray<dtype>& inArray, const std::string& inFilename)
@@ -58,11 +57,10 @@ namespace nc
     /// @param inArray
     /// @param inFilename
     /// @param inSep: Separator between array items for text output.
-    /// @return None
     ///
     template<typename dtype>
     void tofile(const NdArray<dtype>& inArray, const std::string& inFilename, const char inSep)
     {
         return inArray.tofile(inFilename, inSep);
     }
-}  // namespace nc
+} // namespace nc

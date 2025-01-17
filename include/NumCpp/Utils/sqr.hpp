@@ -3,7 +3,7 @@
 /// [GitHub Repository](https://github.com/dpilger26/NumCpp)
 ///
 /// License
-/// Copyright 2018-2022 David Pilger
+/// Copyright 2018-2023 David Pilger
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy of this
 /// software and associated documentation files(the "Software"), to deal in the Software
@@ -29,23 +29,20 @@
 
 #include "NumCpp/Core/Internal/StaticAsserts.hpp"
 
-namespace nc
+namespace nc::utils
 {
-    namespace utils
+    //============================================================================
+    /// Squares in input value
+    ///
+    /// @param inValue
+    ///
+    /// @return squared value
+    ///
+    template<typename dtype>
+    constexpr dtype sqr(dtype inValue) noexcept
     {
-        //============================================================================
-        /// Squares in input value
-        ///
-        /// @param inValue
-        ///
-        /// @return squared value
-        ///
-        template<typename dtype>
-        constexpr dtype sqr(dtype inValue) noexcept
-        {
-            STATIC_ASSERT_ARITHMETIC_OR_COMPLEX(dtype);
+        STATIC_ASSERT_ARITHMETIC_OR_COMPLEX(dtype);
 
-            return inValue * inValue;
-        }
-    } // namespace utils
-} // namespace nc
+        return inValue * inValue;
+    }
+} // namespace nc::utils

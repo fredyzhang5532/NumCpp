@@ -3,7 +3,7 @@
 /// [GitHub Repository](https://github.com/dpilger26/NumCpp)
 ///
 /// License
-/// Copyright 2018-2022 David Pilger
+/// Copyright 2018-2023 David Pilger
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy of this
 /// software and associated documentation files(the "Software"), to deal in the Software
@@ -42,7 +42,7 @@ namespace nc
     /// @param inSquareSize
     /// @return NdArray
     ///
-    inline NdArray<double> nans(uint32 inSquareSize) 
+    inline NdArray<double> nans(uint32 inSquareSize)
     {
         return full(inSquareSize, constants::nan);
     }
@@ -56,7 +56,7 @@ namespace nc
     /// @param inNumCols
     /// @return NdArray
     ///
-    inline NdArray<double> nans(uint32 inNumRows, uint32 inNumCols) 
+    inline NdArray<double> nans(uint32 inNumRows, uint32 inNumCols)
     {
         return full(inNumRows, inNumCols, constants::nan);
     }
@@ -69,8 +69,8 @@ namespace nc
     /// @param inShape
     /// @return NdArray
     ///
-    inline NdArray<double> nans(const Shape& inShape) 
+    inline NdArray<double> nans(const Shape& inShape)
     {
         return full(inShape, constants::nan);
     }
-}  // namespace nc
+} // namespace nc

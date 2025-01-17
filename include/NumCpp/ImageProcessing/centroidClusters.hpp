@@ -3,7 +3,7 @@
 /// [GitHub Repository](https://github.com/dpilger26/NumCpp)
 ///
 /// License
-/// Copyright 2018-2022 David Pilger
+/// Copyright 2018-2023 David Pilger
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy of this
 /// software and associated documentation files(the "Software"), to deal in the Software
@@ -28,38 +28,33 @@
 
 #pragma once
 
-#include "NumCpp/Core/Internal/StaticAsserts.hpp"
-#include "NumCpp/ImageProcessing/Centroid.hpp"
-#include "NumCpp/ImageProcessing/Cluster.hpp"
-
 #include <utility>
 #include <vector>
 
-namespace nc
+#include "NumCpp/Core/Internal/StaticAsserts.hpp"
+#include "NumCpp/Core/Internal/StlAlgorithms.hpp"
+#include "NumCpp/ImageProcessing/Centroid.hpp"
+#include "NumCpp/ImageProcessing/Cluster.hpp"
+
+namespace nc::imageProcessing
 {
-    namespace imageProcessing
+    //============================================================================
+    // Method Description:
+    /// Center of Mass centroids clusters
+    ///
+    /// @param inClusters
+    /// @return std::vector<Centroid>
+    ///
+    template<typename dtype>
+    std::vector<Centroid<dtype>> centroidClusters(const std::vector<Cluster<dtype>>& inClusters)
     {
-        //============================================================================
-        // Method Description:
-        /// Center of Mass centroids clusters
-        ///
-        /// @param inClusters
-        /// @return std::vector<Centroid>
-        ///
-        template<typename dtype>
-        std::vector<Centroid<dtype> > centroidClusters(const std::vector<Cluster<dtype> >& inClusters) 
-        {
-            STATIC_ASSERT_ARITHMETIC(dtype);
+        STATIC_ASSERT_ARITHMETIC(dtype);
 
-            std::vector<Centroid<dtype>> centroids;
-
-            centroids.reserve(inClusters.size());
-            for (auto& cluster : inClusters)
-            {
-                centroids.emplace_back(cluster);
-            }
-
-            return centroids;
-        }
-    }  // namespace imageProcessing
-}  // namespace nc
+        std::vector<Centroid<dtype>> centroids(inClusters.size());
+        stl_algorithms::transform(inClusters.begin(),
+                                  inClusters.end(),
+                                  centroids.begin(),
+                                  [](const auto& cluster) -> Centroid<dtype> { return Centroid<dtype>(cluster); });
+        return centroids;
+    }
+} // namespace nc::imageProcessing

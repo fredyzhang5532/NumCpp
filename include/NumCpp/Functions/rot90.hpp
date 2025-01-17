@@ -3,7 +3,7 @@
 /// [GitHub Repository](https://github.com/dpilger26/NumCpp)
 ///
 /// License
-/// Copyright 2018-2022 David Pilger
+/// Copyright 2018-2023 David Pilger
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy of this
 /// software and associated documentation files(the "Software"), to deal in the Software
@@ -47,7 +47,7 @@ namespace nc
     /// @return NdArray
     ///
     template<typename dtype>
-    NdArray<dtype> rot90(const NdArray<dtype>& inArray, uint8 inK = 1) 
+    NdArray<dtype> rot90(const NdArray<dtype>& inArray, uint8 inK = 1)
     {
         inK %= 4;
         switch (inK)
@@ -76,4 +76,4 @@ namespace nc
             }
         }
     }
-}  // namespace nc
+} // namespace nc

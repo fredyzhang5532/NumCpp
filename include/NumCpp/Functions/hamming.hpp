@@ -3,7 +3,7 @@
 /// [GitHub Repository](https://github.com/dpilger26/NumCpp)
 ///
 /// License
-/// Copyright 2018-2022 David Pilger
+/// Copyright 2018-2023 David Pilger
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy of this
 /// software and associated documentation files(the "Software"), to deal in the Software
@@ -29,8 +29,9 @@
 
 #include <cmath>
 
-#include "NumCpp/NdArray.hpp"
 #include "NumCpp/Core/Constants.hpp"
+#include "NumCpp/Functions/linspace.hpp"
+#include "NumCpp/NdArray.hpp"
 
 namespace nc
 {
@@ -52,16 +53,16 @@ namespace nc
             return {};
         }
 
-        const auto mDouble = static_cast<double>(m);
-        const auto twoPiDivMMinus1 = (2.0 * constants::pi) / (mDouble - 1.0);
+        const auto mDouble         = static_cast<double>(m);
+        const auto twoPiDivMMinus1 = (2. * constants::pi) / (mDouble - 1.);
 
         NdArray<double> result(1, m);
-        int32 i = 0; 
-        for (auto n : linspace(0.0, mDouble - 1.0, m, true))
+        int32           i = 0;
+        for (auto n : linspace(0., mDouble - 1., m, EndPoint::YES))
         {
             result[i++] = 0.54 - 0.46 * std::cos(twoPiDivMMinus1 * n);
-        }   
+        }
 
         return result;
     }
-}  // namespace nc
+} // namespace nc

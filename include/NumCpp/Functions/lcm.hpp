@@ -3,7 +3,7 @@
 /// [GitHub Repository](https://github.com/dpilger26/NumCpp)
 ///
 /// License
-/// Copyright 2018-2022 David Pilger
+/// Copyright 2018-2023 David Pilger
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy of this
 /// software and associated documentation files(the "Software"), to deal in the Software
@@ -27,6 +27,8 @@
 ///
 #pragma once
 
+#include <numeric>
+
 #if defined(__cpp_lib_gcd_lcm) || !defined(NUMCPP_NO_USE_BOOST)
 
 #include "NumCpp/Core/Internal/Error.hpp"
@@ -35,10 +37,6 @@
 
 #ifndef NUMCPP_NO_USE_BOOST
 #include "boost/integer/common_factor_rt.hpp"
-#endif
-
-#ifdef __cpp_lib_gcd_lcm
-#include <numeric>
 #endif
 
 namespace nc
@@ -56,7 +54,7 @@ namespace nc
     /// @return dtype
     ///
     template<typename dtype>
-    dtype lcm(dtype inValue1, dtype inValue2) noexcept 
+    dtype lcm(dtype inValue1, dtype inValue2) noexcept
     {
         STATIC_ASSERT_INTEGER(dtype);
 
@@ -86,6 +84,6 @@ namespace nc
         return boost::integer::lcm_range(inArray.cbegin(), inArray.cend()).first;
     }
 #endif // #ifndef NUMCPP_NO_USE_BOOST
-}  // namespace nc
+} // namespace nc
 
 #endif // #if defined(__cpp_lib_gcd_lcm) || !defined(NUMCPP_NO_USE_BOOST)

@@ -3,7 +3,7 @@
 /// [GitHub Repository](https://github.com/dpilger26/NumCpp)
 ///
 /// License
-/// Copyright 2018-2022 David Pilger
+/// Copyright 2018-2023 David Pilger
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy of this
 /// software and associated documentation files(the "Software"), to deal in the Software
@@ -27,11 +27,11 @@
 ///
 #pragma once
 
+#include <cmath>
+
 #include "NumCpp/Core/DtypeInfo.hpp"
 #include "NumCpp/Core/Internal/StlAlgorithms.hpp"
 #include "NumCpp/NdArray.hpp"
-
-#include <cmath>
 
 namespace nc
 {
@@ -54,7 +54,7 @@ namespace nc
         {
             return false;
         }
-        
+
         return std::isnan(static_cast<double>(inValue)); // static_cast is needed for compiler error
     }
 
@@ -69,15 +69,14 @@ namespace nc
     /// @return NdArray
     ///
     template<typename dtype>
-    NdArray<bool> isnan(const NdArray<dtype>& inArray) 
+    NdArray<bool> isnan(const NdArray<dtype>& inArray)
     {
         NdArray<bool> returnArray(inArray.shape());
-        stl_algorithms::transform(inArray.cbegin(), inArray.cend(), returnArray.begin(),
-            [](dtype inValue) noexcept -> bool
-            { 
-                return isnan(inValue); 
-            });
+        stl_algorithms::transform(inArray.cbegin(),
+                                  inArray.cend(),
+                                  returnArray.begin(),
+                                  [](dtype inValue) noexcept -> bool { return isnan(inValue); });
 
         return returnArray;
     }
-}  // namespace nc
+} // namespace nc

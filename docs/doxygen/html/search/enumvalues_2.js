@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['little_2429',['LITTLE',['../namespacenc.html#a8dcbcb343147d09e74689ad8a2586152a1314341b466dcb5e2c880b76414c49fe',1,'nc']]]
+  ['higher_0',['HIGHER',['../namespacenc.html#a476f76c3468948fe24d7abf9cd0d650ea5bc0a7ce2c77ccd49169277e9289e5d1',1,'nc']]]
 ];

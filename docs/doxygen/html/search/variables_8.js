@@ -1,8 +1,6 @@
 var searchData=
 [
-  ['maxnumiterations_5f_2372',['maxNumIterations_',['../classnc_1_1roots_1_1_iteration.html#a9b1c4ea8cf91c5308020c105293b4a02',1,'nc::roots::Iteration']]],
-  ['milliseconds_5fper_5fday_2373',['MILLISECONDS_PER_DAY',['../namespacenc_1_1constants.html#a2838aa56f95be8020a326aa6b9ba5c68',1,'nc::constants']]],
-  ['milliseconds_5fper_5fsecond_2374',['MILLISECONDS_PER_SECOND',['../namespacenc_1_1constants.html#a4373df6d6df75334290f4240f174aeb0',1,'nc::constants']]],
-  ['minutes_5fper_5fday_2375',['MINUTES_PER_DAY',['../namespacenc_1_1constants.html#aa018ab3bca299694899f51683d5b3c0f',1,'nc::constants']]],
-  ['minutes_5fper_5fhour_2376',['MINUTES_PER_HOUR',['../namespacenc_1_1constants.html#a84dfb71171d2a19b89afea89be57bc52',1,'nc::constants']]]
+  ['latitude_0',['latitude',['../classnc_1_1coordinates_1_1reference__frames_1_1_geocentric.html#a3f2f091f929b44f794eceedc16da241a',1,'nc::coordinates::reference_frames::Geocentric::latitude'],['../classnc_1_1coordinates_1_1reference__frames_1_1_l_l_a.html#a97262b9c8791b540840a0cd068cdd87e',1,'nc::coordinates::reference_frames::LLA::latitude']]],
+  ['log_5fext_1',['LOG_EXT',['../classnc_1_1logger_1_1detail_1_1_binary_data_logger.html#a0bf9236c9f4cff4de753547d6ebae1ae',1,'nc::logger::detail::BinaryDataLogger']]],
+  ['longitude_2',['longitude',['../classnc_1_1coordinates_1_1reference__frames_1_1_geocentric.html#afe9b3537b80df119014eb2a34457d29f',1,'nc::coordinates::reference_frames::Geocentric::longitude'],['../classnc_1_1coordinates_1_1reference__frames_1_1_l_l_a.html#a0a1d6f3ed94808e0c84802aa4310932a',1,'nc::coordinates::reference_frames::LLA::longitude']]]
 ];

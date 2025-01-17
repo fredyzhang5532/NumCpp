@@ -3,7 +3,7 @@
 /// [GitHub Repository](https://github.com/dpilger26/NumCpp)
 ///
 /// License
-/// Copyright 2018-2022 David Pilger
+/// Copyright 2018-2023 David Pilger
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy of this
 /// software and associated documentation files(the "Software"), to deal in the Software
@@ -27,16 +27,16 @@
 ///
 #pragma once
 
-#include "NumCpp/Core/Internal/Filesystem.hpp"
+#include <filesystem>
+#include <limits>
+#include <string>
+#include <vector>
+
 #include "NumCpp/Core/Internal/Error.hpp"
 #include "NumCpp/Core/Shape.hpp"
 #include "NumCpp/Core/Slice.hpp"
 #include "NumCpp/Core/Types.hpp"
 #include "NumCpp/NdArray.hpp"
-
-#include <limits>
-#include <string>
-#include <vector>
 
 namespace nc
 {
@@ -47,8 +47,8 @@ namespace nc
     {
     public:
         //================================Typedefs==================================
-        using iterator = typename std::deque<NdArray<dtype> >::iterator;
-        using const_iterator = typename std::deque<NdArray<dtype> >::const_iterator;
+        using iterator       = typename std::deque<NdArray<dtype>>::iterator;
+        using const_iterator = typename std::deque<NdArray<dtype>>::const_iterator;
 
         //============================================================================
         /// Default Constructor
@@ -84,7 +84,7 @@ namespace nc
         ///
         /// @return NdArray
         ///
-        const NdArray<dtype>& at(uint32 inIndex) const
+        [[nodiscard]] const NdArray<dtype>& at(uint32 inIndex) const
         {
             return cube_.at(inIndex);
         }
@@ -94,7 +94,7 @@ namespace nc
         ///
         /// @return NdArray&
         ///
-        NdArray<dtype>& back() noexcept 
+        NdArray<dtype>& back() noexcept
         {
             return cube_.back();
         }
@@ -104,7 +104,7 @@ namespace nc
         ///
         /// @return iterator
         ///
-        iterator begin() noexcept
+        [[nodiscard]] iterator begin() noexcept
         {
             return cube_.begin();
         }
@@ -114,7 +114,17 @@ namespace nc
         ///
         /// @return const_iterator
         ///
-        const_iterator cbegin() const noexcept
+        [[nodiscard]] const_iterator begin() const noexcept
+        {
+            return cube_.cbegin();
+        }
+
+        //============================================================================
+        /// Returns an const_iterator to the first 2d z "slice" of the cube.
+        ///
+        /// @return const_iterator
+        ///
+        [[nodiscard]] const_iterator cbegin() const noexcept
         {
             return cube_.cbegin();
         }
@@ -126,13 +136,13 @@ namespace nc
         ///
         void dump(const std::string& inFilename) const
         {
-            filesystem::File f(inFilename);
-            if (!f.hasExt())
+            std::filesystem::path f(inFilename);
+            if (!f.has_extension())
             {
-                f.withExt("bin");
+                f.replace_extension("bin");
             }
 
-            std::ofstream ofile(f.fullName().c_str(), std::ios::binary);
+            std::ofstream ofile(f.c_str(), std::ios::binary);
             if (!ofile.good())
             {
                 THROW_RUNTIME_ERROR("Could not open the input file:\n\t" + inFilename);
@@ -151,7 +161,7 @@ namespace nc
         ///
         /// @return bool
         ///
-        bool isempty() noexcept 
+        bool isempty() noexcept
         {
             return cube_.empty();
         }
@@ -161,7 +171,7 @@ namespace nc
         ///
         /// @return iterator
         ///
-        iterator end() noexcept
+        [[nodiscard]] iterator end() noexcept
         {
             return cube_.end();
         }
@@ -171,7 +181,17 @@ namespace nc
         ///
         /// @return const_iterator
         ///
-        const_iterator cend() const noexcept
+        [[nodiscard]] const_iterator end() const noexcept
+        {
+            return cube_.cend();
+        }
+
+        //============================================================================
+        /// Returns an const_iterator to 1 past the last 2d z "slice" of the cube.
+        ///
+        /// @return const_iterator
+        ///
+        [[nodiscard]] const_iterator cend() const noexcept
         {
             return cube_.cend();
         }
@@ -181,7 +201,7 @@ namespace nc
         ///
         /// @return NdArray&
         ///
-        NdArray<dtype>& front() noexcept 
+        NdArray<dtype>& front() noexcept
         {
             return cube_.front();
         }
@@ -191,7 +211,7 @@ namespace nc
         ///
         /// @return Shape
         ///
-        const Shape& shape() const noexcept 
+        [[nodiscard]] const Shape& shape() const noexcept
         {
             return elementShape_;
         }
@@ -201,7 +221,7 @@ namespace nc
         ///
         /// @return size
         ///
-        uint32 sizeZ() const noexcept 
+        [[nodiscard]] uint32 sizeZ() const noexcept
         {
             return static_cast<uint32>(cube_.size());
         }
@@ -209,7 +229,7 @@ namespace nc
         //============================================================================
         /// Removes the last z "slice" of the cube
         ///
-        void pop_back() noexcept 
+        void pop_back() noexcept
         {
             cube_.pop_back();
         }
@@ -244,7 +264,7 @@ namespace nc
         /// @param inIndex: the flattend 2d index (row, col) to slice
         /// @return NdArray
         ///
-        NdArray<dtype> sliceZAll(int32 inIndex) const
+        [[nodiscard]] NdArray<dtype> sliceZAll(int32 inIndex) const
         {
             if (inIndex < 0)
             {
@@ -268,7 +288,7 @@ namespace nc
         /// @param inSliceZ: the slice dimensions of the z-axis
         /// @return NdArray
         ///
-        NdArray<dtype> sliceZ(int32 inIndex, Slice inSliceZ) const
+        [[nodiscard]] NdArray<dtype> sliceZ(int32 inIndex, Slice inSliceZ) const
         {
             if (inIndex < 0)
             {
@@ -278,7 +298,7 @@ namespace nc
             NdArray<dtype> returnArray(1, inSliceZ.numElements(sizeZ()));
 
             uint32 idx = 0;
-            for (int32 i = inSliceZ.start; i < inSliceZ.stop; i+=inSliceZ.step)
+            for (int32 i = inSliceZ.start; i < inSliceZ.stop; i += inSliceZ.step)
             {
                 returnArray[idx++] = cube_[i][inIndex];
             }
@@ -293,7 +313,7 @@ namespace nc
         /// @param inCol
         /// @return NdArray
         ///
-        NdArray<dtype> sliceZAll(int32 inRow, int32 inCol) const
+        [[nodiscard]] NdArray<dtype> sliceZAll(int32 inRow, int32 inCol) const
         {
             if (inRow < 0)
             {
@@ -323,7 +343,7 @@ namespace nc
         /// @param inSliceZ: the slice dimensions of the z-axis
         /// @return NdArray
         ///
-        NdArray<dtype> sliceZ(int32 inRow, int32 inCol, Slice inSliceZ) const
+        [[nodiscard]] NdArray<dtype> sliceZ(int32 inRow, int32 inCol, Slice inSliceZ) const
         {
             if (inRow < 0)
             {
@@ -338,7 +358,7 @@ namespace nc
             NdArray<dtype> returnArray(1, inSliceZ.numElements(sizeZ()));
 
             uint32 idx = 0;
-            for (int32 i = inSliceZ.start; i < inSliceZ.stop; i+=inSliceZ.step)
+            for (int32 i = inSliceZ.start; i < inSliceZ.stop; i += inSliceZ.step)
             {
                 returnArray[idx++] = cube_[i](inRow, inCol);
             }
@@ -353,7 +373,7 @@ namespace nc
         /// @param inCol
         /// @return NdArray
         ///
-        NdArray<dtype> sliceZAll(Slice inRow, int32 inCol) const
+        [[nodiscard]] NdArray<dtype> sliceZAll(Slice inRow, int32 inCol) const
         {
             if (inCol < 0)
             {
@@ -377,7 +397,7 @@ namespace nc
         /// @param inSliceZ: the slice dimensions of the z-axis
         /// @return NdArray
         ///
-        NdArray<dtype> sliceZ(Slice inRow, int32 inCol, Slice inSliceZ) const
+        [[nodiscard]] NdArray<dtype> sliceZ(Slice inRow, int32 inCol, Slice inSliceZ) const
         {
             if (inCol < 0)
             {
@@ -385,8 +405,8 @@ namespace nc
             }
 
             NdArray<dtype> returnArray(inRow.numElements(elementShape_.rows), inSliceZ.numElements(sizeZ()));
-            uint32 idx = 0;
-            for (int32 i = inSliceZ.start; i < inSliceZ.stop; i+=inSliceZ.step)
+            uint32         idx = 0;
+            for (int32 i = inSliceZ.start; i < inSliceZ.stop; i += inSliceZ.step)
             {
                 returnArray.put(returnArray.rSlice(), idx++, cube_[i](inRow, inCol));
             }
@@ -401,7 +421,7 @@ namespace nc
         /// @param inCol
         /// @return NdArray
         ///
-        NdArray<dtype> sliceZAll(int32 inRow, Slice inCol) const
+        [[nodiscard]] NdArray<dtype> sliceZAll(int32 inRow, Slice inCol) const
         {
             if (inRow < 0)
             {
@@ -425,7 +445,7 @@ namespace nc
         /// @param inSliceZ: the slice dimensions of the z-axis
         /// @return NdArray
         ///
-        NdArray<dtype> sliceZ(int32 inRow, Slice inCol, Slice inSliceZ) const
+        [[nodiscard]] NdArray<dtype> sliceZ(int32 inRow, Slice inCol, Slice inSliceZ) const
         {
             if (inRow < 0)
             {
@@ -433,8 +453,8 @@ namespace nc
             }
 
             NdArray<dtype> returnArray(inCol.numElements(elementShape_.cols), inSliceZ.numElements(sizeZ()));
-            uint32 idx = 0;
-            for (int32 i = inSliceZ.start; i < inSliceZ.stop; i+=inSliceZ.step)
+            uint32         idx = 0;
+            for (int32 i = inSliceZ.start; i < inSliceZ.stop; i += inSliceZ.step)
             {
                 returnArray.put(returnArray.rSlice(), idx++, cube_[i](inRow, inCol));
             }
@@ -471,7 +491,7 @@ namespace nc
         DataCube<dtype> sliceZ(Slice inRow, Slice inCol, Slice inSliceZ) const
         {
             DataCube<dtype> returnCube(inSliceZ.numElements(sizeZ()));
-            for (int32 i = inSliceZ.start; i < inSliceZ.stop; i+=inSliceZ.step)
+            for (int32 i = inSliceZ.start; i < inSliceZ.stop; i += inSliceZ.step)
             {
                 returnCube.push_back(cube_[i](inRow, inCol));
             }
@@ -485,7 +505,7 @@ namespace nc
         /// @param inIndex: the flattend 2d index (row, col) to slice
         /// @return NdArray
         ///
-        NdArray<dtype> sliceZAllat(int32 inIndex) const
+        [[nodiscard]] NdArray<dtype> sliceZAllat(int32 inIndex) const
         {
             if (inIndex < 0)
             {
@@ -507,7 +527,7 @@ namespace nc
         /// @param inSliceZ: the slice dimensions of the z-axis
         /// @return NdArray
         ///
-        NdArray<dtype> sliceZat(int32 inIndex, Slice inSliceZ) const
+        [[nodiscard]] NdArray<dtype> sliceZat(int32 inIndex, Slice inSliceZ) const
         {
             if (inIndex < 0)
             {
@@ -535,7 +555,7 @@ namespace nc
         /// @param inCol
         /// @return NdArray
         ///
-        NdArray<dtype> sliceZAllat(int32 inRow, int32 inCol) const
+        [[nodiscard]] NdArray<dtype> sliceZAllat(int32 inRow, int32 inCol) const
         {
             if (inRow < 0)
             {
@@ -568,7 +588,7 @@ namespace nc
         /// @param inSliceZ: the slice dimensions of the z-axis
         /// @return NdArray
         ///
-        NdArray<dtype> sliceZat(int32 inRow, int32 inCol, Slice inSliceZ) const
+        [[nodiscard]] NdArray<dtype> sliceZat(int32 inRow, int32 inCol, Slice inSliceZ) const
         {
             if (inRow < 0)
             {
@@ -605,7 +625,7 @@ namespace nc
         /// @param inCol
         /// @return NdArray
         ///
-        NdArray<dtype> sliceZAllat(Slice inRow, int32 inCol) const
+        [[nodiscard]] NdArray<dtype> sliceZAllat(Slice inRow, int32 inCol) const
         {
             auto numRows = inRow.numElements(elementShape_.rows);
             if (numRows > elementShape_.rows)
@@ -634,7 +654,7 @@ namespace nc
         /// @param inSliceZ: the slice dimensions of the z-axis
         /// @return NdArray
         ///
-        NdArray<dtype> sliceZat(Slice inRow, int32 inCol, Slice inSliceZ) const
+        [[nodiscard]] NdArray<dtype> sliceZat(Slice inRow, int32 inCol, Slice inSliceZ) const
         {
             auto numRows = inRow.numElements(elementShape_.rows);
             if (numRows > elementShape_.rows)
@@ -668,7 +688,7 @@ namespace nc
         /// @param inCol
         /// @return NdArray
         ///
-        NdArray<dtype> sliceZAllat(int32 inRow, Slice inCol) const
+        [[nodiscard]] NdArray<dtype> sliceZAllat(int32 inRow, Slice inCol) const
         {
             auto numCols = inCol.numElements(elementShape_.cols);
             if (numCols > elementShape_.cols)
@@ -697,14 +717,14 @@ namespace nc
         /// @param inSliceZ: the slice dimensions of the z-axis
         /// @return NdArray
         ///
-        NdArray<dtype> sliceZat(int32 inRow, Slice inCol, Slice inSliceZ) const
+        [[nodiscard]] NdArray<dtype> sliceZat(int32 inRow, Slice inCol, Slice inSliceZ) const
         {
             auto numCols = inCol.numElements(elementShape_.cols);
             if (numCols > elementShape_.cols)
             {
                 THROW_INVALID_ARGUMENT_ERROR("inCol exceeds matrix dimensions.");
             }
-            
+
             if (inRow < 0)
             {
                 inRow += elementShape_.rows;
@@ -782,7 +802,7 @@ namespace nc
         ///
         /// @return NdArray
         ///
-        NdArray<dtype>& operator[](uint32 inIndex) noexcept 
+        NdArray<dtype>& operator[](uint32 inIndex) noexcept
         {
             return cube_[inIndex];
         }
@@ -801,7 +821,7 @@ namespace nc
 
     private:
         //================================Attributes==================================
-        std::vector<NdArray<dtype> >    cube_{};
-        Shape                           elementShape_{ 0, 0 };
+        std::vector<NdArray<dtype>> cube_{};
+        Shape                       elementShape_{ 0, 0 };
     };
-}  // namespace nc
+} // namespace nc

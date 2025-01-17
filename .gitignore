@@ -16,5 +16,10 @@ __pycache__/
 *buildVS/
 *bin/
 *lib/
+*.exp
+*.lib
+*.pyd
+*.so
 
 *.tar
+Testing/

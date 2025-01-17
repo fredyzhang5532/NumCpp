@@ -3,7 +3,7 @@
 /// [GitHub Repository](https://github.com/dpilger26/NumCpp)
 ///
 /// License
-/// Copyright 2018-2022 David Pilger
+/// Copyright 2018-2023 David Pilger
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy of this
 /// software and associated documentation files(the "Software"), to deal in the Software
@@ -27,39 +27,36 @@
 ///
 #pragma once
 
+#include <complex>
+
 #include "NumCpp/Core/Internal/StaticAsserts.hpp"
 #include "NumCpp/Core/Types.hpp"
 
-#include<complex>
-
-namespace nc
+namespace nc::utils
 {
-    namespace utils
+    //============================================================================
+    /// Raises the input value to an integer power
+    ///
+    /// @param inValue
+    /// @param inPower
+    ///
+    /// @return inValue raised to inPower
+    ///
+    template<typename dtype>
+    dtype power(dtype inValue, uint8 inPower) noexcept
     {
-        //============================================================================
-        /// Raises the input value to an integer power
-        ///
-        /// @param inValue
-        /// @param inPower
-        ///
-        /// @return inValue raised to inPower
-        ///
-        template<typename dtype>
-        dtype power(dtype inValue, uint8 inPower) noexcept 
+        STATIC_ASSERT_ARITHMETIC_OR_COMPLEX(dtype);
+
+        if (inPower == 0)
         {
-            STATIC_ASSERT_ARITHMETIC_OR_COMPLEX(dtype);
-
-            if (inPower == 0)
-            {
-                return static_cast<dtype>(1);
-            }
-
-            dtype returnVal = inValue;
-            for (uint8 exponent = 1; exponent < inPower; ++exponent)
-            {
-                returnVal *= inValue;
-            }
-            return returnVal;
+            return static_cast<dtype>(1);
         }
-    }  // namespace utils
-}  // namespace nc
+
+        dtype returnVal = inValue;
+        for (uint8 exponent = 1; exponent < inPower; ++exponent)
+        {
+            returnVal *= inValue;
+        }
+        return returnVal;
+    }
+} // namespace nc::utils

@@ -4,7 +4,7 @@
 ///
 /// License
 /// Copyright 2019 Benjamin Mahr
-/// Copyright 2018-2022 David Pilger
+/// Copyright 2018-2023 David Pilger
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy of this
 /// software and associated documentation files(the "Software"), to deal in the Software
@@ -27,7 +27,8 @@
 /// matrix cholesky decomposition
 ///
 /// Code modified under MIT license from https://github.com/Ben1980/linAlg
-/// as posted in https://thoughts-on-coding.com/2019/06/12/numerical-methods-with-c-part-4-introduction-into-decomposition-methods-of-linear-equation-systems/
+/// as posted in
+/// https://thoughts-on-coding.com/2019/06/12/numerical-methods-with-c-part-4-introduction-into-decomposition-methods-of-linear-equation-systems/
 ///
 #pragma once
 
@@ -36,66 +37,64 @@
 #include "NumCpp/Core/Types.hpp"
 #include "NumCpp/NdArray.hpp"
 
-namespace nc
+namespace nc::linalg
 {
-    namespace linalg
+    //============================================================================
+    // Method Description:
+    /// matrix cholesky decomposition A = L * L.transpose()
+    ///
+    /// NumPy Reference:
+    /// https://docs.scipy.org/doc/numpy/reference/generated/numpy.linalg.cholesky.html#numpy.linalg.cholesky
+    ///
+    /// @param inMatrix: NdArray to be decomposed
+    ///
+    /// @return NdArray of the decomposed L matrix
+    ///
+    template<typename dtype>
+    NdArray<double> cholesky(const NdArray<dtype>& inMatrix)
     {
-        //============================================================================
-        // Method Description:
-        /// matrix cholesky decomposition A = L * L.transpose()
-        ///
-        /// NumPy Reference: https://docs.scipy.org/doc/numpy/reference/generated/numpy.linalg.cholesky.html#numpy.linalg.cholesky
-        ///
-        /// @param inMatrix: NdArray to be decomposed
-        ///
-        /// @return NdArray of the decomposed L matrix
-        ///
-        template<typename dtype>
-        NdArray<double> cholesky(const NdArray<dtype>& inMatrix)
+        STATIC_ASSERT_ARITHMETIC(dtype);
+
+        const auto shape = inMatrix.shape();
+        if (!shape.issquare())
         {
-            STATIC_ASSERT_ARITHMETIC(dtype);
+            THROW_RUNTIME_ERROR("Input matrix should be square.");
+        }
 
-            const auto shape = inMatrix.shape();
-            if(!shape.issquare()) 
+        auto lMatrix = inMatrix.template astype<double>();
+
+        for (uint32 row = 0; row < shape.rows; ++row)
+        {
+            for (uint32 col = row + 1; col < shape.cols; ++col)
             {
-                THROW_RUNTIME_ERROR("Input matrix should be square.");
+                lMatrix(row, col) = 0.;
             }
+        }
 
-            auto lMatrix = inMatrix.template astype<double>();
+        for (uint32 k = 0; k < shape.cols; ++k)
+        {
+            const double& a_kk = lMatrix(k, k);
 
-            for(uint32 row = 0; row < shape.rows; ++row) 
+            if (a_kk > 0.)
             {
-                for(uint32 col = row + 1; col < shape.cols; ++col)
+                lMatrix(k, k) = std::sqrt(a_kk);
+
+                for (uint32 i = k + 1; i < shape.rows; ++i)
                 {
-                    lMatrix(row, col) = 0.0;
-                }
-            }
+                    lMatrix(i, k) /= lMatrix(k, k);
 
-            for(uint32 k = 0; k < shape.cols; ++k)
-            {
-                const double& a_kk = lMatrix(k, k);
-
-                if(a_kk > 0.0) 
-                {
-                    lMatrix(k, k) = std::sqrt(a_kk);
-
-                    for(uint32 i = k + 1; i < shape.rows; ++i)
+                    for (uint32 j = k + 1; j <= i; ++j)
                     {
-                        lMatrix(i, k) /= lMatrix(k, k);
-
-                        for(uint32 j = k + 1; j <= i; ++j)
-                        { 
-                            lMatrix(i, j) -= lMatrix(i, k) * lMatrix(j, k);
-                        }
+                        lMatrix(i, j) -= lMatrix(i, k) * lMatrix(j, k);
                     }
                 }
-                else 
-                {
-                    THROW_RUNTIME_ERROR("Matrix is not positive definite.");
-                }
             }
-
-            return lMatrix;
+            else
+            {
+                THROW_RUNTIME_ERROR("Matrix is not positive definite.");
+            }
         }
-    }  // namespace linalg
-}  // namespace nc
+
+        return lMatrix;
+    }
+} // namespace nc::linalg

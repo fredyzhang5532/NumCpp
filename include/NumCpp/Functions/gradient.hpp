@@ -3,7 +3,7 @@
 /// [GitHub Repository](https://github.com/dpilger26/NumCpp)
 ///
 /// License
-/// Copyright 2018-2022 David Pilger
+/// Copyright 2018-2023 David Pilger
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy of this
 /// software and associated documentation files(the "Software"), to deal in the Software
@@ -27,6 +27,9 @@
 ///
 #pragma once
 
+#include <complex>
+#include <string>
+
 #include "NumCpp/Core/Internal/Error.hpp"
 #include "NumCpp/Core/Internal/StaticAsserts.hpp"
 #include "NumCpp/Core/Internal/StdComplexOperators.hpp"
@@ -34,9 +37,6 @@
 #include "NumCpp/Core/Shape.hpp"
 #include "NumCpp/Core/Types.hpp"
 #include "NumCpp/NdArray.hpp"
-
-#include <complex>
-#include <string>
 
 namespace nc
 {
@@ -71,7 +71,8 @@ namespace nc
                 for (uint32 col = 0; col < inShape.cols; ++col)
                 {
                     returnArray(0, col) = static_cast<double>(inArray(1, col)) - static_cast<double>(inArray(0, col));
-                    returnArray(-1, col) = static_cast<double>(inArray(-1, col)) - static_cast<double>(inArray(-2, col));
+                    returnArray(-1, col) =
+                        static_cast<double>(inArray(-1, col)) - static_cast<double>(inArray(-2, col));
                 }
 
                 // then rip through the rest of the array
@@ -79,7 +80,9 @@ namespace nc
                 {
                     for (uint32 row = 1; row < inShape.rows - 1; ++row)
                     {
-                        returnArray(row, col) = (static_cast<double>(inArray(row + 1, col)) - static_cast<double>(inArray(row - 1, col))) / 2.0;
+                        returnArray(row, col) =
+                            (static_cast<double>(inArray(row + 1, col)) - static_cast<double>(inArray(row - 1, col))) /
+                            2.;
                     }
                 }
 
@@ -98,7 +101,8 @@ namespace nc
                 for (uint32 row = 0; row < inShape.rows; ++row)
                 {
                     returnArray(row, 0) = static_cast<double>(inArray(row, 1)) - static_cast<double>(inArray(row, 0));
-                    returnArray(row, -1) = static_cast<double>(inArray(row, -1)) - static_cast<double>(inArray(row, -2));
+                    returnArray(row, -1) =
+                        static_cast<double>(inArray(row, -1)) - static_cast<double>(inArray(row, -2));
                 }
 
                 // then rip through the rest of the array
@@ -106,7 +110,9 @@ namespace nc
                 {
                     for (uint32 col = 1; col < inShape.cols - 1; ++col)
                     {
-                        returnArray(row, col) = (static_cast<double>(inArray(row, col + 1)) - static_cast<double>(inArray(row, col - 1))) / 2.0;
+                        returnArray(row, col) =
+                            (static_cast<double>(inArray(row, col + 1)) - static_cast<double>(inArray(row, col - 1))) /
+                            2.;
                     }
                 }
 
@@ -121,14 +127,15 @@ namespace nc
                 }
 
                 auto returnArray = NdArray<double>(1, inArray.size());
-                returnArray[0] = static_cast<double>(inArray[1]) - static_cast<double>(inArray[0]);
-                returnArray[-1] = static_cast<double>(inArray[-1]) - static_cast<double>(inArray[-2]);
+                returnArray[0]   = static_cast<double>(inArray[1]) - static_cast<double>(inArray[0]);
+                returnArray[-1]  = static_cast<double>(inArray[-1]) - static_cast<double>(inArray[-2]);
 
-                stl_algorithms::transform(inArray.cbegin() + 2, inArray.cend(), inArray.cbegin(), returnArray.begin() + 1,
-                    [](dtype value1, dtype value2) -> double
-                    { 
-                        return (static_cast<double>(value1) - static_cast<double>(value2)) / 2.0; 
-                    });
+                stl_algorithms::transform(inArray.cbegin() + 2,
+                                          inArray.cend(),
+                                          inArray.cbegin(),
+                                          returnArray.begin() + 1,
+                                          [](dtype value1, dtype value2) -> double
+                                          { return (static_cast<double>(value1) - static_cast<double>(value2)) / 2.; });
 
                 return returnArray;
             }
@@ -166,7 +173,8 @@ namespace nc
                 for (uint32 col = 0; col < inShape.cols; ++col)
                 {
                     returnArray(0, col) = complex_cast<double>(inArray(1, col)) - complex_cast<double>(inArray(0, col));
-                    returnArray(-1, col) = complex_cast<double>(inArray(-1, col)) - complex_cast<double>(inArray(-2, col));
+                    returnArray(-1, col) =
+                        complex_cast<double>(inArray(-1, col)) - complex_cast<double>(inArray(-2, col));
                 }
 
                 // then rip through the rest of the array
@@ -175,7 +183,8 @@ namespace nc
                     for (uint32 row = 1; row < inShape.rows - 1; ++row)
                     {
                         returnArray(row, col) = (complex_cast<double>(inArray(row + 1, col)) -
-                            complex_cast<double>(inArray(row - 1, col))) / 2.0;
+                                                 complex_cast<double>(inArray(row - 1, col))) /
+                                                2.;
                     }
                 }
 
@@ -194,7 +203,8 @@ namespace nc
                 for (uint32 row = 0; row < inShape.rows; ++row)
                 {
                     returnArray(row, 0) = complex_cast<double>(inArray(row, 1)) - complex_cast<double>(inArray(row, 0));
-                    returnArray(row, -1) = complex_cast<double>(inArray(row, -1)) - complex_cast<double>(inArray(row, -2));
+                    returnArray(row, -1) =
+                        complex_cast<double>(inArray(row, -1)) - complex_cast<double>(inArray(row, -2));
                 }
 
                 // then rip through the rest of the array
@@ -202,8 +212,9 @@ namespace nc
                 {
                     for (uint32 col = 1; col < inShape.cols - 1; ++col)
                     {
-                        returnArray(row, col) = (complex_cast<double>(inArray(row, col + 1)) - 
-                            complex_cast<double>(inArray(row, col - 1))) / 2.0;
+                        returnArray(row, col) = (complex_cast<double>(inArray(row, col + 1)) -
+                                                 complex_cast<double>(inArray(row, col - 1))) /
+                                                2.;
                     }
                 }
 
@@ -218,14 +229,16 @@ namespace nc
                 }
 
                 auto returnArray = NdArray<std::complex<double>>(1, inArray.size());
-                returnArray[0] = complex_cast<double>(inArray[1]) - complex_cast<double>(inArray[0]);
-                returnArray[-1] = complex_cast<double>(inArray[-1]) - complex_cast<double>(inArray[-2]);
+                returnArray[0]   = complex_cast<double>(inArray[1]) - complex_cast<double>(inArray[0]);
+                returnArray[-1]  = complex_cast<double>(inArray[-1]) - complex_cast<double>(inArray[-2]);
 
-                stl_algorithms::transform(inArray.cbegin() + 2, inArray.cend(), inArray.cbegin(), returnArray.begin() + 1,
+                stl_algorithms::transform(
+                    inArray.cbegin() + 2,
+                    inArray.cend(),
+                    inArray.cbegin(),
+                    returnArray.begin() + 1,
                     [](const std::complex<dtype>& value1, const std::complex<dtype>& value2) -> std::complex<double>
-                    { 
-                        return (complex_cast<double>(value1) - complex_cast<double>(value2)) / 2.0; 
-                    });
+                    { return (complex_cast<double>(value1) - complex_cast<double>(value2)) / 2.; });
 
                 return returnArray;
             }

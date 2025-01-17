@@ -4,7 +4,7 @@
 /// @version 1.1
 ///
 /// License
-/// Copyright 2018-2022 David Pilger
+/// Copyright 2018-2023 David Pilger
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy of this
 /// software and associated documentation files(the "Software"), to deal in the Software
@@ -28,25 +28,38 @@
 ///
 #pragma once
 
+#include <algorithm>
+
 #include "NumCpp/NdArray.hpp"
 #include "NumCpp/Random/generator.hpp"
 
-#include <algorithm>
-
-namespace nc
+namespace nc::random
 {
-    namespace random
+    namespace detail
     {
         //============================================================================
         // Method Description:
         /// Modify a sequence in-place by shuffling its contents.
         ///
+        /// @param generator: instance of a random number generator
         /// @param inArray
         ///
-        template<typename dtype>
-        void shuffle(NdArray<dtype>& inArray) 
+        template<typename dtype, typename GeneratorType = std::mt19937>
+        void shuffle(GeneratorType& generator, NdArray<dtype>& inArray)
         {
-            std::shuffle(inArray.begin(), inArray.end(), generator_);
+            std::shuffle(inArray.begin(), inArray.end(), generator);
         }
-    }  // namespace random
-}  // namespace nc
+    } // namespace detail
+
+    //============================================================================
+    // Method Description:
+    /// Modify a sequence in-place by shuffling its contents.
+    ///
+    /// @param inArray
+    ///
+    template<typename dtype>
+    void shuffle(NdArray<dtype>& inArray)
+    {
+        return detail::shuffle(generator_, inArray);
+    }
+} // namespace nc::random

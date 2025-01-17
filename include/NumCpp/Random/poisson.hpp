@@ -3,7 +3,7 @@
 /// [GitHub Repository](https://github.com/dpilger26/NumCpp)
 ///
 /// License
-/// Copyright 2018-2022 David Pilger
+/// Copyright 2018-2023 David Pilger
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy of this
 /// software and associated documentation files(the "Software"), to deal in the Software
@@ -27,33 +27,35 @@
 ///
 #pragma once
 
+#include <algorithm>
+#include <random>
+#include <string>
+
 #include "NumCpp/Core/Internal/Error.hpp"
 #include "NumCpp/Core/Internal/StaticAsserts.hpp"
 #include "NumCpp/Core/Shape.hpp"
 #include "NumCpp/NdArray.hpp"
 #include "NumCpp/Random/generator.hpp"
 
-#include <algorithm>
-#include <random>
-#include <string>
-
-namespace nc
+namespace nc::random
 {
-    namespace random
+    namespace detail
     {
         //============================================================================
         // Method Description:
         /// Single random value sampled from the "poisson" distribution.
         ///
-        /// NumPy Reference: https://docs.scipy.org/doc/numpy/reference/generated/numpy.random.poisson.html#numpy.random.poisson
+        /// NumPy Reference:
+        /// https://docs.scipy.org/doc/numpy/reference/generated/numpy.random.poisson.html#numpy.random.poisson
         ///
+        /// @param generator: instance of a random number generator
         /// @param inMean (default 1)
         /// @return NdArray
         ///
-        template<typename dtype>
-        dtype poisson(double inMean = 1)
+        template<typename dtype, typename GeneratorType = std::mt19937>
+        dtype poisson(GeneratorType& generator, double inMean = 1)
         {
-            STATIC_ASSERT_ARITHMETIC(dtype);
+            STATIC_ASSERT_INTEGER(dtype);
 
             if (inMean <= 0)
             {
@@ -61,7 +63,7 @@ namespace nc
             }
 
             std::poisson_distribution<dtype> dist(inMean);
-            return dist(generator_); 
+            return dist(generator);
         }
 
         //============================================================================
@@ -69,16 +71,18 @@ namespace nc
         /// Create an array of the given shape and populate it with
         /// random samples from the "poisson" distribution.
         ///
-        /// NumPy Reference: https://docs.scipy.org/doc/numpy/reference/generated/numpy.random.poisson.html#numpy.random.poisson
+        /// NumPy Reference:
+        /// https://docs.scipy.org/doc/numpy/reference/generated/numpy.random.poisson.html#numpy.random.poisson
         ///
+        /// @param generator: instance of a random number generator
         /// @param inShape
         /// @param inMean (default 1)
         /// @return NdArray
         ///
-        template<typename dtype>
-        NdArray<dtype> poisson(const Shape& inShape, double inMean = 1)
+        template<typename dtype, typename GeneratorType = std::mt19937>
+        NdArray<dtype> poisson(GeneratorType& generator, const Shape& inShape, double inMean = 1)
         {
-            STATIC_ASSERT_ARITHMETIC(dtype);
+            STATIC_ASSERT_INTEGER(dtype);
 
             if (inMean <= 0)
             {
@@ -89,13 +93,45 @@ namespace nc
 
             std::poisson_distribution<dtype> dist(inMean);
 
-            std::for_each(returnArray.begin(), returnArray.end(),
-                [&dist](dtype& value) -> void
-                { 
-                    value = dist(generator_); 
-                });
+            std::for_each(returnArray.begin(),
+                          returnArray.end(),
+                          [&generator, &dist](dtype& value) -> void { value = dist(generator); });
 
             return returnArray;
         }
-    }  // namespace random
-}  // namespace nc
+    } // namespace detail
+
+    //============================================================================
+    // Method Description:
+    /// Single random value sampled from the "poisson" distribution.
+    ///
+    /// NumPy Reference:
+    /// https://docs.scipy.org/doc/numpy/reference/generated/numpy.random.poisson.html#numpy.random.poisson
+    ///
+    /// @param inMean (default 1)
+    /// @return NdArray
+    ///
+    template<typename dtype>
+    dtype poisson(double inMean = 1)
+    {
+        return detail::poisson<dtype>(generator_, inMean);
+    }
+
+    //============================================================================
+    // Method Description:
+    /// Create an array of the given shape and populate it with
+    /// random samples from the "poisson" distribution.
+    ///
+    /// NumPy Reference:
+    /// https://docs.scipy.org/doc/numpy/reference/generated/numpy.random.poisson.html#numpy.random.poisson
+    ///
+    /// @param inShape
+    /// @param inMean (default 1)
+    /// @return NdArray
+    ///
+    template<typename dtype>
+    NdArray<dtype> poisson(const Shape& inShape, double inMean = 1)
+    {
+        return detail::poisson<dtype>(generator_, inShape, inMean);
+    }
+} // namespace nc::random

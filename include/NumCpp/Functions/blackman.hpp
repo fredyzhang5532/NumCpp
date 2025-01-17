@@ -3,7 +3,7 @@
 /// [GitHub Repository](https://github.com/dpilger26/NumCpp)
 ///
 /// License
-/// Copyright 2018-2022 David Pilger
+/// Copyright 2018-2023 David Pilger
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy of this
 /// software and associated documentation files(the "Software"), to deal in the Software
@@ -29,15 +29,15 @@
 
 #include <cmath>
 
-#include "NumCpp/NdArray.hpp"
 #include "NumCpp/Core/Constants.hpp"
 #include "NumCpp/Functions/linspace.hpp"
+#include "NumCpp/NdArray.hpp"
 
 namespace nc
 {
     //============================================================================
     // Method Description:
-    /// The Blackman window is a taper formed by using the first three terms of a summation of 
+    /// The Blackman window is a taper formed by using the first three terms of a summation of
     /// cosines. It was designed to have close to the minimal leakage possible. It is close to
     /// optimal, only slightly worse than a Kaiser window.
     ///
@@ -56,14 +56,14 @@ namespace nc
         const auto mDouble = static_cast<double>(m);
 
         NdArray<double> result(1, m);
-        int32 i = 0; 
-        for (auto n : linspace(0.0, mDouble, m, true))
+        int32           i = 0;
+        for (auto n : linspace(0., mDouble, m, EndPoint::YES))
         {
             const auto nOverM = n / mDouble;
-            result[i++] = 0.42 - 0.5 * std::cos(2.0 * constants::pi * nOverM)
-                + 0.08 * std::cos(4.0 * constants::pi * nOverM);
-        }   
+            result[i++] =
+                0.42 - 0.5 * std::cos(2. * constants::pi * nOverM) + 0.08 * std::cos(4. * constants::pi * nOverM);
+        }
 
         return result;
     }
-}  // namespace nc
+} // namespace nc

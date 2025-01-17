@@ -3,7 +3,7 @@
 /// [GitHub Repository](https://github.com/dpilger26/NumCpp)
 ///
 /// License
-/// Copyright 2018-2022 David Pilger
+/// Copyright 2018-2023 David Pilger
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy of this
 /// software and associated documentation files(the "Software"), to deal in the Software
@@ -27,17 +27,53 @@
 ///
 #pragma once
 
+#include <initializer_list>
+#include <string>
+#include <vector>
+
 #include "NumCpp/Core/Internal/Error.hpp"
 #include "NumCpp/Core/Types.hpp"
 #include "NumCpp/Functions/column_stack.hpp"
 #include "NumCpp/Functions/row_stack.hpp"
 #include "NumCpp/NdArray.hpp"
 
-#include <initializer_list>
-#include <string>
-
 namespace nc
 {
+    namespace detail
+    {
+        //============================================================================
+        // Method Description:
+        /// Compute the variance along the specified axis.
+        ///
+        /// NumPy Reference: https://www.numpy.org/devdocs/reference/generated/numpy.stack.html
+        ///
+        /// @param begin: iterator to the beginning of the span
+        /// @param end: iterator to one past the end of the span
+        /// @param inAxis: the axis to stack
+        /// @return NdArray
+        ///
+        template<typename dtype, typename Iterator>
+        NdArray<dtype> stack(Iterator begin, Iterator end, Axis inAxis)
+        {
+            switch (inAxis)
+            {
+                case Axis::ROW:
+                {
+                    return row_stack<dtype>(begin, end);
+                }
+                case Axis::COL:
+                {
+                    return column_stack<dtype>(begin, end);
+                }
+                default:
+                {
+                    THROW_INVALID_ARGUMENT_ERROR("inAxis must be either ROW or COL.");
+                    return {}; // getting rid of compiler warning
+                }
+            }
+        }
+    } // namespace detail
+
     //============================================================================
     // Method Description:
     /// Compute the variance along the specified axis.
@@ -49,23 +85,24 @@ namespace nc
     /// @return NdArray
     ///
     template<typename dtype>
-    NdArray<dtype> stack(std::initializer_list<NdArray<dtype> > inArrayList, Axis inAxis = Axis::NONE)
+    NdArray<dtype> stack(std::initializer_list<NdArray<dtype>> inArrayList, Axis inAxis = Axis::NONE)
     {
-        switch (inAxis)
-        {
-            case Axis::ROW:
-            {
-                return row_stack(inArrayList);
-            }
-            case Axis::COL:
-            {
-                return column_stack(inArrayList);
-            }
-            default:
-            {
-                THROW_INVALID_ARGUMENT_ERROR("inAxis must be either ROW or COL.");
-                return {};  // getting rid of compiler warning
-            }
-        }
+        return detail::stack<dtype>(inArrayList.begin(), inArrayList.end(), inAxis);
     }
-}  // namespace nc
+
+    //============================================================================
+    // Method Description:
+    /// Compute the variance along the specified axis.
+    ///
+    /// NumPy Reference: https://www.numpy.org/devdocs/reference/generated/numpy.stack.html
+    ///
+    /// @param inArrayList: {list} of arrays to stack
+    /// @param inAxis: axis to stack the input NdArrays
+    /// @return NdArray
+    ///
+    template<typename dtype>
+    NdArray<dtype> stack(std::vector<NdArray<dtype>> inArrayList, Axis inAxis = Axis::NONE)
+    {
+        return detail::stack<dtype>(inArrayList.begin(), inArrayList.end(), inAxis);
+    }
+} // namespace nc

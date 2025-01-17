@@ -3,7 +3,7 @@
 /// [GitHub Repository](https://github.com/dpilger26/NumCpp)
 ///
 /// License
-/// Copyright 2018-2022 David Pilger
+/// Copyright 2018-2023 David Pilger
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy of this
 /// software and associated documentation files(the "Software"), to deal in the Software
@@ -27,6 +27,9 @@
 ///
 #pragma once
 
+#include <string>
+#include <utility>
+
 #include "NumCpp/Core/Internal/Error.hpp"
 #include "NumCpp/Core/Internal/StaticAsserts.hpp"
 #include "NumCpp/Core/Types.hpp"
@@ -34,9 +37,6 @@
 #include "NumCpp/Functions/sort.hpp"
 #include "NumCpp/Functions/zeros.hpp"
 #include "NumCpp/NdArray.hpp"
-
-#include <string>
-#include <utility>
 
 namespace nc
 {
@@ -76,8 +76,8 @@ namespace nc
 
             // binary search to find the bin idx
             constexpr bool keepSearching = true;
-            uint32 lowIdx = 0;
-            uint32 highIdx = binEdges.size() - 1;
+            uint32         lowIdx        = 0;
+            uint32         highIdx       = binEdges.size() - 1;
             while (keepSearching)
             {
                 const uint32 idx = (lowIdx + highIdx) / 2; // integer division
@@ -121,7 +121,7 @@ namespace nc
     /// @return std::pair of NdArrays; first is histogram counts, seconds is the bin edges
     ///
     template<typename dtype>
-    std::pair<NdArray<uint32>, NdArray<double> > histogram(const NdArray<dtype>& inArray, uint32 inNumBins = 10)
+    std::pair<NdArray<uint32>, NdArray<double>> histogram(const NdArray<dtype>& inArray, uint32 inNumBins = 10)
     {
         STATIC_ASSERT_ARITHMETIC(dtype);
 
@@ -130,11 +130,12 @@ namespace nc
             THROW_INVALID_ARGUMENT_ERROR("number of bins must be positive.");
         }
 
-        constexpr bool useEndPoint = true;
         const NdArray<double> binEdges = linspace(static_cast<double>(inArray.min().item()),
-            static_cast<double>(inArray.max().item()), inNumBins + 1, useEndPoint);
+                                                  static_cast<double>(inArray.max().item()),
+                                                  inNumBins + 1,
+                                                  EndPoint::YES);
 
         const auto histo = histogram(inArray, binEdges);
         return std::make_pair(histo, binEdges);
     }
-}  // namespace nc
+} // namespace nc

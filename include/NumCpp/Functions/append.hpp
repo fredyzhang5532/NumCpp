@@ -3,7 +3,7 @@
 /// [GitHub Repository](https://github.com/dpilger26/NumCpp)
 ///
 /// License
-/// Copyright 2018-2022 David Pilger
+/// Copyright 2018-2023 David Pilger
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy of this
 /// software and associated documentation files(the "Software"), to deal in the Software
@@ -27,12 +27,12 @@
 ///
 #pragma once
 
+#include <string>
+
 #include "NumCpp/Core/Internal/Error.hpp"
 #include "NumCpp/Core/Internal/StlAlgorithms.hpp"
 #include "NumCpp/Core/Types.hpp"
 #include "NumCpp/NdArray.hpp"
-
-#include <string>
 
 namespace nc
 {
@@ -52,45 +52,62 @@ namespace nc
     template<typename dtype>
     NdArray<dtype> append(const NdArray<dtype>& inArray, const NdArray<dtype>& inAppendValues, Axis inAxis = Axis::NONE)
     {
+        if (inArray.shape().isnull())
+        {
+            return inAppendValues;
+        }
+        else if (inAppendValues.shape().isnull())
+        {
+            return inArray;
+        }
+
         switch (inAxis)
         {
             case Axis::NONE:
             {
                 NdArray<dtype> returnArray(1, inArray.size() + inAppendValues.size());
                 stl_algorithms::copy(inArray.cbegin(), inArray.cend(), returnArray.begin());
-                stl_algorithms::copy(inAppendValues.cbegin(), inAppendValues.cend(), returnArray.begin() + inArray.size());
+                stl_algorithms::copy(inAppendValues.cbegin(),
+                                     inAppendValues.cend(),
+                                     returnArray.begin() + inArray.size());
 
                 return returnArray;
             }
             case Axis::ROW:
             {
-                const Shape inShape = inArray.shape();
+                const Shape inShape     = inArray.shape();
                 const Shape appendShape = inAppendValues.shape();
                 if (inShape.cols != appendShape.cols)
                 {
-                    THROW_INVALID_ARGUMENT_ERROR("all the input array dimensions except for the concatenation axis must match exactly");
+                    THROW_INVALID_ARGUMENT_ERROR(
+                        "all the input array dimensions except for the concatenation axis must match exactly");
                 }
 
                 NdArray<dtype> returnArray(inShape.rows + appendShape.rows, inShape.cols);
                 stl_algorithms::copy(inArray.cbegin(), inArray.cend(), returnArray.begin());
-                stl_algorithms::copy(inAppendValues.cbegin(), inAppendValues.cend(), returnArray.begin() + inArray.size());
+                stl_algorithms::copy(inAppendValues.cbegin(),
+                                     inAppendValues.cend(),
+                                     returnArray.begin() + inArray.size());
 
                 return returnArray;
             }
             case Axis::COL:
             {
-                const Shape inShape = inArray.shape();
+                const Shape inShape     = inArray.shape();
                 const Shape appendShape = inAppendValues.shape();
                 if (inShape.rows != appendShape.rows)
                 {
-                    THROW_INVALID_ARGUMENT_ERROR("all the input array dimensions except for the concatenation axis must match exactly");
+                    THROW_INVALID_ARGUMENT_ERROR(
+                        "all the input array dimensions except for the concatenation axis must match exactly");
                 }
 
                 NdArray<dtype> returnArray(inShape.rows, inShape.cols + appendShape.cols);
                 for (uint32 row = 0; row < returnArray.shape().rows; ++row)
                 {
                     stl_algorithms::copy(inArray.cbegin(row), inArray.cend(row), returnArray.begin(row));
-                    stl_algorithms::copy(inAppendValues.cbegin(row), inAppendValues.cend(row), returnArray.begin(row) + inShape.cols);
+                    stl_algorithms::copy(inAppendValues.cbegin(row),
+                                         inAppendValues.cend(row),
+                                         returnArray.begin(row) + inShape.cols);
                 }
 
                 return returnArray;
@@ -102,4 +119,4 @@ namespace nc
             }
         }
     }
-}  // namespace nc
+} // namespace nc

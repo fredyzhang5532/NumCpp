@@ -3,7 +3,7 @@
 /// [GitHub Repository](https://github.com/dpilger26/NumCpp)
 ///
 /// License
-/// Copyright 2018-2022 David Pilger
+/// Copyright 2018-2023 David Pilger
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy of this
 /// software and associated documentation files(the "Software"), to deal in the Software
@@ -27,10 +27,10 @@
 ///
 #pragma once
 
+#include <complex>
+
 #include "NumCpp/Functions/dot.hpp"
 #include "NumCpp/NdArray.hpp"
-
-#include <complex>
 
 namespace nc
 {
@@ -84,4 +84,4 @@ namespace nc
     {
         return dot(inArray1, inArray2);
     }
-}  // namespace nc
+} // namespace nc

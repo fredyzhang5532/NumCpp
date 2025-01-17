@@ -3,7 +3,7 @@
 /// [GitHub Repository](https://github.com/dpilger26/NumCpp)
 ///
 /// License
-/// Copyright 2018-2022 David Pilger
+/// Copyright 2018-2023 David Pilger
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy of this
 /// software and associated documentation files(the "Software"), to deal in the Software
@@ -29,59 +29,55 @@
 
 #ifndef NUMCPP_NO_USE_BOOST
 
+#include <type_traits>
+
+#include "boost/math/special_functions/bessel_prime.hpp"
+
 #include "NumCpp/Core/Internal/StaticAsserts.hpp"
 #include "NumCpp/Core/Internal/StlAlgorithms.hpp"
 #include "NumCpp/NdArray.hpp"
 
-#include "boost/math/special_functions/bessel_prime.hpp"
-
-#include <type_traits>
-
-namespace nc
+namespace nc::special
 {
-    namespace special
+    //============================================================================
+    // Method Description:
+    /// Derivcative of the Modified Cylindrical Bessel function of the first kind.
+    /// NOTE: Use of this function requires using the Boost includes.
+    ///
+    /// @param inV: the order of the bessel function
+    /// @param inX: the input value
+    /// @return calculated-result-type
+    ///
+    template<typename dtype1, typename dtype2>
+    auto bessel_in_prime(dtype1 inV, dtype2 inX)
     {
-        //============================================================================
-        // Method Description:
-        /// Derivcative of the Modified Cylindrical Bessel function of the first kind.
-        /// NOTE: Use of this function requires using the Boost includes.
-        ///
-        /// @param inV: the order of the bessel function
-        /// @param inX: the input value
-        /// @return calculated-result-type 
-        ///
-        template<typename dtype1, typename dtype2>
-        auto bessel_in_prime(dtype1 inV, dtype2 inX)
-        {
-            STATIC_ASSERT_ARITHMETIC(dtype1);
-            STATIC_ASSERT_ARITHMETIC(dtype2);
+        STATIC_ASSERT_ARITHMETIC(dtype1);
+        STATIC_ASSERT_ARITHMETIC(dtype2);
 
-            return boost::math::cyl_bessel_i_prime(inV, inX);
-        }
+        return boost::math::cyl_bessel_i_prime(inV, inX);
+    }
 
-        //============================================================================
-        // Method Description:
-        /// Derivcative of the Modified Cylindrical Bessel function of the first kind.
-        /// NOTE: Use of this function requires using the Boost includes.
-        ///
-        /// @param inV: the order of the bessel function
-        /// @param inArrayX: the input values
-        /// @return NdArray
-        ///
-        template<typename dtype1, typename dtype2>
-        auto bessel_in_prime(dtype1 inV, const NdArray<dtype2>& inArrayX)
-        {
-            NdArray<decltype(bessel_in_prime(dtype1{ 0 }, dtype2{ 0 }))> returnArray(inArrayX.shape());
+    //============================================================================
+    // Method Description:
+    /// Derivcative of the Modified Cylindrical Bessel function of the first kind.
+    /// NOTE: Use of this function requires using the Boost includes.
+    ///
+    /// @param inV: the order of the bessel function
+    /// @param inArrayX: the input values
+    /// @return NdArray
+    ///
+    template<typename dtype1, typename dtype2>
+    auto bessel_in_prime(dtype1 inV, const NdArray<dtype2>& inArrayX)
+    {
+        NdArray<decltype(bessel_in_prime(dtype1{ 0 }, dtype2{ 0 }))> returnArray(inArrayX.shape());
 
-            stl_algorithms::transform(inArrayX.cbegin(), inArrayX.cend(), returnArray.begin(),
-                [inV](dtype2 inX) -> auto
-                {
-                    return bessel_in_prime(inV, inX);
-                });
+        stl_algorithms::transform(inArrayX.cbegin(),
+                                  inArrayX.cend(),
+                                  returnArray.begin(),
+                                  [inV](dtype2 inX) -> auto { return bessel_in_prime(inV, inX); });
 
-            return returnArray;
-        }
-    }  // namespace special
-} // namespace nc
+        return returnArray;
+    }
+} // namespace nc::special
 
 #endif // #ifndef NUMCPP_NO_USE_BOOST

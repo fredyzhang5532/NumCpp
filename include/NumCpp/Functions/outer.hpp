@@ -3,7 +3,7 @@
 /// [GitHub Repository](https://github.com/dpilger26/NumCpp)
 ///
 /// License
-/// Copyright 2018-2022 David Pilger
+/// Copyright 2018-2023 David Pilger
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy of this
 /// software and associated documentation files(the "Software"), to deal in the Software
@@ -27,11 +27,11 @@
 ///
 #pragma once
 
+#include <algorithm>
+
 #include "NumCpp/Core/Internal/Error.hpp"
 #include "NumCpp/Core/Internal/StaticAsserts.hpp"
 #include "NumCpp/NdArray.hpp"
-
-#include <algorithm>
 
 namespace nc
 {
@@ -63,11 +63,10 @@ namespace nc
         {
             const auto array1Value = inArray1[row];
 
-            std::transform(inArray2.begin(), inArray2.end(), returnArray.begin(row),
-                [array1Value](dtype value) -> dtype
-                {
-                    return array1Value * value;
-                });
+            std::transform(inArray2.begin(),
+                           inArray2.end(),
+                           returnArray.begin(row),
+                           [array1Value](dtype value) -> dtype { return array1Value * value; });
         }
 
         return returnArray;
