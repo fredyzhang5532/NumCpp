@@ -3,7 +3,7 @@
 /// [GitHub Repository](https://github.com/dpilger26/NumCpp)
 ///
 /// License
-/// Copyright 2018-2022 David Pilger
+/// Copyright 2018-2023 David Pilger
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy of this
 /// software and associated documentation files(the "Software"), to deal in the Software
@@ -27,14 +27,14 @@
 ///
 #pragma once
 
-#include "NumCpp/NdArray.hpp"
+#include <utility>
+
 #include "NumCpp/Core/DtypeInfo.hpp"
 #include "NumCpp/Core/Internal/StaticAsserts.hpp"
 #include "NumCpp/Core/Internal/StlAlgorithms.hpp"
 #include "NumCpp/Functions/isinf.hpp"
 #include "NumCpp/Functions/isnan.hpp"
-
-#include <utility>
+#include "NumCpp/NdArray.hpp"
 
 namespace nc
 {
@@ -52,34 +52,34 @@ namespace nc
     /// @return NdArray
     ///
     template<typename dtype>
-    NdArray<dtype> nan_to_num(NdArray<dtype> inArray, 
-        dtype nan = static_cast<dtype>(0.0),
-        dtype posInf = DtypeInfo<dtype>::max(), 
-        dtype negInf = DtypeInfo<dtype>::min()) 
+    NdArray<dtype> nan_to_num(NdArray<dtype> inArray,
+                              dtype          nan    = static_cast<dtype>(0.),
+                              dtype          posInf = DtypeInfo<dtype>::max(),
+                              dtype          negInf = DtypeInfo<dtype>::min())
     {
         STATIC_ASSERT_FLOAT(dtype);
 
-        stl_algorithms::for_each(inArray.begin(), inArray.end(),
-            [nan, posInf, negInf](dtype& value)
-            {
-                if (isnan(value))
-                {
-                    value = nan;
-                }
-                else if (isinf(value))
-                {
-                    if (value > static_cast<dtype>(0.0))
-                    {
-                        value = posInf;
-                    }
-                    else
-                    {
-                        value = negInf;
-                    }
-                }
-            }
-        );
+        stl_algorithms::for_each(inArray.begin(),
+                                 inArray.end(),
+                                 [nan, posInf, negInf](dtype& value)
+                                 {
+                                     if (isnan(value))
+                                     {
+                                         value = nan;
+                                     }
+                                     else if (isinf(value))
+                                     {
+                                         if (value > static_cast<dtype>(0.))
+                                         {
+                                             value = posInf;
+                                         }
+                                         else
+                                         {
+                                             value = negInf;
+                                         }
+                                     }
+                                 });
 
         return inArray;
     }
-}  // namespace nc
+} // namespace nc

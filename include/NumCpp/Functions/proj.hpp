@@ -3,7 +3,7 @@
 /// [GitHub Repository](https://github.com/dpilger26/NumCpp)
 ///
 /// License
-/// Copyright 2018-2022 David Pilger
+/// Copyright 2018-2023 David Pilger
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy of this
 /// software and associated documentation files(the "Software"), to deal in the Software
@@ -27,11 +27,11 @@
 ///
 #pragma once
 
+#include <complex>
+
 #include "NumCpp/Core/Internal/StaticAsserts.hpp"
 #include "NumCpp/Core/Internal/StlAlgorithms.hpp"
 #include "NumCpp/NdArray.hpp"
-
-#include <complex>
 
 namespace nc
 {
@@ -43,7 +43,7 @@ namespace nc
     /// @return value
     ///
     template<typename dtype>
-    auto proj(const std::complex<dtype>& inValue) 
+    auto proj(const std::complex<dtype>& inValue)
     {
         STATIC_ASSERT_ARITHMETIC(dtype);
 
@@ -58,14 +58,13 @@ namespace nc
     /// @return NdArray
     ///
     template<typename dtype>
-    auto proj(const NdArray<std::complex<dtype>>& inArray) 
+    auto proj(const NdArray<std::complex<dtype>>& inArray)
     {
-        NdArray<decltype(nc::proj(std::complex<dtype>{0}))> returnArray(inArray.shape());
-        stl_algorithms::transform(inArray.cbegin(), inArray.cend(), returnArray.begin(),
-            [](auto& inValue) -> auto
-            {
-                return nc::proj(inValue);
-            });
+        NdArray<decltype(nc::proj(std::complex<dtype>{ 0 }))> returnArray(inArray.shape());
+        stl_algorithms::transform(inArray.cbegin(),
+                                  inArray.cend(),
+                                  returnArray.begin(),
+                                  [](auto& inValue) -> auto { return nc::proj(inValue); });
 
         return returnArray;
     }

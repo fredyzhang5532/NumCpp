@@ -1,9 +1,20 @@
 if(BUILD_TESTS)
     message(STATUS "Configuring Unit Tests")
-    add_subdirectory(src)
+    # add_subdirectory(gtest)
+    add_subdirectory(pytest)
 endif()
 
 if(BUILD_MULTIPLE_TEST)
     message(STATUS "Configuring Multiple Tests")
     add_subdirectory(multiple)
+endif()
+
+if(BUILD_CPPCHECK_TEST)
+    message(STATUS "Configuring CPPCheck Test")
+    add_subdirectory(cppcheck)
+endif()
+
+if(BUILD_GTEST)
+    message(STATUS "Configuring GTest")
+    add_subdirectory(gtest)
 endif()

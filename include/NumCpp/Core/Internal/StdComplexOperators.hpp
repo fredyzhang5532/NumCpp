@@ -3,7 +3,7 @@
 /// [GitHub Repository](https://github.com/dpilger26/NumCpp)
 ///
 /// License
-/// Copyright 2018-2022 David Pilger
+/// Copyright 2018-2023 David Pilger
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy of this
 /// software and associated documentation files(the "Software"), to deal in the Software
@@ -27,9 +27,10 @@
 ///
 #pragma once
 
-#include "NumCpp/Core/Internal/StaticAsserts.hpp"
-
 #include <complex>
+
+#include "NumCpp/Core/Internal/StaticAsserts.hpp"
+#include "NumCpp/Utils/essentiallyEqual.hpp"
 
 namespace nc
 {
@@ -44,11 +45,11 @@ namespace nc
     template<typename T>
     bool operator<(const std::complex<T>& lhs, const std::complex<T>& rhs) noexcept
     {
-        if (lhs.real() != rhs.real())
+        if (!utils::essentiallyEqual(lhs.real(), rhs.real()))
         {
             return lhs.real() < rhs.real();
         }
-        
+
         return lhs.imag() < rhs.imag();
     }
 
@@ -63,7 +64,7 @@ namespace nc
     template<typename T>
     bool operator<=(const std::complex<T>& lhs, const std::complex<T>& rhs) noexcept
     {
-        if (lhs.real() != rhs.real())
+        if (!utils::essentiallyEqual(lhs.real(), rhs.real()))
         {
             return lhs.real() <= rhs.real();
         }
@@ -107,11 +108,10 @@ namespace nc
     /// @return std::complex<Out>
     ///
     template<typename Out, typename In>
-    std::complex<Out> complex_cast(const std::complex<In>& value)  noexcept
+    std::complex<Out> complex_cast(const std::complex<In>& value) noexcept
     {
         STATIC_ASSERT_ARITHMETIC(Out);
 
-        return std::complex<Out>(static_cast<Out>(value.real()),
-            static_cast<Out>(value.imag()));
+        return std::complex<Out>(static_cast<Out>(value.real()), static_cast<Out>(value.imag()));
     }
-}  // namespace nc
+} // namespace nc

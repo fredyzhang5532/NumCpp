@@ -3,7 +3,7 @@
 /// [GitHub Repository](https://github.com/dpilger26/NumCpp)
 ///
 /// License
-/// Copyright 2018-2022 David Pilger
+/// Copyright 2018-2023 David Pilger
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy of this
 /// software and associated documentation files(the "Software"), to deal in the Software
@@ -27,13 +27,11 @@
 ///
 #pragma once
 
+#include <algorithm>
+
 #include "NumCpp/Core/Internal/StaticAsserts.hpp"
 #include "NumCpp/Core/Internal/StdComplexOperators.hpp"
 #include "NumCpp/NdArray.hpp"
-
-#ifdef __cpp_lib_clamp
-#include <algorithm>
-#endif
 
 namespace nc
 {
@@ -49,15 +47,12 @@ namespace nc
     /// @return NdArray
     ///
     template<typename dtype>
-    dtype clip(dtype inValue, dtype inMinValue, dtype inMaxValue) 
+    dtype clip(dtype inValue, dtype inMinValue, dtype inMaxValue)
     {
         STATIC_ASSERT_ARITHMETIC_OR_COMPLEX(dtype);
 
 #ifdef __cpp_lib_clamp
-        const auto comparitor = [](dtype lhs, dtype rhs) noexcept -> bool
-        {
-            return lhs < rhs;
-        };
+        const auto comparitor = [](dtype lhs, dtype rhs) noexcept -> bool { return lhs < rhs; };
 
         return std::clamp(inValue, inMinValue, inMaxValue, comparitor);
 #else
@@ -86,7 +81,7 @@ namespace nc
     /// @return NdArray
     ///
     template<typename dtype>
-    NdArray<dtype> clip(const NdArray<dtype>& inArray, dtype inMinValue, dtype inMaxValue) 
+    NdArray<dtype> clip(const NdArray<dtype>& inArray, dtype inMinValue, dtype inMaxValue)
     {
         return inArray.clip(inMinValue, inMaxValue);
     }

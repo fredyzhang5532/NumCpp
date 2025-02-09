@@ -3,7 +3,7 @@
 /// [GitHub Repository](https://github.com/dpilger26/NumCpp)
 ///
 /// License
-/// Copyright 2018-2022 David Pilger
+/// Copyright 2018-2023 David Pilger
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy of this
 /// software and associated documentation files(the "Software"), to deal in the Software
@@ -27,22 +27,19 @@
 ///
 #pragma once
 
-namespace nc
+namespace nc::utils
 {
-    namespace utils
+    //============================================================================
+    /// Returns the linear interpolation between two points
+    ///
+    /// @param inValue1
+    /// @param inValue2
+    /// @param inPercent
+    ///
+    /// @return linear interpolated point
+    ///
+    constexpr double interp(double inValue1, double inValue2, double inPercent) noexcept
     {
-        //============================================================================
-        /// Returns the linear interpolation between two points
-        ///
-        /// @param inValue1
-        /// @param inValue2
-        /// @param inPercent
-        ///
-        /// @return linear interpolated point
-        ///
-        constexpr double interp(double inValue1, double inValue2, double inPercent) noexcept
-        {
-            return inValue1 * (1.0 - inPercent) + inValue2 * inPercent;
-        }
-    } // namespace utils
-} // namespace nc
+        return inValue1 * (1. - inPercent) + inValue2 * inPercent;
+    }
+} // namespace nc::utils

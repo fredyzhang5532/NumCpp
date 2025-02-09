@@ -3,7 +3,7 @@
 /// [GitHub Repository](https://github.com/dpilger26/NumCpp)
 ///
 /// License
-/// Copyright 2018-2022 David Pilger
+/// Copyright 2018-2023 David Pilger
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy of this
 /// software and associated documentation files(the "Software"), to deal in the Software
@@ -27,14 +27,15 @@
 ///
 #pragma once
 
-#include "NumCpp/NdArray.hpp"
-#include "NumCpp/Core/Shape.hpp"
-#include "NumCpp/Core/Internal/Error.hpp"
-
 #include <cstdlib>
 #include <initializer_list>
 #include <limits>
 #include <vector>
+
+#include "NumCpp/Core/Internal/Error.hpp"
+#include "NumCpp/Core/Internal/StlAlgorithms.hpp"
+#include "NumCpp/Core/Shape.hpp"
+#include "NumCpp/NdArray.hpp"
 
 namespace nc
 {
@@ -42,19 +43,21 @@ namespace nc
     // Method Description:
     /// Return an array drawn from elements in choiceVec, depending on conditions.
     ///
-    /// NumPy Reference: https://numpy.org/doc/stable/reference/generated/numpy.select.html?highlight=select#numpy.select
+    /// NumPy Reference:
+    /// https://numpy.org/doc/stable/reference/generated/numpy.select.html?highlight=select#numpy.select
     ///
     /// @param condVec The vector of conditions which determine from which array in choiceVec
-    /// the output elements are taken. When multiple conditions are satisfied, 
+    /// the output elements are taken. When multiple conditions are satisfied,
     /// the first one encountered in choiceVec is used.
-    /// @param choiceVec The vector of array pointers from which the output elements are taken. 
+    /// @param choiceVec The vector of array pointers from which the output elements are taken.
     /// It has to be of the same length as condVec.
     /// @param defaultValue The element inserted in output when all conditions evaluate to False
     /// @return NdArray
     ///
     template<typename dtype>
-    NdArray<dtype> select(const std::vector<const NdArray<bool>*>& condVec, 
-        const std::vector<const NdArray<dtype>*>& choiceVec, dtype defaultValue = dtype{0})
+    NdArray<dtype> select(const std::vector<const NdArray<bool>*>&  condVec,
+                          const std::vector<const NdArray<dtype>*>& choiceVec,
+                          dtype                                     defaultValue = dtype{ 0 })
     {
         if (choiceVec.size() != condVec.size())
         {
@@ -81,11 +84,12 @@ namespace nc
             const auto& theChoice = *choice;
             if (theChoice.shape() != theShape)
             {
-                THROW_INVALID_ARGUMENT_ERROR("all NdArrays of the choiceVec must be the same shape, and the same as condVec");
+                THROW_INVALID_ARGUMENT_ERROR(
+                    "all NdArrays of the choiceVec must be the same shape, and the same as condVec");
             }
         }
 
-        using size_type = typename NdArray<dtype>::size_type;
+        using size_type           = typename NdArray<dtype>::size_type;
         constexpr auto nullChoice = std::numeric_limits<size_type>::max();
 
         NdArray<size_type> choiceIndices(theShape);
@@ -110,7 +114,7 @@ namespace nc
             if (choiceIndex != nullChoice)
             {
                 const auto& theChoice = *choiceVec[choiceIndex];
-                result[i] = theChoice[i];
+                result[i]             = theChoice[i];
             }
         }
 
@@ -121,34 +125,33 @@ namespace nc
     // Method Description:
     /// Return an array drawn from elements in choiceList, depending on conditions.
     ///
-    /// NumPy Reference: https://numpy.org/doc/stable/reference/generated/numpy.select.html?highlight=select#numpy.select
+    /// NumPy Reference:
+    /// https://numpy.org/doc/stable/reference/generated/numpy.select.html?highlight=select#numpy.select
     ///
     /// @param condList The list of conditions which determine from which array in choiceList
-    /// the output elements are taken. When multiple conditions are satisfied, 
+    /// the output elements are taken. When multiple conditions are satisfied,
     /// the first one encountered in choiceList is used.
-    /// @param choiceList The list of array pointers from which the output elements are taken. 
+    /// @param choiceList The list of array pointers from which the output elements are taken.
     /// It has to be of the same length as condVec.
     /// @param defaultValue The element inserted in output when all conditions evaluate to False
     /// @return NdArray
     ///
     template<typename dtype>
-    NdArray<dtype> select(const std::vector<NdArray<bool>>& condList, 
-        const std::vector<NdArray<dtype>>& choiceList, 
-        dtype defaultValue = dtype{0})
+    NdArray<dtype> select(const std::vector<NdArray<bool>>&  condList,
+                          const std::vector<NdArray<dtype>>& choiceList,
+                          dtype                              defaultValue = dtype{ 0 })
     {
-        std::vector<const NdArray<bool>*> condVec;
-        condVec.reserve(condList.size());
-        for (auto& cond : condList)
-        {
-            condVec.push_back(&cond);
-        }
+        std::vector<const NdArray<bool>*> condVec(condList.size());
+        stl_algorithms::transform(condList.begin(),
+                                  condList.end(),
+                                  condVec.begin(),
+                                  [](auto& cond) noexcept -> const NdArray<bool>* { return &cond; });
 
-        std::vector<const NdArray<dtype>*> choiceVec;
-        choiceVec.reserve(choiceList.size());
-        for (auto& choice : choiceList)
-        {
-            choiceVec.push_back(&choice);
-        }
+        std::vector<const NdArray<dtype>*> choiceVec(choiceList.size());
+        stl_algorithms::transform(choiceList.begin(),
+                                  choiceList.end(),
+                                  choiceVec.begin(),
+                                  [](auto& choice) noexcept -> const NdArray<dtype>* { return &choice; });
 
         return select(condVec, choiceVec, defaultValue);
     }

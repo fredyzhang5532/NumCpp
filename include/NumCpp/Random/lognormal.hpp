@@ -3,7 +3,7 @@
 /// [GitHub Repository](https://github.com/dpilger26/NumCpp)
 ///
 /// License
-/// Copyright 2018-2022 David Pilger
+/// Copyright 2018-2023 David Pilger
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy of this
 /// software and associated documentation files(the "Software"), to deal in the Software
@@ -27,32 +27,35 @@
 ///
 #pragma once
 
+#include <algorithm>
+#include <random>
+#include <string>
+
 #include "NumCpp/Core/Internal/Error.hpp"
 #include "NumCpp/Core/Internal/StaticAsserts.hpp"
 #include "NumCpp/Core/Shape.hpp"
 #include "NumCpp/NdArray.hpp"
 #include "NumCpp/Random/generator.hpp"
 
-#include <algorithm>
-#include <random>
-#include <string>
-
-namespace nc
+namespace nc::random
 {
-    namespace random
+    namespace detail
     {
         //============================================================================
         // Method Description:
         /// Single random value sampled from the "lognormal" distrubution.
         ///
-        /// NumPy Reference: https://docs.scipy.org/doc/numpy/reference/generated/numpy.random.lognormal.html#numpy.random.lognormal
+        /// NumPy Reference:
+        /// https://docs.scipy.org/doc/numpy/reference/generated/numpy.random.lognormal.html#numpy.random.lognormal
         ///
+        /// @param generator: instance of a random number generator
         /// @param inMean: Mean value of the underlying normal distribution. Default is 0.
-        /// @param inSigma: Standard deviation of the underlying normal distribution. Should be greater than zero. Default is 1.
+        /// @param inSigma: Standard deviation of the underlying normal distribution. Should be greater than zero.
+        /// Default is 1.
         /// @return NdArray
         ///
-        template<typename dtype>
-        dtype lognormal(dtype inMean = 0, dtype inSigma = 1)
+        template<typename dtype, typename GeneratorType = std::mt19937>
+        dtype lognormal(GeneratorType& generator, dtype inMean = 0, dtype inSigma = 1)
         {
             STATIC_ASSERT_ARITHMETIC(dtype);
 
@@ -62,7 +65,7 @@ namespace nc
             }
 
             std::lognormal_distribution<dtype> dist(inMean, inSigma);
-            return dist(generator_); 
+            return dist(generator);
         }
 
         //============================================================================
@@ -70,15 +73,18 @@ namespace nc
         /// Create an array of the given shape and populate it with
         /// random samples from a "lognormal" distrubution.
         ///
-        /// NumPy Reference: https://docs.scipy.org/doc/numpy/reference/generated/numpy.random.lognormal.html#numpy.random.lognormal
+        /// NumPy Reference:
+        /// https://docs.scipy.org/doc/numpy/reference/generated/numpy.random.lognormal.html#numpy.random.lognormal
         ///
+        /// @param generator: instance of a random number generator
         /// @param inShape
         /// @param inMean: Mean value of the underlying normal distribution. Default is 0.
-        /// @param inSigma: Standard deviation of the underlying normal distribution. Should be greater than zero. Default is 1.
+        /// @param inSigma: Standard deviation of the underlying normal distribution. Should be greater than zero.
+        /// Default is 1.
         /// @return NdArray
         ///
-        template<typename dtype>
-        NdArray<dtype> lognormal(const Shape& inShape, dtype inMean = 0, dtype inSigma = 1)
+        template<typename dtype, typename GeneratorType = std::mt19937>
+        NdArray<dtype> lognormal(GeneratorType& generator, const Shape& inShape, dtype inMean = 0, dtype inSigma = 1)
         {
             STATIC_ASSERT_ARITHMETIC(dtype);
 
@@ -91,13 +97,49 @@ namespace nc
 
             std::lognormal_distribution<dtype> dist(inMean, inSigma);
 
-            std::for_each(returnArray.begin(), returnArray.end(),
-                [&dist](dtype& value) -> void
-                { 
-                    value = dist(generator_); 
-                });
+            std::for_each(returnArray.begin(),
+                          returnArray.end(),
+                          [&generator, &dist](dtype& value) -> void { value = dist(generator); });
 
             return returnArray;
         }
-    }  // namespace random
-}  // namespace nc
+    } // namespace detail
+
+    //============================================================================
+    // Method Description:
+    /// Single random value sampled from the "lognormal" distrubution.
+    ///
+    /// NumPy Reference:
+    /// https://docs.scipy.org/doc/numpy/reference/generated/numpy.random.lognormal.html#numpy.random.lognormal
+    ///
+    /// @param inMean: Mean value of the underlying normal distribution. Default is 0.
+    /// @param inSigma: Standard deviation of the underlying normal distribution. Should be greater than zero.
+    /// Default is 1.
+    /// @return NdArray
+    ///
+    template<typename dtype>
+    dtype lognormal(dtype inMean = 0, dtype inSigma = 1)
+    {
+        return detail::lognormal(generator_, inMean, inSigma);
+    }
+
+    //============================================================================
+    // Method Description:
+    /// Create an array of the given shape and populate it with
+    /// random samples from a "lognormal" distrubution.
+    ///
+    /// NumPy Reference:
+    /// https://docs.scipy.org/doc/numpy/reference/generated/numpy.random.lognormal.html#numpy.random.lognormal
+    ///
+    /// @param inShape
+    /// @param inMean: Mean value of the underlying normal distribution. Default is 0.
+    /// @param inSigma: Standard deviation of the underlying normal distribution. Should be greater than zero.
+    /// Default is 1.
+    /// @return NdArray
+    ///
+    template<typename dtype>
+    NdArray<dtype> lognormal(const Shape& inShape, dtype inMean = 0, dtype inSigma = 1)
+    {
+        return detail::lognormal(generator_, inShape, inMean, inSigma);
+    }
+} // namespace nc::random

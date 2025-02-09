@@ -3,7 +3,7 @@
 /// [GitHub Repository](https://github.com/dpilger26/NumCpp)
 ///
 /// License
-/// Copyright 2018-2022 David Pilger
+/// Copyright 2018-2023 David Pilger
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy of this
 /// software and associated documentation files(the "Software"), to deal in the Software
@@ -30,24 +30,21 @@
 #include "NumCpp/Core/Internal/StaticAsserts.hpp"
 #include "NumCpp/NdArray.hpp"
 
-namespace nc
+namespace nc::imageProcessing
 {
-    namespace imageProcessing
+    //============================================================================
+    // Method Description:
+    /// Applies a threshold to an image
+    ///
+    /// @param inImageArray
+    /// @param inThreshold
+    /// @return NdArray of booleans of pixels that exceeded the threshold
+    ///
+    template<typename dtype>
+    NdArray<bool> applyThreshold(const NdArray<dtype>& inImageArray, dtype inThreshold)
     {
-        //============================================================================
-        // Method Description:
-        /// Applies a threshold to an image
-        ///
-        /// @param inImageArray
-        /// @param inThreshold
-        /// @return NdArray of booleans of pixels that exceeded the threshold
-        ///
-        template<typename dtype>
-        NdArray<bool> applyThreshold(const NdArray<dtype>& inImageArray, dtype inThreshold) 
-        {
-            STATIC_ASSERT_ARITHMETIC(dtype);
+        STATIC_ASSERT_ARITHMETIC(dtype);
 
-            return inImageArray > inThreshold;
-        }
-    } // namespace imageProcessing
-} // namespace nc
+        return inImageArray > inThreshold;
+    }
+} // namespace nc::imageProcessing

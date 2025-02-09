@@ -3,7 +3,7 @@
 /// [GitHub Repository](https://github.com/dpilger26/NumCpp)
 ///
 /// License
-/// Copyright 2018-2022 David Pilger
+/// Copyright 2018-2023 David Pilger
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy of this
 /// software and associated documentation files(the "Software"), to deal in the Software
@@ -27,100 +27,106 @@
 ///
 #pragma once
 
+#include <algorithm>
+#include <string>
+
 #include "NumCpp/Core/Internal/Error.hpp"
 #include "NumCpp/Core/Internal/StaticAsserts.hpp"
 #include "NumCpp/Core/Shape.hpp"
 #include "NumCpp/Core/Types.hpp"
+#include "NumCpp/Functions/zeros.hpp"
+#include "NumCpp/Linalg/det.hpp"
 #include "NumCpp/NdArray.hpp"
+#include "NumCpp/Utils/essentiallyEqual.hpp"
 
-#include <string>
-
-namespace nc
+namespace nc::linalg
 {
-    namespace linalg
+    //============================================================================
+    // Method Description:
+    /// matrix inverse
+    ///
+    /// SciPy Reference: https://docs.scipy.org/doc/scipy/reference/generated/scipy.linalg.inv.html#scipy.linalg.inv
+    ///
+    /// @param inArray
+    /// @return NdArray
+    ///
+    template<typename dtype>
+    NdArray<double> inv(const NdArray<dtype>& inArray)
     {
-        //============================================================================
-        // Method Description:
-        /// matrix inverse
-        ///
-        /// SciPy Reference: https://docs.scipy.org/doc/scipy/reference/generated/scipy.linalg.inv.html#scipy.linalg.inv
-        ///
-        /// @param inArray
-        /// @return NdArray
-        ///
-        template<typename dtype>
-        NdArray<double> inv(const NdArray<dtype>& inArray)
+        STATIC_ASSERT_ARITHMETIC_OR_COMPLEX(dtype);
+
+        const Shape inShape = inArray.shape();
+        if (inShape.rows != inShape.cols)
         {
-            STATIC_ASSERT_ARITHMETIC(dtype);
-
-            const Shape inShape = inArray.shape();
-            if (inShape.rows != inShape.cols)
-            {
-                THROW_INVALID_ARGUMENT_ERROR("input array must be square.");
-            }
-
-            const uint32 order = inShape.rows;
-
-            Shape newShape(inShape);
-            newShape.rows *= 2;
-            newShape.cols *= 2;
-
-            NdArray<double> tempArray(newShape);
-            for (uint32 row = 0; row < order; ++row)
-            {
-                for (uint32 col = 0; col < order; ++col)
-                {
-                    tempArray(row, col) = static_cast<double>(inArray(row, col));
-                }
-            }
-
-            for (uint32 row = 0; row < order; ++row)
-            {
-                for (uint32 col = order; col < 2 * order; ++col)
-                {
-                    if (row == col - order)
-                    {
-                        tempArray(row, col) = 1.0;
-                    }
-                    else
-                    {
-                        tempArray(row, col) = 0.0;
-                    }
-                }
-            }
-
-            for (uint32 row = 0; row < order; ++row)
-            {
-                double t = tempArray(row, row);
-                for (uint32 col = row; col < 2 * order; ++col)
-                {
-                    tempArray(row, col) /= t;
-                }
-
-                for (uint32 col = 0; col < order; ++col)
-                {
-                    if (row != col)
-                    {
-                        t = tempArray(col, row);
-                        for (uint32 k = 0; k < 2 * order; ++k)
-                        {
-                            tempArray(col, k) -= t * tempArray(row, k);
-                        }
-                    }
-                }
-            }
-
-            NdArray<double> returnArray(inShape);
-            for (uint32 row = 0; row < order; row++)
-            {
-                uint32 colCounter = 0;
-                for (uint32 col = order; col < 2 * order; ++col)
-                {
-                    returnArray(row, colCounter++) = tempArray(row, col);
-                }
-            }
-
-            return returnArray;
+            THROW_INVALID_ARGUMENT_ERROR("input array must be square.");
         }
-    } // namespace linalg
-}  // namespace nc
+
+        NdArray<double> inArrayDouble = inArray.template astype<double>();
+        NdArray<int>    incidence     = nc::zeros<int>(inShape);
+
+        for (uint32 k = 0; k < inShape.rows - 1; ++k)
+        {
+            if (utils::essentiallyEqual(inArrayDouble(k, k), 0.))
+            {
+                uint32 l = k;
+                while (l < inShape.cols && utils::essentiallyEqual(inArrayDouble(k, l), 0.))
+                {
+                    ++l;
+                }
+
+                inArrayDouble.swapRows(k, l);
+                incidence(k, k) = 1;
+                incidence(k, l) = 1;
+            }
+        }
+
+        NdArray<double> result(inShape);
+
+        for (uint32 k = 0; k < inShape.rows; ++k)
+        {
+            result(k, k) = -1. / inArrayDouble(k, k);
+            for (uint32 i = 0; i < inShape.rows; ++i)
+            {
+                for (uint32 j = 0; j < inShape.cols; ++j)
+                {
+                    if ((i - k) && (j - k))
+                    {
+                        result(i, j) = inArrayDouble(i, j) + inArrayDouble(k, j) * inArrayDouble(i, k) * result(k, k);
+                    }
+                    else if ((i - k) && !(j - k))
+                    {
+                        result(i, k) = inArrayDouble(i, k) * result(k, k);
+                    }
+                    else if (!(i - k) && (j - k))
+                    {
+                        result(k, j) = inArrayDouble(k, j) * result(k, k);
+                    }
+                }
+            }
+
+            inArrayDouble = result;
+        }
+
+        result *= -1.;
+
+        for (int i = static_cast<int>(inShape.rows) - 1; i >= 0; --i)
+        {
+            if (incidence(i, i) != 1)
+            {
+                continue;
+            }
+
+            int k = 0;
+            for (; k < static_cast<int>(inShape.cols); ++k)
+            {
+                if ((k - i) && incidence(i, k) != 0)
+                {
+                    result.swapCols(i, k);
+                    break;
+                }
+            }
+        }
+
+        return result;
+    }
+} // namespace nc::linalg

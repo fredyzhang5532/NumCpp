@@ -4,7 +4,7 @@
 ///
 /// License
 /// Copyright 2019 Benjamin Mahr
-/// Copyright 2018-2022 David Pilger
+/// Copyright 2018-2023 David Pilger
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy of this
 /// software and associated documentation files(the "Software"), to deal in the Software
@@ -27,9 +27,13 @@
 /// matrix pivot LU decomposition
 ///
 /// Code modified under MIT license from https://github.com/Ben1980/linAlg
-/// as posted in https://thoughts-on-coding.com/2019/06/12/numerical-methods-with-c-part-4-introduction-into-decomposition-methods-of-linear-equation-systems/
+/// as posted in
+/// https://thoughts-on-coding.com/2019/06/12/numerical-methods-with-c-part-4-introduction-into-decomposition-methods-of-linear-equation-systems/
 ///
 #pragma once
+
+#include <cmath>
+#include <utility>
 
 #include "NumCpp/Core/Internal/Error.hpp"
 #include "NumCpp/Core/Internal/StaticAsserts.hpp"
@@ -38,57 +42,51 @@
 #include "NumCpp/NdArray.hpp"
 #include "NumCpp/Utils/essentiallyEqual.hpp"
 
-#include <cmath>
-#include <utility>
-
-namespace nc
+namespace nc::linalg
 {
-    namespace linalg
+    //============================================================================
+    // Method Description:
+    /// matrix LU decomposition A = LU
+    ///
+    /// @param inMatrix: NdArray to be decomposed
+    ///
+    /// @return std::pair<NdArray, NdArray> of the decomposed L and U matrices
+    ///
+    template<typename dtype>
+    std::pair<NdArray<double>, NdArray<double>> lu_decomposition(const NdArray<dtype>& inMatrix)
     {
-        //============================================================================
-        // Method Description:
-        /// matrix LU decomposition A = LU
-        ///
-        /// @param inMatrix: NdArray to be decomposed
-        ///
-        /// @return std::pair<NdArray, NdArray> of the decomposed L and U matrices
-        ///
-        template<typename dtype>
-        std::pair<NdArray<double>, NdArray<double> > lu_decomposition(const NdArray<dtype>& inMatrix)
+        STATIC_ASSERT_ARITHMETIC(dtype);
+
+        const auto shape = inMatrix.shape();
+        if (!shape.issquare())
         {
-            STATIC_ASSERT_ARITHMETIC(dtype);
+            THROW_RUNTIME_ERROR("Input matrix should be square.");
+        }
 
-            const auto shape = inMatrix.shape();
-            if(!shape.issquare()) 
+        NdArray<double> lMatrix = zeros_like<double>(inMatrix);
+        NdArray<double> uMatrix = inMatrix.template astype<double>();
+
+        for (uint32 col = 0; col < shape.cols; ++col)
+        {
+            lMatrix(col, col) = 1;
+
+            for (uint32 row = col + 1; row < shape.rows; ++row)
             {
-                THROW_RUNTIME_ERROR("Input matrix should be square.");
-            }
-
-            NdArray<double> lMatrix = zeros_like<double>(inMatrix);
-            NdArray<double> uMatrix = inMatrix.template astype<double>();
-
-            for(uint32 col = 0; col < shape.cols; ++col)
-            {
-                lMatrix(col, col) = 1;
-
-                for(uint32 row = col + 1; row < shape.rows; ++row)
+                const double& divisor = uMatrix(col, col);
+                if (utils::essentiallyEqual(divisor, double{ 0. }))
                 {
-                    const double& divisor = uMatrix(col, col);
-                    if (utils::essentiallyEqual(divisor, double{0.0}))
-                    {
-                        THROW_RUNTIME_ERROR("Division by 0.");
-                    }
+                    THROW_RUNTIME_ERROR("Division by 0.");
+                }
 
-                    lMatrix(row, col) = uMatrix(row, col) / divisor;
+                lMatrix(row, col) = uMatrix(row, col) / divisor;
 
-                    for(uint32 col2 = col; col2 < shape.cols; ++col2) 
-                    {
-                        uMatrix(row, col2) -= lMatrix(row, col) * uMatrix(col, col2);
-                    }
+                for (uint32 col2 = col; col2 < shape.cols; ++col2)
+                {
+                    uMatrix(row, col2) -= lMatrix(row, col) * uMatrix(col, col2);
                 }
             }
-
-            return std::make_pair(lMatrix, uMatrix);
         }
-    }  // namespace linalg
-}  // namespace nc
+
+        return std::make_pair(lMatrix, uMatrix);
+    }
+} // namespace nc::linalg

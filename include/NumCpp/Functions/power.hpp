@@ -3,7 +3,7 @@
 /// [GitHub Repository](https://github.com/dpilger26/NumCpp)
 ///
 /// License
-/// Copyright 2018-2022 David Pilger
+/// Copyright 2018-2023 David Pilger
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy of this
 /// software and associated documentation files(the "Software"), to deal in the Software
@@ -27,14 +27,14 @@
 ///
 #pragma once
 
+#include <string>
+
 #include "NumCpp/Core/Internal/Error.hpp"
 #include "NumCpp/Core/Internal/StlAlgorithms.hpp"
 #include "NumCpp/Core/Shape.hpp"
 #include "NumCpp/Core/Types.hpp"
 #include "NumCpp/NdArray.hpp"
 #include "NumCpp/Utils/power.hpp"
-
-#include <string>
 
 namespace nc
 {
@@ -65,14 +65,14 @@ namespace nc
     /// @return NdArray
     ///
     template<typename dtype>
-    NdArray<dtype> power(const NdArray<dtype>& inArray, uint8 inExponent) 
+    NdArray<dtype> power(const NdArray<dtype>& inArray, uint8 inExponent)
     {
         NdArray<dtype> returnArray(inArray.shape());
-        stl_algorithms::transform(inArray.cbegin(), inArray.cend(), returnArray.begin(),
-            [inExponent](dtype inValue) noexcept -> dtype
-            {
-                return nc::power(inValue, inExponent);
-            });
+        stl_algorithms::transform(inArray.cbegin(),
+                                  inArray.cend(),
+                                  returnArray.begin(),
+                                  [inExponent](dtype inValue) noexcept -> dtype
+                                  { return nc::power(inValue, inExponent); });
 
         return returnArray;
     }
@@ -96,12 +96,13 @@ namespace nc
         }
 
         NdArray<dtype> returnArray(inArray.shape());
-        stl_algorithms::transform(inArray.cbegin(), inArray.cend(), inExponents.cbegin(), returnArray.begin(),
-            [](dtype inValue, uint8 inExponent) -> dtype
-            {
-                return nc::power(inValue, inExponent);
-            });
+        stl_algorithms::transform(inArray.cbegin(),
+                                  inArray.cend(),
+                                  inExponents.cbegin(),
+                                  returnArray.begin(),
+                                  [](dtype inValue, uint8 inExponent) -> dtype
+                                  { return nc::power(inValue, inExponent); });
 
         return returnArray;
     }
-}  // namespace nc
+} // namespace nc

@@ -3,7 +3,7 @@
 /// [GitHub Repository](https://github.com/dpilger26/NumCpp)
 ///
 /// License
-/// Copyright 2018-2022 David Pilger
+/// Copyright 2018-2023 David Pilger
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy of this
 /// software and associated documentation files(the "Software"), to deal in the Software
@@ -33,74 +33,70 @@
 #include "NumCpp/Core/Types.hpp"
 #include "NumCpp/NdArray.hpp"
 
-namespace nc
+namespace nc::filter::boundary
 {
-    namespace filter
+    //============================================================================
+    // Method Description:
+    /// extends the corner values
+    ///
+    /// @param inArray
+    /// @param inBorderWidth
+    ///
+    template<typename dtype>
+    void fillCorners(NdArray<dtype>& inArray, uint32 inBorderWidth)
     {
-        namespace boundary
-        {
-            //============================================================================
-            // Method Description:
-            /// extends the corner values
-            ///
-            /// @param inArray
-            /// @param inBorderWidth
-            ///
-            template<typename dtype>
-            void fillCorners(NdArray<dtype>& inArray, uint32 inBorderWidth)
-            {
-                STATIC_ASSERT_ARITHMETIC(dtype);
+        STATIC_ASSERT_ARITHMETIC(dtype);
 
-                const Shape inShape = inArray.shape();
-                const auto numRows = static_cast<int32>(inShape.rows);
-                const auto numCols = static_cast<int32>(inShape.cols);
+        const Shape inShape = inArray.shape();
+        const auto  numRows = static_cast<int32>(inShape.rows);
+        const auto  numCols = static_cast<int32>(inShape.cols);
 
-                // top left
-                inArray.put(Slice(0, inBorderWidth), Slice(0, inBorderWidth),
-                    inArray(inBorderWidth, inBorderWidth));
+        // top left
+        inArray.put(Slice(0, inBorderWidth), Slice(0, inBorderWidth), inArray(inBorderWidth, inBorderWidth));
 
-                // top right
-                inArray.put(Slice(0, inBorderWidth), Slice(numCols - inBorderWidth, numCols),
+        // top right
+        inArray.put(Slice(0, inBorderWidth),
+                    Slice(numCols - inBorderWidth, numCols),
                     inArray(inBorderWidth, numCols - inBorderWidth - 1));
 
-                // bottom left
-                inArray.put(Slice(numRows - inBorderWidth, numRows), Slice(0, inBorderWidth),
+        // bottom left
+        inArray.put(Slice(numRows - inBorderWidth, numRows),
+                    Slice(0, inBorderWidth),
                     inArray(numRows - inBorderWidth - 1, inBorderWidth));
 
-                // bottom right
-                inArray.put(Slice(numRows - inBorderWidth, numRows), Slice(numCols - inBorderWidth, numCols),
+        // bottom right
+        inArray.put(Slice(numRows - inBorderWidth, numRows),
+                    Slice(numCols - inBorderWidth, numCols),
                     inArray(numRows - inBorderWidth - 1, numCols - inBorderWidth - 1));
-            }
+    }
 
-            //============================================================================
-            // Method Description:
-            /// extends the corner values
-            ///
-            /// @param inArray
-            /// @param inBorderWidth
-            /// @param inFillValue
-            ///
-            template<typename dtype>
-            void fillCorners(NdArray<dtype>& inArray, uint32 inBorderWidth, dtype inFillValue)
-            {
-                STATIC_ASSERT_ARITHMETIC(dtype);
+    //============================================================================
+    // Method Description:
+    /// extends the corner values
+    ///
+    /// @param inArray
+    /// @param inBorderWidth
+    /// @param inFillValue
+    ///
+    template<typename dtype>
+    void fillCorners(NdArray<dtype>& inArray, uint32 inBorderWidth, dtype inFillValue)
+    {
+        STATIC_ASSERT_ARITHMETIC(dtype);
 
-                const Shape inShape = inArray.shape();
-                const auto numRows = static_cast<int32>(inShape.rows);
-                const auto numCols = static_cast<int32>(inShape.cols);
+        const Shape inShape = inArray.shape();
+        const auto  numRows = static_cast<int32>(inShape.rows);
+        const auto  numCols = static_cast<int32>(inShape.cols);
 
-                // top left
-                inArray.put(Slice(0, inBorderWidth), Slice(0, inBorderWidth), inFillValue);
+        // top left
+        inArray.put(Slice(0, inBorderWidth), Slice(0, inBorderWidth), inFillValue);
 
-                // top right
-                inArray.put(Slice(0, inBorderWidth), Slice(numCols - inBorderWidth, numCols), inFillValue);
+        // top right
+        inArray.put(Slice(0, inBorderWidth), Slice(numCols - inBorderWidth, numCols), inFillValue);
 
-                // bottom left
-                inArray.put(Slice(numRows - inBorderWidth, numRows), Slice(0, inBorderWidth), inFillValue);
+        // bottom left
+        inArray.put(Slice(numRows - inBorderWidth, numRows), Slice(0, inBorderWidth), inFillValue);
 
-                // bottom right
-                inArray.put(Slice(numRows - inBorderWidth, numRows), Slice(numCols - inBorderWidth, numCols), inFillValue);
-            }
-        } // namespace boundary
-    } // namespace filter
-} // namespace nc
+        // bottom right
+        inArray.put(Slice(numRows - inBorderWidth, numRows), Slice(numCols - inBorderWidth, numCols), inFillValue);
+    }
+} // namespace nc::filter::boundary

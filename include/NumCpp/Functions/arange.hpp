@@ -3,7 +3,7 @@
 /// [GitHub Repository](https://github.com/dpilger26/NumCpp)
 ///
 /// License
-/// Copyright 2018-2022 David Pilger
+/// Copyright 2018-2023 David Pilger
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy of this
 /// software and associated documentation files(the "Software"), to deal in the Software
@@ -27,12 +27,12 @@
 ///
 #pragma once
 
+#include <string>
+#include <vector>
+
 #include "NumCpp/Core/Internal/Error.hpp"
 #include "NumCpp/Core/Internal/StaticAsserts.hpp"
 #include "NumCpp/NdArray.hpp"
-
-#include <string>
-#include <vector>
 
 namespace nc
 {
@@ -73,7 +73,7 @@ namespace nc
         std::vector<dtype> values;
 
         dtype theValue = inStart;
-        auto counter = dtype{ 1 };
+        auto  counter  = dtype{ 1 };
 
         if (inStep > 0)
         {
@@ -145,4 +145,4 @@ namespace nc
     {
         return arange<dtype>(inSlice.start, inSlice.stop, inSlice.step);
     }
-}  // namespace nc
+} // namespace nc

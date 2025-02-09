@@ -3,7 +3,7 @@
 /// [GitHub Repository](https://github.com/dpilger26/NumCpp)
 ///
 /// License
-/// Copyright 2018-2022 David Pilger
+/// Copyright 2018-2023 David Pilger
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy of this
 /// software and associated documentation files(the "Software"), to deal in the Software
@@ -27,27 +27,24 @@
 ///
 #pragma once
 
-#include "NumCpp/Core/Internal/StaticAsserts.hpp"
-
 #include <string>
 
-namespace nc
-{
-    namespace utils
-    {
-        //============================================================================
-        /// Converts the number into a string
-        ///
-        /// @param inNumber
-        ///
-        /// @return std::string
-        ///
-        template<typename dtype>
-        std::string num2str(dtype inNumber) 
-        {
-            STATIC_ASSERT_ARITHMETIC(dtype);
+#include "NumCpp/Core/Internal/StaticAsserts.hpp"
 
-            return std::to_string(inNumber);
-        }
-    }  // namespace utils
-}  // namespace nc
+namespace nc::utils
+{
+    //============================================================================
+    /// Converts the number into a string
+    ///
+    /// @param inNumber
+    ///
+    /// @return std::string
+    ///
+    template<typename dtype>
+    std::string num2str(dtype inNumber)
+    {
+        STATIC_ASSERT_ARITHMETIC(dtype);
+
+        return std::to_string(inNumber);
+    }
+} // namespace nc::utils

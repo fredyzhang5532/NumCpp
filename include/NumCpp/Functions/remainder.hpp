@@ -3,7 +3,7 @@
 /// [GitHub Repository](https://github.com/dpilger26/NumCpp)
 ///
 /// License
-/// Copyright 2018-2022 David Pilger
+/// Copyright 2018-2023 David Pilger
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy of this
 /// software and associated documentation files(the "Software"), to deal in the Software
@@ -27,14 +27,14 @@
 ///
 #pragma once
 
+#include <cmath>
+#include <string>
+
 #include "NumCpp/Core/Internal/Error.hpp"
 #include "NumCpp/Core/Internal/StaticAsserts.hpp"
 #include "NumCpp/Core/Internal/StlAlgorithms.hpp"
 #include "NumCpp/Core/Types.hpp"
 #include "NumCpp/NdArray.hpp"
-
-#include <cmath>
-#include <string>
 
 namespace nc
 {
@@ -50,7 +50,7 @@ namespace nc
     /// @return NdArray
     ///
     template<typename dtype>
-    double remainder(dtype inValue1, dtype inValue2) noexcept 
+    double remainder(dtype inValue1, dtype inValue2) noexcept
     {
         STATIC_ASSERT_ARITHMETIC(dtype);
 
@@ -71,18 +71,9 @@ namespace nc
     template<typename dtype>
     NdArray<double> remainder(const NdArray<dtype>& inArray1, const NdArray<dtype>& inArray2)
     {
-        if (inArray1.shape() != inArray2.shape())
-        {
-            THROW_INVALID_ARGUMENT_ERROR("input array shapes are not consistant.");
-        }
-
-        NdArray<double> returnArray(inArray1.shape());
-        stl_algorithms::transform(inArray1.cbegin(), inArray1.cend(), inArray2.cbegin(), returnArray.begin(),
-            [](dtype inValue1, dtype inValue2) noexcept -> double
-            { 
-                return remainder(inValue1, inValue2);
-            });
-
-        return returnArray;
+        return broadcast::broadcaster<double>(inArray1,
+                                              inArray2,
+                                              [](dtype inValue1, dtype inValue2) noexcept -> double
+                                              { return remainder(inValue1, inValue2); });
     }
-}  // namespace nc
+} // namespace nc

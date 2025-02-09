@@ -1,7 +1,5 @@
 import numpy as np
-import os
-import sys
-sys.path.append(os.path.abspath(r'../lib'))
+
 import NumCppPy as NumCpp  # noqa E402
 
 
@@ -13,7 +11,13 @@ def test_default_constructor():
 
 ####################################################################################
 def test_square_constructor():
-    shapeInput = np.random.randint(0, 100, [1, ]).item()
+    shapeInput = np.random.randint(
+        0,
+        100,
+        [
+            1,
+        ],
+    ).item()
     shape = NumCpp.Shape(shapeInput)
     assert shape.rows == shapeInput
     assert shape.cols == shapeInput
@@ -21,7 +25,13 @@ def test_square_constructor():
 
 ####################################################################################
 def test_rec_constructor():
-    shapeInput = np.random.randint(0, 100, [2, ])
+    shapeInput = np.random.randint(
+        0,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     assert shape.rows == shapeInput[0]
     assert shape.cols == shapeInput[1]
@@ -29,7 +39,13 @@ def test_rec_constructor():
 
 ####################################################################################
 def test_copy_constructor():
-    shapeInput = np.random.randint(0, 100, [2, ])
+    shapeInput = np.random.randint(
+        0,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     assert shape.rows == shapeInput[0]
     assert shape.cols == shapeInput[1]

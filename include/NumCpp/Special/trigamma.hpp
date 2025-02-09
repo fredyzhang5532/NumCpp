@@ -3,7 +3,7 @@
 /// [GitHub Repository](https://github.com/dpilger26/NumCpp)
 ///
 /// License
-/// Copyright 2018-2022 David Pilger
+/// Copyright 2018-2023 David Pilger
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy of this
 /// software and associated documentation files(the "Software"), to deal in the Software
@@ -29,56 +29,52 @@
 
 #ifndef NUMCPP_NO_USE_BOOST
 
+#include "boost/math/special_functions/trigamma.hpp"
+
 #include "NumCpp/Core/Internal/StaticAsserts.hpp"
 #include "NumCpp/Core/Internal/StlAlgorithms.hpp"
 #include "NumCpp/NdArray.hpp"
 
-#include "boost/math/special_functions/trigamma.hpp"
-
-namespace nc
+namespace nc::special
 {
-    namespace special
+    //============================================================================
+    // Method Description:
+    /// Returns the trigamma function of x. Trigamma is defined as the derivative
+    /// of the digamma function.
+    /// NOTE: Use of this function requires using the Boost includes.
+    ///
+    /// @param inValue
+    /// @return calculated-result-type
+    ///
+    template<typename dtype>
+    auto trigamma(dtype inValue)
     {
-        //============================================================================
-        // Method Description:
-        /// Returns the trigamma function of x. Trigamma is defined as the derivative 
-        /// of the digamma function.
-        /// NOTE: Use of this function requires using the Boost includes.
-        ///
-        /// @param inValue
-        /// @return calculated-result-type 
-        ///
-        template<typename dtype>
-        auto trigamma(dtype inValue)
-        {
-            STATIC_ASSERT_ARITHMETIC(dtype);
+        STATIC_ASSERT_ARITHMETIC(dtype);
 
-            return boost::math::trigamma(inValue);
-        }
+        return boost::math::trigamma(inValue);
+    }
 
-        //============================================================================
-        // Method Description:
-        /// Returns the trigamma function of x. Trigamma is defined as the derivative 
-        /// of the digamma function.
-        /// NOTE: Use of this function requires using the Boost includes.
-        ///
-        /// @param inArray
-        /// @return NdArray
-        ///
-        template<typename dtype>
-        auto trigamma(const NdArray<dtype>& inArray)
-        {
-            NdArray<decltype(trigamma(dtype{0}))> returnArray(inArray.shape());
+    //============================================================================
+    // Method Description:
+    /// Returns the trigamma function of x. Trigamma is defined as the derivative
+    /// of the digamma function.
+    /// NOTE: Use of this function requires using the Boost includes.
+    ///
+    /// @param inArray
+    /// @return NdArray
+    ///
+    template<typename dtype>
+    auto trigamma(const NdArray<dtype>& inArray)
+    {
+        NdArray<decltype(trigamma(dtype{ 0 }))> returnArray(inArray.shape());
 
-            stl_algorithms::transform(inArray.cbegin(), inArray.cend(), returnArray.begin(),
-                [](dtype inValue) -> auto
-                { 
-                    return trigamma(inValue); 
-                });
+        stl_algorithms::transform(inArray.cbegin(),
+                                  inArray.cend(),
+                                  returnArray.begin(),
+                                  [](dtype inValue) -> auto { return trigamma(inValue); });
 
-            return returnArray;
-        }
-    } // namespace special
-}  // namespace nc
+        return returnArray;
+    }
+} // namespace nc::special
 
 #endif // #ifndef NUMCPP_NO_USE_BOOST

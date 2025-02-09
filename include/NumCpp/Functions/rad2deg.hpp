@@ -3,7 +3,7 @@
 /// [GitHub Repository](https://github.com/dpilger26/NumCpp)
 ///
 /// License
-/// Copyright 2018-2022 David Pilger
+/// Copyright 2018-2023 David Pilger
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy of this
 /// software and associated documentation files(the "Software"), to deal in the Software
@@ -49,7 +49,7 @@ namespace nc
     {
         STATIC_ASSERT_ARITHMETIC(dtype);
 
-        return inValue * 180.0 / constants::pi;
+        return inValue * 180. / constants::pi;
     }
 
     //============================================================================
@@ -65,12 +65,11 @@ namespace nc
     template<typename dtype>
     auto rad2deg(const NdArray<dtype>& inArray)
     {
-        NdArray<decltype(rad2deg(dtype{0})) > returnArray(inArray.shape());
-        stl_algorithms::transform(inArray.cbegin(), inArray.cend(), returnArray.begin(),
-            [](dtype inValue) noexcept -> auto
-            { 
-                return rad2deg(inValue);
-            });
+        NdArray<decltype(rad2deg(dtype{ 0 }))> returnArray(inArray.shape());
+        stl_algorithms::transform(inArray.cbegin(),
+                                  inArray.cend(),
+                                  returnArray.begin(),
+                                  [](dtype inValue) noexcept -> auto { return rad2deg(inValue); });
 
         return returnArray;
     }

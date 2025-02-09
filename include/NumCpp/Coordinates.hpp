@@ -3,7 +3,7 @@
 /// [GitHub Repository](https://github.com/dpilger26/NumCpp)
 ///
 /// License
-/// Copyright 2018-2022 David Pilger
+/// Copyright 2018-2023 David Pilger
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy of this
 /// software and associated documentation files(the "Software"), to deal in the Software
@@ -23,12 +23,12 @@
 /// DEALINGS IN THE SOFTWARE.
 ///
 /// Description
-/// A module for holding and working with coordinates in either Ra/Dec or cartesian formats
+/// A module for holding and working with coordinates
 ///
 #pragma once
 
-#include "NumCpp/Coordinates/Coordinate.hpp"
-#include "NumCpp/Coordinates/Dec.hpp"
-#include "NumCpp/Coordinates/RA.hpp"
-#include "NumCpp/Coordinates/degreeSeperation.hpp"
-#include "NumCpp/Coordinates/radianSeperation.hpp"
+#include "NumCpp/Coordinates/Cartesian.hpp"
+#include "NumCpp/Coordinates/Euler.hpp"
+#include "NumCpp/Coordinates/Orientation.hpp"
+#include "NumCpp/Coordinates/ReferenceFrames.hpp"
+#include "NumCpp/Coordinates/Transforms.hpp"

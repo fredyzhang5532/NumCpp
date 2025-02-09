@@ -3,7 +3,7 @@
 /// [GitHub Repository](https://github.com/dpilger26/NumCpp)
 ///
 /// License
-/// Copyright 2018-2022 David Pilger
+/// Copyright 2018-2023 David Pilger
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy of this
 /// software and associated documentation files(the "Software"), to deal in the Software
@@ -27,13 +27,14 @@
 ///
 #pragma once
 
-#include "NumCpp/Core/Types.hpp"
-
 #include <chrono>
 #include <iostream>
 #include <string>
 #include <thread>
 #include <type_traits>
+
+#include "NumCpp/Core/Enums.hpp"
+#include "NumCpp/Core/Types.hpp"
 
 namespace nc
 {
@@ -44,8 +45,8 @@ namespace nc
     {
     public:
         //==============================Typedefs======================================
-        using ChronoClock = std::chrono::high_resolution_clock;
-        using TimePoint = std::chrono::time_point<ChronoClock>;
+        using ChronoClock = std::chrono::steady_clock;
+        using TimePoint   = std::chrono::time_point<ChronoClock>;
 
         //============================================================================
         // Method Description:
@@ -63,7 +64,7 @@ namespace nc
         ///
         /// @param inName
         ///
-        explicit Timer(const std::string& inName)  :
+        explicit Timer(const std::string& inName) :
             name_(inName + " "),
             start_(ChronoClock::now())
         {
@@ -76,7 +77,7 @@ namespace nc
         ///
         /// @param inName
         ///
-        void setName(const std::string& inName) 
+        void setName(const std::string& inName)
         {
             name_ = inName + " ";
         }
@@ -96,7 +97,7 @@ namespace nc
         // Method Description:
         /// Starts the timer
         ///
-        void tic() noexcept 
+        void tic() noexcept
         {
             start_ = ChronoClock::now();
         }
@@ -105,17 +106,17 @@ namespace nc
         // Method Description:
         /// Stops the timer
         ///
-        /// @param printElapsedTime: bool whether or not to print the elapsed time to 
+        /// @param printElapsedTime: whether or not to print the elapsed time to
         /// the console
         /// @return ellapsed time in specified time units
         ///
-        uint64 toc(bool printElapsedTime = true) 
+        TimeUnit toc(PrintElapsedTime printElapsedTime = PrintElapsedTime::YES)
         {
-            const auto duration = static_cast<uint64>(std::chrono::duration_cast<TimeUnit>(ChronoClock::now() - start_).count());
+            const auto duration = std::chrono::duration_cast<TimeUnit>(ChronoClock::now() - start_);
 
-            if (printElapsedTime)
+            if (printElapsedTime == PrintElapsedTime::YES)
             {
-                std::cout << name_ << "Elapsed Time = " << duration << unit_ << std::endl;
+                std::cout << name_ << "Elapsed Time = " << duration.count() << unit_ << std::endl;
             }
 
             return duration;
@@ -123,33 +124,33 @@ namespace nc
 
     private:
         //==============================Attributes====================================
-        std::string		name_{ "" };
-        std::string		unit_{ "" };
-        TimePoint		start_{};
+        std::string name_{ "" };
+        std::string unit_{ "" };
+        TimePoint   start_{};
 
-        void setUnits() 
+        void setUnits()
         {
-            if (std::is_same<TimeUnit, std::chrono::hours>::value)
+            if constexpr (std::is_same_v<TimeUnit, std::chrono::hours>)
             {
                 unit_ = " hours";
             }
-            else if (std::is_same<TimeUnit, std::chrono::minutes>::value)
+            else if constexpr (std::is_same_v<TimeUnit, std::chrono::minutes>)
             {
                 unit_ = " minutes";
             }
-            else if (std::is_same<TimeUnit, std::chrono::seconds>::value)
+            else if constexpr (std::is_same_v<TimeUnit, std::chrono::seconds>)
             {
                 unit_ = " seconds";
             }
-            else if (std::is_same<TimeUnit, std::chrono::milliseconds>::value)
+            else if constexpr (std::is_same_v<TimeUnit, std::chrono::milliseconds>)
             {
                 unit_ = " milliseconds";
             }
-            else if (std::is_same<TimeUnit, std::chrono::microseconds>::value)
+            else if constexpr (std::is_same_v<TimeUnit, std::chrono::microseconds>)
             {
                 unit_ = " microseconds";
             }
-            else if (std::is_same<TimeUnit, std::chrono::nanoseconds>::value)
+            else if constexpr (std::is_same_v<TimeUnit, std::chrono::nanoseconds>)
             {
                 unit_ = " nanoseconds";
             }
@@ -159,4 +160,4 @@ namespace nc
             }
         }
     };
-}  // namespace nc
+} // namespace nc

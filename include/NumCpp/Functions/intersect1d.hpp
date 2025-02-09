@@ -3,7 +3,7 @@
 /// [GitHub Repository](https://github.com/dpilger26/NumCpp)
 ///
 /// License
-/// Copyright 2018-2022 David Pilger
+/// Copyright 2018-2023 David Pilger
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy of this
 /// software and associated documentation files(the "Software"), to deal in the Software
@@ -27,12 +27,12 @@
 ///
 #pragma once
 
+#include <set>
+#include <vector>
+
 #include "NumCpp/Core/Internal/StaticAsserts.hpp"
 #include "NumCpp/Core/Internal/StlAlgorithms.hpp"
 #include "NumCpp/NdArray.hpp"
-
-#include <set>
-#include <vector>
 
 namespace nc
 {
@@ -54,13 +54,12 @@ namespace nc
     {
         STATIC_ASSERT_ARITHMETIC(dtype);
 
-        std::vector<dtype> res(inArray1.size() + inArray2.size());
+        std::vector<dtype>    res(inArray1.size() + inArray2.size());
         const std::set<dtype> in1(inArray1.cbegin(), inArray1.cend());
         const std::set<dtype> in2(inArray2.cbegin(), inArray2.cend());
 
-        const auto iter = stl_algorithms::set_intersection(in1.begin(), in1.end(),
-            in2.begin(), in2.end(), res.begin());
+        const auto iter = stl_algorithms::set_intersection(in1.begin(), in1.end(), in2.begin(), in2.end(), res.begin());
         res.resize(iter - res.begin());
         return NdArray<dtype>(res);
     }
-}  // namespace nc
+} // namespace nc

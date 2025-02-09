@@ -3,7 +3,7 @@
 /// [GitHub Repository](https://github.com/dpilger26/NumCpp)
 ///
 /// License
-/// Copyright 2018-2022 David Pilger
+/// Copyright 2018-2023 David Pilger
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy of this
 /// software and associated documentation files(the "Software"), to deal in the Software
@@ -29,59 +29,55 @@
 
 #ifndef NUMCPP_NO_USE_BOOST
 
-#include "NumCpp/Core/Internal/StaticAsserts.hpp"
-#include "NumCpp/NdArray.hpp"
-
-#include "boost/math/special_functions/hankel.hpp"
-
 #include <complex>
 #include <type_traits>
 
-namespace nc
+#include "boost/math/special_functions/hankel.hpp"
+
+#include "NumCpp/Core/Internal/StaticAsserts.hpp"
+#include "NumCpp/NdArray.hpp"
+
+namespace nc::special
 {
-    namespace special
+    //============================================================================
+    // Method Description:
+    /// Hankel funcion of the second kind.
+    /// NOTE: Use of this function requires using the Boost includes.
+    ///
+    /// @param inV: the order of the bessel function
+    /// @param inX: the input value
+    /// @return std::complex<>
+    ///
+    template<typename dtype1, typename dtype2>
+    auto cyclic_hankel_2(dtype1 inV, dtype2 inX)
     {
-        //============================================================================
-        // Method Description:
-        /// Hankel funcion of the second kind.
-        /// NOTE: Use of this function requires using the Boost includes.
-        ///
-        /// @param inV: the order of the bessel function
-        /// @param inX: the input value
-        /// @return std::complex<>
-        ///
-        template<typename dtype1, typename dtype2>
-        auto cyclic_hankel_2(dtype1 inV, dtype2 inX)
-        {
-            STATIC_ASSERT_ARITHMETIC(dtype1);
-            STATIC_ASSERT_ARITHMETIC(dtype2);
+        STATIC_ASSERT_ARITHMETIC(dtype1);
+        STATIC_ASSERT_ARITHMETIC(dtype2);
 
-            return boost::math::cyl_hankel_2(inV, inX);
-        }
+        return boost::math::cyl_hankel_2(inV, inX);
+    }
 
-        //============================================================================
-        // Method Description:
-        /// Hankel funcion of the second kind.
-        /// NOTE: Use of this function requires using the Boost includes.
-        ///
-        /// @param inV: the order of the bessel function
-        /// @param inX: the input array
-        /// @return NdArray<std::complex>
-        ///
-        template<typename dtype1, typename dtype2>
-        auto cyclic_hankel_2(dtype1 inV, const NdArray<dtype2>& inX)
-        {
-            NdArray<decltype(cyclic_hankel_2(dtype1{ 0 }, dtype2{ 0 }))> returnArray(inX.shape());
+    //============================================================================
+    // Method Description:
+    /// Hankel funcion of the second kind.
+    /// NOTE: Use of this function requires using the Boost includes.
+    ///
+    /// @param inV: the order of the bessel function
+    /// @param inX: the input array
+    /// @return NdArray<std::complex>
+    ///
+    template<typename dtype1, typename dtype2>
+    auto cyclic_hankel_2(dtype1 inV, const NdArray<dtype2>& inX)
+    {
+        NdArray<decltype(cyclic_hankel_2(dtype1{ 0 }, dtype2{ 0 }))> returnArray(inX.shape());
 
-            stl_algorithms::transform(inX.cbegin(), inX.cend(), returnArray.begin(),
-                [inV](dtype2 x) -> auto
-            { 
-                return cyclic_hankel_2(inV, x); 
-            });
+        stl_algorithms::transform(inX.cbegin(),
+                                  inX.cend(),
+                                  returnArray.begin(),
+                                  [inV](dtype2 x) -> auto { return cyclic_hankel_2(inV, x); });
 
-            return returnArray;
-        }
-    }  // namespace special
-} // namespace nc
+        return returnArray;
+    }
+} // namespace nc::special
 
 #endif // #ifndef NUMCPP_NO_USE_BOOST

@@ -3,7 +3,7 @@
 /// [GitHub Repository](https://github.com/dpilger26/NumCpp)
 ///
 /// License
-/// Copyright 2018-2022 David Pilger
+/// Copyright 2018-2023 David Pilger
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy of this
 /// software and associated documentation files(the "Software"), to deal in the Software
@@ -27,31 +27,32 @@
 ///
 #pragma once
 
+#include <algorithm>
+#include <random>
+#include <string>
+
 #include "NumCpp/Core/Internal/Error.hpp"
 #include "NumCpp/Core/Internal/StaticAsserts.hpp"
 #include "NumCpp/Core/Shape.hpp"
 #include "NumCpp/NdArray.hpp"
 #include "NumCpp/Random/generator.hpp"
 
-#include <algorithm>
-#include <random>
-#include <string>
-
-namespace nc
+namespace nc::random
 {
-    namespace random
+    namespace detail
     {
-        //============================================================================
         // Method Description:
         /// Single random value sampled from the "student-T" distribution.
         ///
-        /// NumPy Reference: https://docs.scipy.org/doc/numpy/reference/generated/numpy.random.standard_t.html#numpy.random.standard_t
+        /// NumPy Reference:
+        /// https://docs.scipy.org/doc/numpy/reference/generated/numpy.random.standard_t.html#numpy.random.standard_t
         ///
+        /// @param generator: instance of a random number generator
         /// @param inDof independent random variables
         /// @return NdArray
         ///
-        template<typename dtype>
-        dtype studentT(dtype inDof)
+        template<typename dtype, typename GeneratorType = std::mt19937>
+        dtype studentT(GeneratorType& generator, dtype inDof)
         {
             STATIC_ASSERT_ARITHMETIC(dtype);
 
@@ -61,7 +62,7 @@ namespace nc
             }
 
             std::student_t_distribution<dtype> dist(inDof);
-            return dist(generator_);
+            return dist(generator);
         }
 
         //============================================================================
@@ -69,14 +70,16 @@ namespace nc
         /// Create an array of the given shape and populate it with
         /// random samples from the "student-T" distribution.
         ///
-        /// NumPy Reference: https://docs.scipy.org/doc/numpy/reference/generated/numpy.random.standard_t.html#numpy.random.standard_t
+        /// NumPy Reference:
+        /// https://docs.scipy.org/doc/numpy/reference/generated/numpy.random.standard_t.html#numpy.random.standard_t
         ///
+        /// @param generator: instance of a random number generator
         /// @param inShape
         /// @param inDof independent random variables
         /// @return NdArray
         ///
-        template<typename dtype>
-        NdArray<dtype> studentT(const Shape& inShape, dtype inDof)
+        template<typename dtype, typename GeneratorType = std::mt19937>
+        NdArray<dtype> studentT(GeneratorType& generator, const Shape& inShape, dtype inDof)
         {
             STATIC_ASSERT_ARITHMETIC(dtype);
 
@@ -89,13 +92,45 @@ namespace nc
 
             std::student_t_distribution<dtype> dist(inDof);
 
-            std::for_each(returnArray.begin(), returnArray.end(),
-                [&dist](dtype& value) -> void
-                { 
-                    value = dist(generator_);
-                });
+            std::for_each(returnArray.begin(),
+                          returnArray.end(),
+                          [&generator, &dist](dtype& value) -> void { value = dist(generator); });
 
             return returnArray;
         }
-    }  // namespace random
-} // namespace nc
+    } // namespace detail
+
+    //============================================================================
+    // Method Description:
+    /// Single random value sampled from the "student-T" distribution.
+    ///
+    /// NumPy Reference:
+    /// https://docs.scipy.org/doc/numpy/reference/generated/numpy.random.standard_t.html#numpy.random.standard_t
+    ///
+    /// @param inDof independent random variables
+    /// @return NdArray
+    ///
+    template<typename dtype>
+    dtype studentT(dtype inDof)
+    {
+        return detail::studentT(generator_, inDof);
+    }
+
+    //============================================================================
+    // Method Description:
+    /// Create an array of the given shape and populate it with
+    /// random samples from the "student-T" distribution.
+    ///
+    /// NumPy Reference:
+    /// https://docs.scipy.org/doc/numpy/reference/generated/numpy.random.standard_t.html#numpy.random.standard_t
+    ///
+    /// @param inShape
+    /// @param inDof independent random variables
+    /// @return NdArray
+    ///
+    template<typename dtype>
+    NdArray<dtype> studentT(const Shape& inShape, dtype inDof)
+    {
+        return detail::studentT(generator_, inShape, inDof);
+    }
+} // namespace nc::random

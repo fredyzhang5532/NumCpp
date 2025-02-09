@@ -3,7 +3,7 @@
 /// [GitHub Repository](https://github.com/dpilger26/NumCpp)
 ///
 /// License
-/// Copyright 2018-2022 David Pilger
+/// Copyright 2018-2023 David Pilger
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy of this
 /// software and associated documentation files(the "Software"), to deal in the Software
@@ -27,15 +27,16 @@
 ///
 #pragma once
 
+#include <algorithm>
+
 #include "NumCpp/Core/Internal/StaticAsserts.hpp"
+#include "NumCpp/Functions/arange.hpp"
 #include "NumCpp/NdArray.hpp"
 #include "NumCpp/Random/generator.hpp"
 
-#include <algorithm>
-
-namespace nc
+namespace nc::random
 {
-    namespace random
+    namespace detail
     {
         //============================================================================
         // Method Description:
@@ -43,16 +44,17 @@ namespace nc
         /// If x is an integer, randomly permute np.arange(x).
         /// If x is an array, make a copy and shuffle the elements randomly.
         ///
+        /// @param generator: instance of a random number generator
         /// @param inValue
         /// @return NdArray
         ///
-        template<typename dtype>
-        NdArray<dtype> permutation(dtype inValue) 
+        template<typename dtype, typename GeneratorType = std::mt19937>
+        NdArray<dtype> permutation(GeneratorType& generator, dtype inValue)
         {
             STATIC_ASSERT_ARITHMETIC(dtype);
 
             NdArray<dtype> returnArray = arange(inValue);
-            std::shuffle(returnArray.begin(), returnArray.end(), generator_);
+            std::shuffle(returnArray.begin(), returnArray.end(), generator);
             return returnArray;
         }
 
@@ -62,17 +64,48 @@ namespace nc
         /// If x is an integer, randomly permute np.arange(x).
         /// If x is an array, make a copy and shuffle the elements randomly.
         ///
+        /// @param generator: instance of a random number generator
         /// @param inArray
         /// @return NdArray
         ///
-        template<typename dtype>
-        NdArray<dtype> permutation(const NdArray<dtype>& inArray) 
+        template<typename dtype, typename GeneratorType = std::mt19937>
+        NdArray<dtype> permutation(GeneratorType& generator, const NdArray<dtype>& inArray)
         {
             STATIC_ASSERT_ARITHMETIC(dtype);
 
             NdArray<dtype> returnArray(inArray);
-            std::shuffle(returnArray.begin(), returnArray.end(), generator_);
+            std::shuffle(returnArray.begin(), returnArray.end(), generator);
             return returnArray;
         }
-    }  // namespace random
-} // namespace nc
+    } // namespace detail
+
+    //============================================================================
+    // Method Description:
+    /// Randomly permute a sequence, or return a permuted range.
+    /// If x is an integer, randomly permute np.arange(x).
+    /// If x is an array, make a copy and shuffle the elements randomly.
+    ///
+    /// @param inValue
+    /// @return NdArray
+    ///
+    template<typename dtype>
+    NdArray<dtype> permutation(dtype inValue)
+    {
+        return detail::permutation(generator_, inValue);
+    }
+
+    //============================================================================
+    // Method Description:
+    /// Randomly permute a sequence, or return a permuted range.
+    /// If x is an integer, randomly permute np.arange(x).
+    /// If x is an array, make a copy and shuffle the elements randomly.
+    ///
+    /// @param inArray
+    /// @return NdArray
+    ///
+    template<typename dtype>
+    NdArray<dtype> permutation(const NdArray<dtype>& inArray)
+    {
+        return detail::permutation(generator_, inArray);
+    }
+} // namespace nc::random

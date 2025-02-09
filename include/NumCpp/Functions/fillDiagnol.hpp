@@ -3,7 +3,7 @@
 /// [GitHub Repository](https://github.com/dpilger26/NumCpp)
 ///
 /// License
-/// Copyright 2018-2022 David Pilger
+/// Copyright 2018-2023 David Pilger
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy of this
 /// software and associated documentation files(the "Software"), to deal in the Software
@@ -43,7 +43,7 @@ namespace nc
     /// @param inValue
     ///
     template<typename dtype>
-    void fillDiagonal(NdArray<dtype>& inArray, dtype inValue) noexcept 
+    void fillDiagonal(NdArray<dtype>& inArray, dtype inValue) noexcept
     {
         const auto inShape = inArray.shape();
         for (uint32 row = 0; row < inShape.rows; ++row)

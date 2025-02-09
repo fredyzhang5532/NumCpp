@@ -3,7 +3,7 @@
 /// [GitHub Repository](https://github.com/dpilger26/NumCpp)
 ///
 /// License
-/// Copyright 2018-2022 David Pilger
+/// Copyright 2018-2023 David Pilger
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy of this
 /// software and associated documentation files(the "Software"), to deal in the Software
@@ -27,35 +27,29 @@
 ///
 #pragma once
 
-#include "NumCpp/NdArray.hpp"
+#include "NumCpp/Core/Internal/StaticAsserts.hpp"
 #include "NumCpp/Core/Slice.hpp"
 #include "NumCpp/Core/Types.hpp"
-#include "NumCpp/Core/Internal/StaticAsserts.hpp"
+#include "NumCpp/NdArray.hpp"
 
-namespace nc
+namespace nc::filter::boundary
 {
-    namespace filter
+    //============================================================================
+    // Method Description:
+    /// trims the boundary off to make the image back to the original size
+    ///
+    /// @param inImageWithBoundary
+    /// @param inSize
+    /// @return NdArray
+    ///
+    template<typename dtype>
+    NdArray<dtype> trimBoundary1d(const NdArray<dtype>& inImageWithBoundary, uint32 inSize)
     {
-        namespace boundary
-        {
-            //============================================================================
-            // Method Description:
-            /// trims the boundary off to make the image back to the original size
-            ///
-            /// @param inImageWithBoundary
-            /// @param inSize
-            /// @return NdArray
-            ///
-            template<typename dtype>
-            NdArray<dtype> trimBoundary1d(const NdArray<dtype>& inImageWithBoundary, uint32 inSize)
-            {
-                STATIC_ASSERT_ARITHMETIC(dtype);
+        STATIC_ASSERT_ARITHMETIC(dtype);
 
-                uint32 boundarySize = inSize / 2; // integer division
-                uint32 imageSize = inImageWithBoundary.size() - boundarySize * 2;
+        uint32 boundarySize = inSize / 2; // integer division
+        uint32 imageSize    = inImageWithBoundary.size() - boundarySize * 2;
 
-                return inImageWithBoundary[Slice(boundarySize, boundarySize + imageSize)];
-            }
-        }
+        return inImageWithBoundary[Slice(boundarySize, boundarySize + imageSize)];
     }
-}
+} // namespace nc::filter::boundary

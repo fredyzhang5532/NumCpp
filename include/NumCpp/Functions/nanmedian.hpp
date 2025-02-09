@@ -3,7 +3,7 @@
 /// [GitHub Repository](https://github.com/dpilger26/NumCpp)
 ///
 /// License
-/// Copyright 2018-2022 David Pilger
+/// Copyright 2018-2023 David Pilger
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy of this
 /// software and associated documentation files(the "Software"), to deal in the Software
@@ -27,6 +27,9 @@
 ///
 #pragma once
 
+#include <cmath>
+#include <vector>
+
 #include "NumCpp/Core/DtypeInfo.hpp"
 #include "NumCpp/Core/Internal/StaticAsserts.hpp"
 #include "NumCpp/Core/Internal/StlAlgorithms.hpp"
@@ -34,9 +37,6 @@
 #include "NumCpp/Core/Types.hpp"
 #include "NumCpp/Functions/max.hpp"
 #include "NumCpp/NdArray.hpp"
-
-#include <cmath>
-#include <vector>
 
 namespace nc
 {
@@ -52,7 +52,7 @@ namespace nc
     /// @return NdArray
     ///
     template<typename dtype>
-    NdArray<dtype> nanmedian(const NdArray<dtype>& inArray, Axis inAxis = Axis::NONE) 
+    NdArray<dtype> nanmedian(const NdArray<dtype>& inArray, Axis inAxis = Axis::NONE)
     {
         STATIC_ASSERT_FLOAT(dtype);
 
@@ -77,7 +77,7 @@ namespace nc
             }
             case Axis::COL:
             {
-                const Shape inShape = inArray.shape();
+                const Shape    inShape = inArray.shape();
                 NdArray<dtype> returnArray(1, inShape.rows);
                 for (uint32 row = 0; row < inShape.rows; ++row)
                 {
@@ -99,26 +99,7 @@ namespace nc
             }
             case Axis::ROW:
             {
-                NdArray<dtype> transposedArray = inArray.transpose();
-                const Shape inShape = transposedArray.shape();
-                NdArray<dtype> returnArray(1, inShape.rows);
-                for (uint32 row = 0; row < inShape.rows; ++row)
-                {
-                    std::vector<dtype> values;
-                    for (uint32 col = 0; col < inShape.cols; ++col)
-                    {
-                        if (!std::isnan(transposedArray(row, col)))
-                        {
-                            values.push_back(transposedArray(row, col));
-                        }
-                    }
-
-                    const uint32 middle = static_cast<uint32>(values.size()) / 2;
-                    stl_algorithms::nth_element(values.begin(), values.begin() + middle, values.end());
-                    returnArray(0, row) = values[middle];
-                }
-
-                return returnArray;
+                return nanmedian(inArray.transpose(), Axis::COL);
             }
             default:
             {
@@ -127,4 +108,4 @@ namespace nc
             }
         }
     }
-}  // namespace nc
+} // namespace nc

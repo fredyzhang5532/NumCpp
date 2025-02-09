@@ -3,7 +3,7 @@
 /// [GitHub Repository](https://github.com/dpilger26/NumCpp)
 ///
 /// License
-/// Copyright 2018-2022 David Pilger
+/// Copyright 2018-2023 David Pilger
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy of this
 /// software and associated documentation files(the "Software"), to deal in the Software
@@ -27,10 +27,10 @@
 ///
 #pragma once
 
+#include <iostream>
+
 #include "NumCpp/Core/Internal/StaticAsserts.hpp"
 #include "NumCpp/NdArray.hpp"
-
-#include <iostream>
 
 namespace nc
 {
@@ -39,13 +39,12 @@ namespace nc
     /// Prints the array to the console.
     ///
     /// @param inArray
-    /// @return None
     ///
     template<typename dtype>
-    void print(const NdArray<dtype>& inArray) 
+    void print(const NdArray<dtype>& inArray)
     {
         STATIC_ASSERT_ARITHMETIC_OR_COMPLEX(dtype);
 
         std::cout << inArray;
     }
-}  // namespace nc
+} // namespace nc

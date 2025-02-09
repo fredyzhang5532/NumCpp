@@ -3,7 +3,7 @@
 /// [GitHub Repository](https://github.com/dpilger26/NumCpp)
 ///
 /// License
-/// Copyright 2018-2022 David Pilger
+/// Copyright 2018-2023 David Pilger
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy of this
 /// software and associated documentation files(the "Software"), to deal in the Software
@@ -27,10 +27,11 @@
 ///
 #pragma once
 
-#include "NumCpp/NdArray.hpp"
+#include "NumCpp/Core/Enums.hpp"
 #include "NumCpp/Core/Internal/StaticAsserts.hpp"
 #include "NumCpp/Functions/cov.hpp"
 #include "NumCpp/Linalg/inv.hpp"
+#include "NumCpp/NdArray.hpp"
 
 namespace nc
 {
@@ -39,17 +40,17 @@ namespace nc
     /// Estimate an inverse covariance matrix, aka the concentration matrix
     ///
     /// @param x: A 1-D or 2-D array containing multiple variables and observations.
-    /// Each row of x represents a variable, and each column a single observation 
+    /// Each row of x represents a variable, and each column a single observation
     /// of all those variables.
-    /// @param bias: Default normalization (false) is by (N - 1), where N is the number of observations 
+    /// @param bias: Default normalization (false) is by (N - 1), where N is the number of observations
     /// given (unbiased estimate). If bias is True, then normalization is by N.
     /// @return NdArray
     ///
     template<typename dtype>
-    NdArray<double> cov_inv(const NdArray<dtype>& x, bool bias = false)
+    NdArray<double> cov_inv(const NdArray<dtype>& x, Bias bias = Bias::NO)
     {
         STATIC_ASSERT_ARITHMETIC(dtype);
 
         return linalg::inv(cov(x, bias));
     }
-}  // namespace nc
+} // namespace nc

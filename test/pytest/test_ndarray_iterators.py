@@ -1,13 +1,17 @@
 import numpy as np
-import os
-import sys
-sys.path.append(os.path.abspath(r'../lib'))
+
 import NumCppPy as NumCpp  # noqa E402
 
 
 ####################################################################################
 def test_iterator():
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArray(shape)
     data = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -17,7 +21,13 @@ def test_iterator():
         assert value == iterator.operatorDereference()
         iterator.operatorPlusPlusPre()
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -29,7 +39,13 @@ def test_iterator():
         assert value == iterator.operatorDereference()
         iterator.operatorPlusPlusPre()
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArray(shape)
     data = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -39,7 +55,13 @@ def test_iterator():
         assert value == iterator.operatorDereference()
         iterator.operatorPlusPlusPost()
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -51,7 +73,13 @@ def test_iterator():
         assert value == iterator.operatorDereference()
         iterator.operatorPlusPlusPost()
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArray(shape)
     data = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -61,7 +89,13 @@ def test_iterator():
         assert value == iterator.operatorDereference()
         iterator += 1
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -73,7 +107,13 @@ def test_iterator():
         assert value == iterator.operatorDereference()
         iterator += 1
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArray(shape)
     data = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -83,7 +123,13 @@ def test_iterator():
         assert value == iterator.operatorDereference()
         iterator = iterator + 1
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -95,7 +141,13 @@ def test_iterator():
         assert value == iterator.operatorDereference()
         iterator = iterator + 1
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArray(shape)
     data = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -106,7 +158,13 @@ def test_iterator():
         assert value == iterator.operatorDereference()
         iterator.operatorMinusMinusPre()
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -119,7 +177,13 @@ def test_iterator():
         assert value == iterator.operatorDereference()
         iterator.operatorMinusMinusPre()
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArray(shape)
     data = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -130,7 +194,13 @@ def test_iterator():
         assert value == iterator.operatorDereference()
         iterator.operatorMinusMinusPost()
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -143,7 +213,13 @@ def test_iterator():
         assert value == iterator.operatorDereference()
         iterator.operatorMinusMinusPost()
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArray(shape)
     data = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -154,7 +230,13 @@ def test_iterator():
         assert value == iterator.operatorDereference()
         iterator -= 1
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -167,7 +249,13 @@ def test_iterator():
         assert value == iterator.operatorDereference()
         iterator -= 1
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArray(shape)
     data = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -178,7 +266,13 @@ def test_iterator():
         assert value == iterator.operatorDereference()
         iterator = iterator - 1
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -191,7 +285,13 @@ def test_iterator():
         assert value == iterator.operatorDereference()
         iterator = iterator - 1
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArray(shape)
     data = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -201,7 +301,13 @@ def test_iterator():
     assert iterator2 - iterator1 == data.size
     assert iterator1 - iterator2 == -data.size
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -213,7 +319,13 @@ def test_iterator():
     assert iterator2 - iterator1 == data.size
     assert iterator1 - iterator2 == -data.size
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArray(shape)
     data = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -234,7 +346,13 @@ def test_iterator():
     assert iterator1 > iterator2
     assert iterator1 >= iterator2
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -257,7 +375,13 @@ def test_iterator():
     assert iterator1 > iterator2
     assert iterator1 >= iterator2
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArray(shape)
     data = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -266,7 +390,13 @@ def test_iterator():
     idx = np.random.randint(0, shape.size())
     assert iterator[idx] == data.flatten()[idx]
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -280,7 +410,13 @@ def test_iterator():
 
 ####################################################################################
 def test_const_iterator():
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArray(shape)
     data = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -290,7 +426,13 @@ def test_const_iterator():
         assert value == iterator.operatorDereference()
         iterator.operatorPlusPlusPre()
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -302,7 +444,13 @@ def test_const_iterator():
         assert value == iterator.operatorDereference()
         iterator.operatorPlusPlusPre()
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArray(shape)
     data = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -312,7 +460,13 @@ def test_const_iterator():
         assert value == iterator.operatorDereference()
         iterator.operatorPlusPlusPost()
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -324,7 +478,13 @@ def test_const_iterator():
         assert value == iterator.operatorDereference()
         iterator.operatorPlusPlusPost()
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArray(shape)
     data = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -334,7 +494,13 @@ def test_const_iterator():
         assert value == iterator.operatorDereference()
         iterator += 1
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -346,7 +512,13 @@ def test_const_iterator():
         assert value == iterator.operatorDereference()
         iterator += 1
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArray(shape)
     data = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -356,7 +528,13 @@ def test_const_iterator():
         assert value == iterator.operatorDereference()
         iterator = iterator + 1
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -368,7 +546,13 @@ def test_const_iterator():
         assert value == iterator.operatorDereference()
         iterator = iterator + 1
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArray(shape)
     data = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -379,7 +563,13 @@ def test_const_iterator():
         assert value == iterator.operatorDereference()
         iterator.operatorMinusMinusPre()
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -392,7 +582,13 @@ def test_const_iterator():
         assert value == iterator.operatorDereference()
         iterator.operatorMinusMinusPre()
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArray(shape)
     data = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -403,7 +599,13 @@ def test_const_iterator():
         assert value == iterator.operatorDereference()
         iterator.operatorMinusMinusPost()
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -416,7 +618,13 @@ def test_const_iterator():
         assert value == iterator.operatorDereference()
         iterator.operatorMinusMinusPost()
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArray(shape)
     data = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -427,7 +635,13 @@ def test_const_iterator():
         assert value == iterator.operatorDereference()
         iterator -= 1
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -440,7 +654,13 @@ def test_const_iterator():
         assert value == iterator.operatorDereference()
         iterator -= 1
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArray(shape)
     data = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -451,7 +671,13 @@ def test_const_iterator():
         assert value == iterator.operatorDereference()
         iterator = iterator - 1
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -464,7 +690,13 @@ def test_const_iterator():
         assert value == iterator.operatorDereference()
         iterator = iterator - 1
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArray(shape)
     data = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -474,7 +706,13 @@ def test_const_iterator():
     assert iterator2 - iterator1 == data.size
     assert iterator1 - iterator2 == -data.size
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -486,7 +724,13 @@ def test_const_iterator():
     assert iterator2 - iterator1 == data.size
     assert iterator1 - iterator2 == -data.size
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArray(shape)
     data = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -507,7 +751,13 @@ def test_const_iterator():
     assert iterator1 > iterator2
     assert iterator1 >= iterator2
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -530,7 +780,13 @@ def test_const_iterator():
     assert iterator1 > iterator2
     assert iterator1 >= iterator2
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArray(shape)
     data = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -539,7 +795,13 @@ def test_const_iterator():
     idx = np.random.randint(0, shape.size())
     assert iterator[idx] == data.flatten()[idx]
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -553,7 +815,13 @@ def test_const_iterator():
 
 ####################################################################################
 def test_reverse_iterator():
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArray(shape)
     data = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -563,7 +831,13 @@ def test_reverse_iterator():
         assert value == iterator.operatorDereference()
         iterator.operatorPlusPlusPre()
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -575,7 +849,13 @@ def test_reverse_iterator():
         assert value == iterator.operatorDereference()
         iterator.operatorPlusPlusPre()
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArray(shape)
     data = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -585,7 +865,13 @@ def test_reverse_iterator():
         assert value == iterator.operatorDereference()
         iterator.operatorPlusPlusPost()
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -597,7 +883,13 @@ def test_reverse_iterator():
         assert value == iterator.operatorDereference()
         iterator.operatorPlusPlusPost()
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArray(shape)
     data = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -607,7 +899,13 @@ def test_reverse_iterator():
         assert value == iterator.operatorDereference()
         iterator += 1
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -619,7 +917,13 @@ def test_reverse_iterator():
         assert value == iterator.operatorDereference()
         iterator += 1
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArray(shape)
     data = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -629,7 +933,13 @@ def test_reverse_iterator():
         assert value == iterator.operatorDereference()
         iterator = iterator + 1
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -641,7 +951,13 @@ def test_reverse_iterator():
         assert value == iterator.operatorDereference()
         iterator = iterator + 1
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArray(shape)
     data = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -652,7 +968,13 @@ def test_reverse_iterator():
         assert value == iterator.operatorDereference()
         iterator.operatorMinusMinusPre()
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -665,7 +987,13 @@ def test_reverse_iterator():
         assert value == iterator.operatorDereference()
         iterator.operatorMinusMinusPre()
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArray(shape)
     data = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -676,7 +1004,13 @@ def test_reverse_iterator():
         assert value == iterator.operatorDereference()
         iterator.operatorMinusMinusPost()
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -689,7 +1023,13 @@ def test_reverse_iterator():
         assert value == iterator.operatorDereference()
         iterator.operatorMinusMinusPost()
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArray(shape)
     data = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -700,7 +1040,13 @@ def test_reverse_iterator():
         assert value == iterator.operatorDereference()
         iterator -= 1
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -713,7 +1059,13 @@ def test_reverse_iterator():
         assert value == iterator.operatorDereference()
         iterator -= 1
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArray(shape)
     data = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -724,7 +1076,13 @@ def test_reverse_iterator():
         assert value == iterator.operatorDereference()
         iterator = iterator - 1
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -737,7 +1095,13 @@ def test_reverse_iterator():
         assert value == iterator.operatorDereference()
         iterator = iterator - 1
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArray(shape)
     data = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -747,7 +1111,13 @@ def test_reverse_iterator():
     assert iterator2 - iterator1 == data.size
     assert iterator1 - iterator2 == -data.size
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -759,7 +1129,13 @@ def test_reverse_iterator():
     assert iterator2 - iterator1 == data.size
     assert iterator1 - iterator2 == -data.size
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArray(shape)
     data = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -780,7 +1156,13 @@ def test_reverse_iterator():
     assert iterator1 > iterator2
     assert iterator1 >= iterator2
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -803,7 +1185,13 @@ def test_reverse_iterator():
     assert iterator1 > iterator2
     assert iterator1 >= iterator2
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArray(shape)
     data = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -812,7 +1200,13 @@ def test_reverse_iterator():
     idx = np.random.randint(0, shape.size())
     assert iterator[idx] == np.flip(data.flatten())[idx]
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -826,7 +1220,13 @@ def test_reverse_iterator():
 
 ####################################################################################
 def test_const_reverse_iterator():
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -838,7 +1238,13 @@ def test_const_reverse_iterator():
         assert value == iterator.operatorDereference()
         iterator.operatorPlusPlusPre()
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -850,7 +1256,13 @@ def test_const_reverse_iterator():
         assert value == iterator.operatorDereference()
         iterator.operatorPlusPlusPre()
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -862,7 +1274,13 @@ def test_const_reverse_iterator():
         assert value == iterator.operatorDereference()
         iterator.operatorPlusPlusPost()
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -874,7 +1292,13 @@ def test_const_reverse_iterator():
         assert value == iterator.operatorDereference()
         iterator.operatorPlusPlusPost()
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -886,7 +1310,13 @@ def test_const_reverse_iterator():
         assert value == iterator.operatorDereference()
         iterator += 1
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -898,7 +1328,13 @@ def test_const_reverse_iterator():
         assert value == iterator.operatorDereference()
         iterator += 1
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -910,7 +1346,13 @@ def test_const_reverse_iterator():
         assert value == iterator.operatorDereference()
         iterator = iterator + 1
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -922,7 +1364,13 @@ def test_const_reverse_iterator():
         assert value == iterator.operatorDereference()
         iterator = iterator + 1
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -935,7 +1383,13 @@ def test_const_reverse_iterator():
         assert value == iterator.operatorDereference()
         iterator.operatorMinusMinusPre()
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -948,7 +1402,13 @@ def test_const_reverse_iterator():
         assert value == iterator.operatorDereference()
         iterator.operatorMinusMinusPre()
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -961,7 +1421,13 @@ def test_const_reverse_iterator():
         assert value == iterator.operatorDereference()
         iterator.operatorMinusMinusPost()
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -974,7 +1440,13 @@ def test_const_reverse_iterator():
         assert value == iterator.operatorDereference()
         iterator.operatorMinusMinusPost()
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -987,7 +1459,13 @@ def test_const_reverse_iterator():
         assert value == iterator.operatorDereference()
         iterator -= 1
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -1000,7 +1478,13 @@ def test_const_reverse_iterator():
         assert value == iterator.operatorDereference()
         iterator -= 1
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArray(shape)
     data = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -1011,7 +1495,13 @@ def test_const_reverse_iterator():
         assert value == iterator.operatorDereference()
         iterator = iterator - 1
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -1024,7 +1514,13 @@ def test_const_reverse_iterator():
         assert value == iterator.operatorDereference()
         iterator = iterator - 1
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArray(shape)
     data = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -1034,7 +1530,13 @@ def test_const_reverse_iterator():
     assert iterator2 - iterator1 == data.size
     assert iterator1 - iterator2 == -data.size
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -1046,7 +1548,13 @@ def test_const_reverse_iterator():
     assert iterator2 - iterator1 == data.size
     assert iterator1 - iterator2 == -data.size
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArray(shape)
     data = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -1067,7 +1575,13 @@ def test_const_reverse_iterator():
     assert iterator1 > iterator2
     assert iterator1 >= iterator2
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -1090,7 +1604,13 @@ def test_const_reverse_iterator():
     assert iterator1 > iterator2
     assert iterator1 >= iterator2
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArray(shape)
     data = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -1099,7 +1619,13 @@ def test_const_reverse_iterator():
     idx = np.random.randint(0, shape.size())
     assert iterator[idx] == np.flip(data.flatten())[idx]
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -1113,7 +1639,13 @@ def test_const_reverse_iterator():
 
 ####################################################################################
 def test_column_iterator():
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArray(shape)
     data = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -1123,7 +1655,13 @@ def test_column_iterator():
         assert value == iterator.operatorDereference()
         iterator.operatorPlusPlusPre()
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -1135,7 +1673,13 @@ def test_column_iterator():
         assert value == iterator.operatorDereference()
         iterator.operatorPlusPlusPre()
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArray(shape)
     data = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -1145,7 +1689,13 @@ def test_column_iterator():
         assert value == iterator.operatorDereference()
         iterator.operatorPlusPlusPost()
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -1157,7 +1707,13 @@ def test_column_iterator():
         assert value == iterator.operatorDereference()
         iterator.operatorPlusPlusPost()
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArray(shape)
     data = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -1167,7 +1723,13 @@ def test_column_iterator():
         assert value == iterator.operatorDereference()
         iterator += 1
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -1179,7 +1741,13 @@ def test_column_iterator():
         assert value == iterator.operatorDereference()
         iterator += 1
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArray(shape)
     data = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -1189,7 +1757,13 @@ def test_column_iterator():
         assert value == iterator.operatorDereference()
         iterator = iterator + 1
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -1201,7 +1775,13 @@ def test_column_iterator():
         assert value == iterator.operatorDereference()
         iterator = iterator + 1
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArray(shape)
     data = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -1212,7 +1792,13 @@ def test_column_iterator():
         assert value == iterator.operatorDereference()
         iterator.operatorMinusMinusPre()
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -1225,7 +1811,13 @@ def test_column_iterator():
         assert value == iterator.operatorDereference()
         iterator.operatorMinusMinusPre()
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArray(shape)
     data = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -1236,7 +1828,13 @@ def test_column_iterator():
         assert value == iterator.operatorDereference()
         iterator.operatorMinusMinusPost()
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -1249,7 +1847,13 @@ def test_column_iterator():
         assert value == iterator.operatorDereference()
         iterator.operatorMinusMinusPost()
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArray(shape)
     data = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -1260,7 +1864,13 @@ def test_column_iterator():
         assert value == iterator.operatorDereference()
         iterator -= 1
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -1273,7 +1883,13 @@ def test_column_iterator():
         assert value == iterator.operatorDereference()
         iterator -= 1
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArray(shape)
     data = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -1284,7 +1900,13 @@ def test_column_iterator():
         assert value == iterator.operatorDereference()
         iterator = iterator - 1
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -1297,7 +1919,13 @@ def test_column_iterator():
         assert value == iterator.operatorDereference()
         iterator = iterator - 1
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArray(shape)
     data = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -1307,7 +1935,13 @@ def test_column_iterator():
     assert iterator2 - iterator1 == data.size
     assert iterator1 - iterator2 == -data.size
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -1319,7 +1953,13 @@ def test_column_iterator():
     assert iterator2 - iterator1 == data.size
     assert iterator1 - iterator2 == -data.size
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArray(shape)
     data = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -1340,7 +1980,13 @@ def test_column_iterator():
     assert iterator1 > iterator2
     assert iterator1 >= iterator2
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -1363,7 +2009,13 @@ def test_column_iterator():
     assert iterator1 > iterator2
     assert iterator1 >= iterator2
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArray(shape)
     data = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -1372,7 +2024,13 @@ def test_column_iterator():
     idx = np.random.randint(0, shape.size())
     assert iterator[idx] == data.transpose().flatten()[idx]
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -1386,7 +2044,13 @@ def test_column_iterator():
 
 ####################################################################################
 def test_const_column_iterator():
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArray(shape)
     data = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -1396,7 +2060,13 @@ def test_const_column_iterator():
         assert value == iterator.operatorDereference()
         iterator.operatorPlusPlusPre()
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -1408,7 +2078,13 @@ def test_const_column_iterator():
         assert value == iterator.operatorDereference()
         iterator.operatorPlusPlusPre()
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArray(shape)
     data = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -1418,7 +2094,13 @@ def test_const_column_iterator():
         assert value == iterator.operatorDereference()
         iterator.operatorPlusPlusPost()
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -1430,7 +2112,13 @@ def test_const_column_iterator():
         assert value == iterator.operatorDereference()
         iterator.operatorPlusPlusPost()
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArray(shape)
     data = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -1440,7 +2128,13 @@ def test_const_column_iterator():
         assert value == iterator.operatorDereference()
         iterator += 1
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -1452,7 +2146,13 @@ def test_const_column_iterator():
         assert value == iterator.operatorDereference()
         iterator += 1
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArray(shape)
     data = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -1462,7 +2162,13 @@ def test_const_column_iterator():
         assert value == iterator.operatorDereference()
         iterator = iterator + 1
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -1474,7 +2180,13 @@ def test_const_column_iterator():
         assert value == iterator.operatorDereference()
         iterator = iterator + 1
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArray(shape)
     data = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -1485,7 +2197,13 @@ def test_const_column_iterator():
         assert value == iterator.operatorDereference()
         iterator.operatorMinusMinusPre()
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -1498,7 +2216,13 @@ def test_const_column_iterator():
         assert value == iterator.operatorDereference()
         iterator.operatorMinusMinusPre()
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArray(shape)
     data = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -1509,7 +2233,13 @@ def test_const_column_iterator():
         assert value == iterator.operatorDereference()
         iterator.operatorMinusMinusPost()
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -1522,7 +2252,13 @@ def test_const_column_iterator():
         assert value == iterator.operatorDereference()
         iterator.operatorMinusMinusPost()
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArray(shape)
     data = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -1533,7 +2269,13 @@ def test_const_column_iterator():
         assert value == iterator.operatorDereference()
         iterator -= 1
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -1546,7 +2288,13 @@ def test_const_column_iterator():
         assert value == iterator.operatorDereference()
         iterator -= 1
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArray(shape)
     data = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -1557,7 +2305,13 @@ def test_const_column_iterator():
         assert value == iterator.operatorDereference()
         iterator = iterator - 1
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -1570,7 +2324,13 @@ def test_const_column_iterator():
         assert value == iterator.operatorDereference()
         iterator = iterator - 1
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArray(shape)
     data = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -1580,7 +2340,13 @@ def test_const_column_iterator():
     assert iterator2 - iterator1 == data.size
     assert iterator1 - iterator2 == -data.size
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -1592,7 +2358,13 @@ def test_const_column_iterator():
     assert iterator2 - iterator1 == data.size
     assert iterator1 - iterator2 == -data.size
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArray(shape)
     data = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -1613,7 +2385,13 @@ def test_const_column_iterator():
     assert iterator1 > iterator2
     assert iterator1 >= iterator2
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -1636,7 +2414,13 @@ def test_const_column_iterator():
     assert iterator1 > iterator2
     assert iterator1 >= iterator2
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArray(shape)
     data = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -1645,7 +2429,13 @@ def test_const_column_iterator():
     idx = np.random.randint(0, shape.size())
     assert iterator[idx] == data.transpose().flatten()[idx]
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -1659,7 +2449,13 @@ def test_const_column_iterator():
 
 ####################################################################################
 def test_reverse_column_iterator():
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArray(shape)
     data = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -1669,7 +2465,13 @@ def test_reverse_column_iterator():
         assert value == iterator.operatorDereference()
         iterator.operatorPlusPlusPre()
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -1681,7 +2483,13 @@ def test_reverse_column_iterator():
         assert value == iterator.operatorDereference()
         iterator.operatorPlusPlusPre()
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArray(shape)
     data = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -1691,7 +2499,13 @@ def test_reverse_column_iterator():
         assert value == iterator.operatorDereference()
         iterator.operatorPlusPlusPost()
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -1703,7 +2517,13 @@ def test_reverse_column_iterator():
         assert value == iterator.operatorDereference()
         iterator.operatorPlusPlusPost()
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArray(shape)
     data = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -1713,7 +2533,13 @@ def test_reverse_column_iterator():
         assert value == iterator.operatorDereference()
         iterator += 1
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -1725,7 +2551,13 @@ def test_reverse_column_iterator():
         assert value == iterator.operatorDereference()
         iterator += 1
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArray(shape)
     data = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -1735,7 +2567,13 @@ def test_reverse_column_iterator():
         assert value == iterator.operatorDereference()
         iterator = iterator + 1
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -1747,7 +2585,13 @@ def test_reverse_column_iterator():
         assert value == iterator.operatorDereference()
         iterator = iterator + 1
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArray(shape)
     data = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -1758,7 +2602,13 @@ def test_reverse_column_iterator():
         assert value == iterator.operatorDereference()
         iterator.operatorMinusMinusPre()
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -1771,7 +2621,13 @@ def test_reverse_column_iterator():
         assert value == iterator.operatorDereference()
         iterator.operatorMinusMinusPre()
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArray(shape)
     data = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -1782,7 +2638,13 @@ def test_reverse_column_iterator():
         assert value == iterator.operatorDereference()
         iterator.operatorMinusMinusPost()
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -1795,7 +2657,13 @@ def test_reverse_column_iterator():
         assert value == iterator.operatorDereference()
         iterator.operatorMinusMinusPost()
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArray(shape)
     data = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -1806,7 +2674,13 @@ def test_reverse_column_iterator():
         assert value == iterator.operatorDereference()
         iterator -= 1
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -1819,7 +2693,13 @@ def test_reverse_column_iterator():
         assert value == iterator.operatorDereference()
         iterator -= 1
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArray(shape)
     data = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -1830,7 +2710,13 @@ def test_reverse_column_iterator():
         assert value == iterator.operatorDereference()
         iterator = iterator - 1
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -1843,7 +2729,13 @@ def test_reverse_column_iterator():
         assert value == iterator.operatorDereference()
         iterator = iterator - 1
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArray(shape)
     data = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -1853,7 +2745,13 @@ def test_reverse_column_iterator():
     assert iterator2 - iterator1 == data.size
     assert iterator1 - iterator2 == -data.size
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -1865,7 +2763,13 @@ def test_reverse_column_iterator():
     assert iterator2 - iterator1 == data.size
     assert iterator1 - iterator2 == -data.size
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArray(shape)
     data = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -1886,7 +2790,13 @@ def test_reverse_column_iterator():
     assert iterator1 > iterator2
     assert iterator1 >= iterator2
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -1909,7 +2819,13 @@ def test_reverse_column_iterator():
     assert iterator1 > iterator2
     assert iterator1 >= iterator2
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArray(shape)
     data = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -1918,7 +2834,13 @@ def test_reverse_column_iterator():
     idx = np.random.randint(0, shape.size())
     assert iterator[idx] == np.flip(data.transpose().flatten())[idx]
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -1932,7 +2854,13 @@ def test_reverse_column_iterator():
 
 ####################################################################################
 def test_const_reverse_column_iterator():
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArray(shape)
     data = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -1942,7 +2870,13 @@ def test_const_reverse_column_iterator():
         assert value == iterator.operatorDereference()
         iterator.operatorPlusPlusPre()
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -1954,7 +2888,13 @@ def test_const_reverse_column_iterator():
         assert value == iterator.operatorDereference()
         iterator.operatorPlusPlusPre()
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArray(shape)
     data = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -1964,7 +2904,13 @@ def test_const_reverse_column_iterator():
         assert value == iterator.operatorDereference()
         iterator.operatorPlusPlusPost()
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -1976,7 +2922,13 @@ def test_const_reverse_column_iterator():
         assert value == iterator.operatorDereference()
         iterator.operatorPlusPlusPost()
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArray(shape)
     data = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -1986,7 +2938,13 @@ def test_const_reverse_column_iterator():
         assert value == iterator.operatorDereference()
         iterator += 1
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -1998,7 +2956,13 @@ def test_const_reverse_column_iterator():
         assert value == iterator.operatorDereference()
         iterator += 1
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArray(shape)
     data = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -2008,7 +2972,13 @@ def test_const_reverse_column_iterator():
         assert value == iterator.operatorDereference()
         iterator = iterator + 1
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -2020,7 +2990,13 @@ def test_const_reverse_column_iterator():
         assert value == iterator.operatorDereference()
         iterator = iterator + 1
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArray(shape)
     data = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -2031,7 +3007,13 @@ def test_const_reverse_column_iterator():
         assert value == iterator.operatorDereference()
         iterator.operatorMinusMinusPre()
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -2044,7 +3026,13 @@ def test_const_reverse_column_iterator():
         assert value == iterator.operatorDereference()
         iterator.operatorMinusMinusPre()
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArray(shape)
     data = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -2055,7 +3043,13 @@ def test_const_reverse_column_iterator():
         assert value == iterator.operatorDereference()
         iterator.operatorMinusMinusPost()
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -2068,7 +3062,13 @@ def test_const_reverse_column_iterator():
         assert value == iterator.operatorDereference()
         iterator.operatorMinusMinusPost()
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArray(shape)
     data = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -2079,7 +3079,13 @@ def test_const_reverse_column_iterator():
         assert value == iterator.operatorDereference()
         iterator -= 1
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -2092,7 +3098,13 @@ def test_const_reverse_column_iterator():
         assert value == iterator.operatorDereference()
         iterator -= 1
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArray(shape)
     data = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -2103,7 +3115,13 @@ def test_const_reverse_column_iterator():
         assert value == iterator.operatorDereference()
         iterator = iterator - 1
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -2116,7 +3134,13 @@ def test_const_reverse_column_iterator():
         assert value == iterator.operatorDereference()
         iterator = iterator - 1
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArray(shape)
     data = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -2126,7 +3150,13 @@ def test_const_reverse_column_iterator():
     assert iterator2 - iterator1 == data.size
     assert iterator1 - iterator2 == -data.size
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -2138,7 +3168,13 @@ def test_const_reverse_column_iterator():
     assert iterator2 - iterator1 == data.size
     assert iterator1 - iterator2 == -data.size
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArray(shape)
     data = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -2159,7 +3195,13 @@ def test_const_reverse_column_iterator():
     assert iterator1 > iterator2
     assert iterator1 >= iterator2
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -2182,7 +3224,13 @@ def test_const_reverse_column_iterator():
     assert iterator1 > iterator2
     assert iterator1 >= iterator2
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArray(shape)
     data = np.random.randint(1, 100, [shape.rows, shape.cols])
@@ -2191,7 +3239,13 @@ def test_const_reverse_column_iterator():
     idx = np.random.randint(0, shape.size())
     assert iterator[idx] == np.flip(data.transpose().flatten())[idx]
 
-    shapeInput = np.random.randint(1, 100, [2, ])
+    shapeInput = np.random.randint(
+        2,
+        100,
+        [
+            2,
+        ],
+    )
     shape = NumCpp.Shape(shapeInput[0].item(), shapeInput[1].item())
     cArray = NumCpp.NdArrayComplexDouble(shape)
     real = np.random.randint(1, 100, [shape.rows, shape.cols])

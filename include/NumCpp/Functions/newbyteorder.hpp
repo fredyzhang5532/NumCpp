@@ -3,7 +3,7 @@
 /// [GitHub Repository](https://github.com/dpilger26/NumCpp)
 ///
 /// License
-/// Copyright 2018-2022 David Pilger
+/// Copyright 2018-2023 David Pilger
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy of this
 /// software and associated documentation files(the "Software"), to deal in the Software
@@ -46,7 +46,7 @@ namespace nc
     /// @return inValue
     ///
     template<typename dtype>
-    dtype newbyteorder(dtype inValue, Endian inEndianess) 
+    dtype newbyteorder(dtype inValue, Endian inEndianess)
     {
         NdArray<dtype> valueArray = { inValue };
         return valueArray.newbyteorder(inEndianess).item();
@@ -66,7 +66,7 @@ namespace nc
     /// @return NdArray
     ///
     template<typename dtype>
-    NdArray<dtype> newbyteorder(const NdArray<dtype>& inArray, Endian inEndianess) 
+    NdArray<dtype> newbyteorder(const NdArray<dtype>& inArray, Endian inEndianess)
     {
         return inArray.newbyteorder(inEndianess);
     }

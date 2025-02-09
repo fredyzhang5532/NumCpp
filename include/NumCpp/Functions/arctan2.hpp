@@ -3,7 +3,7 @@
 /// [GitHub Repository](https://github.com/dpilger26/NumCpp)
 ///
 /// License
-/// Copyright 2018-2022 David Pilger
+/// Copyright 2018-2023 David Pilger
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy of this
 /// software and associated documentation files(the "Software"), to deal in the Software
@@ -27,13 +27,13 @@
 ///
 #pragma once
 
+#include <cmath>
+#include <string>
+
 #include "NumCpp/Core/Internal/Error.hpp"
 #include "NumCpp/Core/Internal/StaticAsserts.hpp"
 #include "NumCpp/Core/Internal/StlAlgorithms.hpp"
 #include "NumCpp/NdArray.hpp"
-
-#include <cmath>
-#include <string>
 
 namespace nc
 {
@@ -48,7 +48,7 @@ namespace nc
     /// @return value
     ///
     template<typename dtype>
-    auto arctan2(dtype inY, dtype inX) noexcept 
+    auto arctan2(dtype inY, dtype inX) noexcept
     {
         STATIC_ASSERT_ARITHMETIC(dtype);
 
@@ -73,13 +73,13 @@ namespace nc
             THROW_INVALID_ARGUMENT_ERROR("input array shapes are not consistant.");
         }
 
-        NdArray<decltype(arctan2(dtype{0}, dtype{0}))> returnArray(inY.shape());
-        stl_algorithms::transform(inY.cbegin(), inY.cend(), inX.cbegin(), returnArray.begin(),
-            [](dtype y, dtype x) noexcept -> auto
-            {
-                return arctan2(y, x); 
-            });
+        NdArray<decltype(arctan2(dtype{ 0 }, dtype{ 0 }))> returnArray(inY.shape());
+        stl_algorithms::transform(inY.cbegin(),
+                                  inY.cend(),
+                                  inX.cbegin(),
+                                  returnArray.begin(),
+                                  [](dtype y, dtype x) noexcept -> auto { return arctan2(y, x); });
 
         return returnArray;
     }
-}  // namespace nc
+} // namespace nc

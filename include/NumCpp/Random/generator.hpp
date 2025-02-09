@@ -3,7 +3,7 @@
 /// [GitHub Repository](https://github.com/dpilger26/NumCpp)
 ///
 /// License
-/// Copyright 2018-2022 David Pilger
+/// Copyright 2018-2023 David Pilger
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy of this
 /// software and associated documentation files(the "Software"), to deal in the Software
@@ -27,28 +27,24 @@
 ///
 #pragma once
 
-#include "NumCpp/Core/Types.hpp"
-
 #include <random>
 
-namespace nc
+namespace nc::random
 {
-    namespace random
-    {
-        /// generator function
-        static std::mt19937_64 generator_;
+    /// generator function
+    inline std::mt19937_64 generator_;
 
-        //============================================================================
-        // Method Description:
-        /// Seeds the random number generator
-        ///
-        /// NumPy Reference: https://docs.scipy.org/doc/numpy/reference/generated/numpy.random.seed.html#numpy.random.seed
-        ///
-        /// @param inSeed
-        ///
-        inline void seed(uint32 inSeed) 
-        {
-            generator_.seed(inSeed);
-        }
-    } // namespace random
-}  // namespace nc
+    //============================================================================
+    // Method Description:
+    /// Seeds the random number generator
+    ///
+    /// NumPy Reference:
+    /// https://docs.scipy.org/doc/numpy/reference/generated/numpy.random.seed.html#numpy.random.seed
+    ///
+    /// @param inSeed
+    ///
+    inline void seed(int inSeed)
+    {
+        generator_.seed(inSeed);
+    }
+} // namespace nc::random

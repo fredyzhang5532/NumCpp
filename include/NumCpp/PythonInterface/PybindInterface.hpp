@@ -3,7 +3,7 @@
 /// [GitHub Repository](https://github.com/dpilger26/NumCpp)
 ///
 /// License
-/// Copyright 2018-2022 David Pilger
+/// Copyright 2018-2023 David Pilger
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy of this
 /// software and associated documentation files(the "Software"), to deal in the Software
@@ -29,170 +29,174 @@
 
 #ifdef NUMCPP_INCLUDE_PYBIND_PYTHON_INTERFACE
 
-#include "NumCpp/Core/Internal/Error.hpp"
-#include "NumCpp/Core/Shape.hpp"
-#include "NumCpp/NdArray.hpp"
-
-#include "pybind11/pybind11.h"
 #include "pybind11/numpy.h"
+#include "pybind11/pybind11.h"
 
 #include <map>
 #include <utility>
 
-namespace nc
+#include "NumCpp/Core/Enums.hpp"
+#include "NumCpp/Core/Internal/Error.hpp"
+#include "NumCpp/Core/Shape.hpp"
+#include "NumCpp/NdArray.hpp"
+
+namespace nc::pybindInterface
 {
-    namespace pybindInterface
+    /// Enum for the pybind array return policy
+    enum class ReturnPolicy
     {
-        /// Enum for the pybind array return policy
-        enum class ReturnPolicy { COPY, REFERENCE, TAKE_OWNERSHIP };
+        COPY,
+        REFERENCE,
+        TAKE_OWNERSHIP
+    };
 
-        static const std::map<ReturnPolicy, std::string> returnPolicyStringMap = { {ReturnPolicy::COPY, "COPY"},
-        {ReturnPolicy::REFERENCE, "REFERENCE"},
-        {ReturnPolicy::TAKE_OWNERSHIP, "TAKE_OWNERSHIP"} };
+    static const std::map<ReturnPolicy, std::string> returnPolicyStringMap = { { ReturnPolicy::COPY, "COPY" },
+                                                                               { ReturnPolicy::REFERENCE, "REFERENCE" },
+                                                                               { ReturnPolicy::TAKE_OWNERSHIP,
+                                                                                 "TAKE_OWNERSHIP" } };
 
-        template<typename dtype>
-        using pbArray = pybind11::array_t<dtype, pybind11::array::c_style>;
-        using pbArrayGeneric = pybind11::array;
+    template<typename dtype>
+    using pbArray        = pybind11::array_t<dtype, pybind11::array::c_style>;
+    using pbArrayGeneric = pybind11::array;
 
-        //============================================================================
-        /// converts a numpy array to a numcpp NdArray using pybind bindings
-        /// Python will still own the underlying data.
-        ///
-        /// @param numpyArray
-        ///
-        /// @return NdArray<dtype>
-        ///
-        template<typename dtype>
-        NdArray<dtype> pybind2nc(pbArray<dtype>& numpyArray)
+    //============================================================================
+    /// converts a numpy array to a numcpp NdArray using pybind bindings
+    /// Python will still own the underlying data.
+    ///
+    /// @param numpyArray
+    ///
+    /// @return NdArray<dtype>
+    ///
+    template<typename dtype>
+    NdArray<dtype> pybind2nc(pbArray<dtype>& numpyArray)
+    {
+        const auto dataPtr = numpyArray.mutable_data();
+        switch (numpyArray.ndim())
         {
-            const auto dataPtr = numpyArray.mutable_data();
-            switch (numpyArray.ndim())
+            case 0:
             {
-                case 0:
-                {
-                    return NdArray<dtype>(dataPtr, 0, 0, false);
-                }
-                case 1:
-                {
-                    const uint32 size = static_cast<uint32>(numpyArray.size());
-                    return NdArray<dtype>(dataPtr, 1, size, false);
-                }
-                case 2:
-                {
-                    const uint32 numRows = static_cast<uint32>(numpyArray.shape(0));
-                    const uint32 numCols = static_cast<uint32>(numpyArray.shape(1));
-                    return NdArray<dtype>(dataPtr, numRows, numCols, false);
-                }
-                default:
-                {
-                    THROW_INVALID_ARGUMENT_ERROR("input array must be no more than 2 dimensional.");
-                    return {};
-                }
+                return NdArray<dtype>(dataPtr, 0, 0, PointerPolicy::COPY);
             }
-        }
-
-        //============================================================================
-        /// converts a numpy array to a numcpp NdArray using pybind bindings
-        /// Python will still own the underlying data.
-        ///
-        /// @param numpyArray
-        ///
-        /// @return NdArray<dtype>
-        ///
-        template<typename dtype>
-        NdArray<dtype> pybind2nc_copy(const pbArray<dtype>& numpyArray)
-        {
-            const auto dataPtr = numpyArray.data();
-            switch (numpyArray.ndim())
+            case 1:
             {
-                case 0:
-                {
-                    return NdArray<dtype>(dataPtr, 0, 0);
-                }
-                case 1:
-                {
-                    const uint32 size = static_cast<uint32>(numpyArray.size());
-                    return NdArray<dtype>(dataPtr, 1, size);
-                }
-                case 2:
-                {
-                    const uint32 numRows = static_cast<uint32>(numpyArray.shape(0));
-                    const uint32 numCols = static_cast<uint32>(numpyArray.shape(1));
-                    return NdArray<dtype>(dataPtr, numRows, numCols);
-                }
-                default:
-                {
-                    THROW_INVALID_ARGUMENT_ERROR("input array must be no more than 2 dimensional.");
-                    return {};
-                }
+                const auto size = static_cast<uint32>(numpyArray.size());
+                return NdArray<dtype>(dataPtr, 1, size, PointerPolicy::COPY);
             }
-        }
-
-        //============================================================================
-        /// converts a numcpp NdArray to numpy array using pybind bindings
-        ///
-        /// @param inArray: the input array
-        ///
-        /// @return pybind11::array_t
-        ///
-        template<typename dtype>
-        pbArrayGeneric nc2pybind(const NdArray<dtype>& inArray) 
-        {
-            const Shape inShape = inArray.shape();
-            const std::vector<pybind11::ssize_t> shape{ static_cast<pybind11::ssize_t>(inShape.rows), 
-                static_cast<pybind11::ssize_t>(inShape.cols) };
-            const std::vector<pybind11::ssize_t> strides{ static_cast<pybind11::ssize_t>(inShape.cols * sizeof(dtype)), 
-                static_cast<pybind11::ssize_t>(sizeof(dtype)) };
-            return pbArrayGeneric(shape, strides, inArray.data());
-        }
-
-        //============================================================================
-        /// converts a numcpp NdArray to numpy array using pybind bindings
-        ///
-        /// @param inArray: the input array
-        /// @param returnPolicy: the return policy
-        ///
-        /// @return pybind11::array_t
-        ///
-        template<typename dtype>
-        pbArrayGeneric nc2pybind(NdArray<dtype>& inArray, ReturnPolicy returnPolicy) 
-        {
-            const Shape inShape = inArray.shape();
-            const std::vector<pybind11::ssize_t> shape{ static_cast<pybind11::ssize_t>(inShape.rows), 
-                static_cast<pybind11::ssize_t>(inShape.cols) };
-            const std::vector<pybind11::ssize_t> strides{ static_cast<pybind11::ssize_t>(inShape.cols * sizeof(dtype)),
-                static_cast<pybind11::ssize_t>(sizeof(dtype)) };
-
-            switch (returnPolicy)
+            case 2:
             {
-                case ReturnPolicy::COPY:
-                {
-                    return nc2pybind(inArray);
-                }
-                case ReturnPolicy::REFERENCE:
-                {
-                    typename pybind11::capsule reference(inArray.data(), [](void* /*ptr*/) {});
-                    return pbArrayGeneric(shape, strides, inArray.data(), reference);
-                }
-                case ReturnPolicy::TAKE_OWNERSHIP:
-                {
-                    typename pybind11::capsule garbageCollect(inArray.dataRelease(),
-                        [](void* ptr)
-                        {
-                            dtype* dataPtr = reinterpret_cast<dtype*>(ptr);
-                            delete[] dataPtr;
-                        }
-                    );
-                    return pbArrayGeneric(shape, strides, inArray.data(), garbageCollect);
-                }
-                default:
-                {
-                    std::stringstream sstream;
-                    sstream << "ReturnPolicy " << returnPolicyStringMap.at(returnPolicy) << " has not been implemented yet" << std::endl;
-                    THROW_INVALID_ARGUMENT_ERROR(sstream.str());
-                }
+                const auto numRows = static_cast<uint32>(numpyArray.shape(0));
+                const auto numCols = static_cast<uint32>(numpyArray.shape(1));
+                return NdArray<dtype>(dataPtr, numRows, numCols, PointerPolicy::COPY);
+            }
+            default:
+            {
+                THROW_INVALID_ARGUMENT_ERROR("input array must be no more than 2 dimensional.");
+                return {};
             }
         }
     }
-}
+
+    //============================================================================
+    /// converts a numpy array to a numcpp NdArray using pybind bindings
+    /// Python will still own the underlying data.
+    ///
+    /// @param numpyArray
+    ///
+    /// @return NdArray<dtype>
+    ///
+    template<typename dtype>
+    NdArray<dtype> pybind2nc_copy(const pbArray<dtype>& numpyArray)
+    {
+        const auto dataPtr = numpyArray.data();
+        switch (numpyArray.ndim())
+        {
+            case 0:
+            {
+                return NdArray<dtype>(dataPtr, 0, 0);
+            }
+            case 1:
+            {
+                const auto size = static_cast<uint32>(numpyArray.size());
+                return NdArray<dtype>(dataPtr, 1, size);
+            }
+            case 2:
+            {
+                const auto numRows = static_cast<uint32>(numpyArray.shape(0));
+                const auto numCols = static_cast<uint32>(numpyArray.shape(1));
+                return NdArray<dtype>(dataPtr, numRows, numCols);
+            }
+            default:
+            {
+                THROW_INVALID_ARGUMENT_ERROR("input array must be no more than 2 dimensional.");
+                return {};
+            }
+        }
+    }
+
+    //============================================================================
+    /// converts a numcpp NdArray to numpy array using pybind bindings
+    ///
+    /// @param inArray: the input array
+    ///
+    /// @return pybind11::array_t
+    ///
+    template<typename dtype>
+    pbArrayGeneric nc2pybind(const NdArray<dtype>& inArray)
+    {
+        const Shape                          inShape = inArray.shape();
+        const std::vector<pybind11::ssize_t> shape{ static_cast<pybind11::ssize_t>(inShape.rows),
+                                                    static_cast<pybind11::ssize_t>(inShape.cols) };
+        const std::vector<pybind11::ssize_t> strides{ static_cast<pybind11::ssize_t>(inShape.cols * sizeof(dtype)),
+                                                      static_cast<pybind11::ssize_t>(sizeof(dtype)) };
+        return pbArrayGeneric(shape, strides, inArray.data());
+    }
+
+    //============================================================================
+    /// converts a numcpp NdArray to numpy array using pybind bindings
+    ///
+    /// @param inArray: the input array
+    /// @param returnPolicy: the return policy
+    ///
+    /// @return pybind11::array_t
+    ///
+    template<typename dtype>
+    pbArrayGeneric nc2pybind(NdArray<dtype>& inArray, ReturnPolicy returnPolicy)
+    {
+        const Shape                          inShape = inArray.shape();
+        const std::vector<pybind11::ssize_t> shape{ static_cast<pybind11::ssize_t>(inShape.rows),
+                                                    static_cast<pybind11::ssize_t>(inShape.cols) };
+        const std::vector<pybind11::ssize_t> strides{ static_cast<pybind11::ssize_t>(inShape.cols * sizeof(dtype)),
+                                                      static_cast<pybind11::ssize_t>(sizeof(dtype)) };
+
+        switch (returnPolicy)
+        {
+            case ReturnPolicy::COPY:
+            {
+                return nc2pybind(inArray);
+            }
+            case ReturnPolicy::REFERENCE:
+            {
+                typename pybind11::capsule reference(inArray.data(), [](void* /*ptr*/) {});
+                return pbArrayGeneric(shape, strides, inArray.data(), reference);
+            }
+            case ReturnPolicy::TAKE_OWNERSHIP:
+            {
+                typename pybind11::capsule garbageCollect(inArray.dataRelease(),
+                                                          [](void* ptr)
+                                                          {
+                                                              auto* dataPtr = reinterpret_cast<dtype*>(ptr);
+                                                              delete[] dataPtr;
+                                                          });
+                return pbArrayGeneric(shape, strides, inArray.data(), garbageCollect);
+            }
+            default:
+            {
+                std::stringstream sstream;
+                sstream << "ReturnPolicy " << returnPolicyStringMap.at(returnPolicy) << " has not been implemented yet"
+                        << std::endl;
+                THROW_INVALID_ARGUMENT_ERROR(sstream.str());
+            }
+        }
+    }
+} // namespace nc::pybindInterface
 #endif

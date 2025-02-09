@@ -3,7 +3,7 @@
 /// [GitHub Repository](https://github.com/dpilger26/NumCpp)
 ///
 /// License
-/// Copyright 2018-2022 David Pilger
+/// Copyright 2018-2023 David Pilger
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy of this
 /// software and associated documentation files(the "Software"), to deal in the Software
@@ -27,16 +27,16 @@
 ///
 #pragma once
 
-#include "NumCpp/Core/Internal/Error.hpp"
-#include "NumCpp/NdArray.hpp"
-#include "NumCpp/Utils/essentiallyEqual.hpp"
-#include "NumCpp/Utils/interp.hpp"
-
 #include <cmath>
 #include <initializer_list>
 #include <iostream>
 #include <sstream>
 #include <string>
+
+#include "NumCpp/Core/Internal/Error.hpp"
+#include "NumCpp/NdArray.hpp"
+#include "NumCpp/Utils/essentiallyEqual.hpp"
+#include "NumCpp/Utils/interp.hpp"
 
 //====================================================================================
 
@@ -49,8 +49,8 @@ namespace nc
     {
     public:
         //====================================Attributes==============================
-        double x{ 0.0 };
-        double y{ 0.0 };
+        double x{ 0. };
+        double y{ 0. };
 
         //============================================================================
         // Method Description:
@@ -68,7 +68,8 @@ namespace nc
         constexpr Vec2(double inX, double inY) noexcept :
             x(inX),
             y(inY)
-        {}
+        {
+        }
 
         //============================================================================
         // Method Description:
@@ -111,14 +112,14 @@ namespace nc
         /// @param otherVec
         /// @return the angle in radians
         ///
-        double angle(const Vec2& otherVec) const noexcept 
+        [[nodiscard]] double angle(const Vec2& otherVec) const noexcept
         {
             double dotProduct = dot(otherVec);
             dotProduct /= norm();
             dotProduct /= otherVec.norm();
 
             // clamp the value to the acos range just to be safe
-            dotProduct = std::max(std::min(dotProduct, 1.0), -1.0);
+            dotProduct = std::max(std::min(dotProduct, 1.), -1.);
 
             return std::acos(dotProduct);
         }
@@ -131,14 +132,14 @@ namespace nc
         /// @param maxLength
         /// @return Vec2
         ///
-        Vec2 clampMagnitude(double maxLength) const noexcept 
+        [[nodiscard]] Vec2 clampMagnitude(double maxLength) const noexcept
         {
             const double magnitude = norm();
             if (magnitude <= maxLength)
             {
                 return *this;
             }
-            
+
             Vec2 returnVec = Vec2(*this).normalize();
             returnVec *= maxLength;
             return returnVec;
@@ -151,7 +152,7 @@ namespace nc
         /// @param otherVec
         /// @return the distance (equivalent to (a - b).norm()
         ///
-        double distance(const Vec2& otherVec) const noexcept 
+        [[nodiscard]] double distance(const Vec2& otherVec) const noexcept
         {
             return (Vec2(*this) -= otherVec).norm();
         }
@@ -163,7 +164,7 @@ namespace nc
         /// @param otherVec
         /// @return the dot product
         ///
-        double dot(const Vec2& otherVec) const noexcept 
+        [[nodiscard]] double dot(const Vec2& otherVec) const noexcept
         {
             return x * otherVec.x + y * otherVec.y;
         }
@@ -176,7 +177,7 @@ namespace nc
         ///
         static constexpr Vec2 down() noexcept
         {
-            return Vec2(0.0, -1.0);
+            return Vec2(0., -1.); // NOLINT(modernize-return-braced-init-list)
         }
 
         //============================================================================
@@ -187,7 +188,7 @@ namespace nc
         ///
         static constexpr Vec2 left() noexcept
         {
-            return Vec2(-1.0, 0.0);
+            return Vec2(-1., 0.); // NOLINT(modernize-return-braced-init-list)
         }
 
         //============================================================================
@@ -198,14 +199,14 @@ namespace nc
         /// @param t the amount to interpolate by (clamped from [0, 1]);
         /// @return Vec2
         ///
-        Vec2 lerp(const Vec2& otherVec, double t) const noexcept
+        [[nodiscard]] Vec2 lerp(const Vec2& otherVec, double t) const noexcept
         {
-            t = std::max(std::min(t, 1.0), 0.0);
+            t = std::max(std::min(t, 1.), 0.);
 
             Vec2 trajectory = otherVec;
             trajectory -= *this;
-            const double xInterp = utils::interp(0.0, trajectory.x, t);
-            const double yInterp = utils::interp(0.0, trajectory.y, t);
+            const double xInterp = utils::interp(0., trajectory.x, t);
+            const double yInterp = utils::interp(0., trajectory.y, t);
 
             return Vec2(*this) += Vec2(xInterp, yInterp);
         }
@@ -216,7 +217,7 @@ namespace nc
         ///
         /// @return magnitude of the vector
         ///
-        double norm() const noexcept 
+        [[nodiscard]] double norm() const noexcept
         {
             return std::hypot(x, y);
         }
@@ -227,7 +228,7 @@ namespace nc
         ///
         /// @return Vec2
         ///
-        Vec2 normalize() const noexcept 
+        [[nodiscard]] Vec2 normalize() const noexcept
         {
             return Vec2(*this) /= norm();
         }
@@ -239,7 +240,7 @@ namespace nc
         /// @param otherVec
         /// @return Vec2
         ///
-        Vec2 project(const Vec2& otherVec) const noexcept 
+        [[nodiscard]] Vec2 project(const Vec2& otherVec) const noexcept
         {
             const double projectedMagnitude = norm() * std::cos(angle(otherVec));
             return otherVec.normalize() *= projectedMagnitude;
@@ -253,7 +254,7 @@ namespace nc
         ///
         static constexpr Vec2 right() noexcept
         {
-            return Vec2(1.0, 0.0);
+            return Vec2(1., 0.); // NOLINT(modernize-return-braced-init-list)
         }
 
         //============================================================================
@@ -262,7 +263,7 @@ namespace nc
         ///
         /// @return std::string
         ///
-        std::string toString() const 
+        [[nodiscard]] std::string toString() const
         {
             std::stringstream stream;
             stream << "Vec2[" << x << ", " << y << "]";
@@ -275,7 +276,7 @@ namespace nc
         ///
         /// @return NdArray
         ///
-        NdArray<double> toNdArray() const 
+        [[nodiscard]] NdArray<double> toNdArray() const
         {
             NdArray<double> returnArray = { x, y };
             return returnArray.transpose();
@@ -289,7 +290,7 @@ namespace nc
         ///
         static constexpr Vec2 up() noexcept
         {
-            return Vec2(0.0, 1.0);
+            return Vec2(0., 1.); // NOLINT(modernize-return-braced-init-list)
         }
 
         //============================================================================
@@ -299,7 +300,7 @@ namespace nc
         /// @param rhs
         /// @return bool
         ///
-        bool operator==(const Vec2& rhs) const noexcept 
+        bool operator==(const Vec2& rhs) const noexcept
         {
             return utils::essentiallyEqual(x, rhs.x) && utils::essentiallyEqual(y, rhs.y);
         }
@@ -311,22 +312,22 @@ namespace nc
         /// @param rhs
         /// @return bool
         ///
-        bool operator!=(const Vec2& rhs) const noexcept 
+        bool operator!=(const Vec2& rhs) const noexcept
         {
             return !(*this == rhs);
         }
 
         //============================================================================
         // Method Description:
-        /// Adds the scaler to the vector
+        /// Adds the scalar to the vector
         ///
-        /// @param scaler
+        /// @param scalar
         /// @return Vec2
         ///
-        Vec2& operator+=(double scaler) noexcept 
+        Vec2& operator+=(double scalar) noexcept
         {
-            x += scaler;
-            y += scaler;
+            x += scalar;
+            y += scalar;
             return *this;
         }
 
@@ -337,7 +338,7 @@ namespace nc
         /// @param rhs
         /// @return Vec2
         ///
-        Vec2& operator+=(const Vec2& rhs) noexcept 
+        Vec2& operator+=(const Vec2& rhs) noexcept
         {
             x += rhs.x;
             y += rhs.y;
@@ -346,15 +347,15 @@ namespace nc
 
         //============================================================================
         // Method Description:
-        /// Subtracts the scaler from the vector
+        /// Subtracts the scalar from the vector
         ///
-        /// @param scaler
+        /// @param scalar
         /// @return Vec2
         ///
-        Vec2& operator-=(double scaler) noexcept 
+        Vec2& operator-=(double scalar) noexcept
         {
-            x -= scaler;
-            y -= scaler;
+            x -= scalar;
+            y -= scalar;
             return *this;
         }
 
@@ -365,7 +366,7 @@ namespace nc
         /// @param rhs
         /// @return Vec2
         ///
-        Vec2& operator-=(const Vec2& rhs) noexcept 
+        Vec2& operator-=(const Vec2& rhs) noexcept
         {
             x -= rhs.x;
             y -= rhs.y;
@@ -376,13 +377,13 @@ namespace nc
         // Method Description:
         /// Scalar mulitplication
         ///
-        /// @param scaler
+        /// @param scalar
         /// @return Vec2
         ///
-        Vec2& operator*=(double scaler) noexcept 
+        Vec2& operator*=(double scalar) noexcept
         {
-            x *= scaler;
-            y *= scaler;
+            x *= scalar;
+            y *= scalar;
             return *this;
         }
 
@@ -390,39 +391,39 @@ namespace nc
         // Method Description:
         /// Scalar division
         ///
-        /// @param scaler
+        /// @param scalar
         /// @return Vec2
         ///
-        Vec2& operator/=(double scaler) noexcept 
+        Vec2& operator/=(double scalar) noexcept
         {
-            x /= scaler;
-            y /= scaler;
+            x /= scalar;
+            y /= scalar;
             return *this;
         }
     };
 
     //============================================================================
     // Method Description:
-    /// Adds the scaler to the vector
+    /// Adds the scalar to the vector
     ///
     /// @param lhs
     /// @param rhs
     /// @return Vec2
     ///
-    inline Vec2 operator+(const Vec2& lhs, double rhs) noexcept 
+    inline Vec2 operator+(const Vec2& lhs, double rhs) noexcept
     {
         return Vec2(lhs) += rhs;
     }
 
     //============================================================================
     // Method Description:
-    /// Adds the scaler to the vector
+    /// Adds the scalar to the vector
     ///
     /// @param lhs
     /// @param rhs
     /// @return Vec2
     ///
-    inline Vec2 operator+(double lhs, const Vec2& rhs) noexcept 
+    inline Vec2 operator+(double lhs, const Vec2& rhs) noexcept
     {
         return Vec2(rhs) += lhs;
     }
@@ -435,7 +436,7 @@ namespace nc
     /// @param rhs
     /// @return Vec2
     ///
-    inline Vec2 operator+(const Vec2& lhs, const Vec2& rhs) noexcept 
+    inline Vec2 operator+(const Vec2& lhs, const Vec2& rhs) noexcept
     {
         return Vec2(lhs) += rhs;
     }
@@ -446,33 +447,33 @@ namespace nc
     ///
     /// @return Vec2
     ///
-    inline Vec2 operator-(const Vec2& vec) noexcept 
+    inline Vec2 operator-(const Vec2& vec) noexcept
     {
-        return {-vec.x, -vec.y};
+        return Vec2(-vec.x, -vec.y); // NOLINT(modernize-return-braced-init-list)
     }
 
     //============================================================================
     // Method Description:
-    /// Subtracts the scaler from the vector
+    /// Subtracts the scalar from the vector
     ///
     /// @param lhs
     /// @param rhs
     /// @return Vec2
     ///
-    inline Vec2 operator-(const Vec2& lhs, double rhs) noexcept 
+    inline Vec2 operator-(const Vec2& lhs, double rhs) noexcept
     {
         return Vec2(lhs) -= rhs;
     }
 
     //============================================================================
     // Method Description:
-    /// Subtracts the scaler from the vector
+    /// Subtracts the scalar from the vector
     ///
     /// @param lhs
     /// @param rhs
     /// @return Vec2
     ///
-    inline Vec2 operator-(double lhs, const Vec2& rhs) noexcept 
+    inline Vec2 operator-(double lhs, const Vec2& rhs) noexcept
     {
         return -Vec2(rhs) += lhs;
     }
@@ -485,7 +486,7 @@ namespace nc
     /// @param rhs
     /// @return Vec2
     ///
-    inline Vec2 operator-(const Vec2& lhs, const Vec2& rhs) noexcept 
+    inline Vec2 operator-(const Vec2& lhs, const Vec2& rhs) noexcept
     {
         return Vec2(lhs) -= rhs;
     }
@@ -498,7 +499,7 @@ namespace nc
     /// @param rhs
     /// @return Vec2
     ///
-    inline Vec2 operator*(const Vec2& lhs, double rhs) noexcept 
+    inline Vec2 operator*(const Vec2& lhs, double rhs) noexcept
     {
         return Vec2(lhs) *= rhs;
     }
@@ -511,7 +512,7 @@ namespace nc
     /// @param rhs
     /// @return Vec2
     ///
-    inline Vec2 operator*(double lhs, const Vec2& rhs) noexcept 
+    inline Vec2 operator*(double lhs, const Vec2& rhs) noexcept
     {
         return Vec2(rhs) *= lhs;
     }
@@ -523,9 +524,9 @@ namespace nc
     /// @param lhs
     /// @param rhs
     /// @return dot product
-    /// 
     ///
-    inline double operator*(const Vec2& lhs, const Vec2& rhs) noexcept 
+    ///
+    inline double operator*(const Vec2& lhs, const Vec2& rhs) noexcept
     {
         return lhs.dot(rhs);
     }
@@ -538,7 +539,7 @@ namespace nc
     /// @param rhs
     /// @return Vec2
     ///
-    inline Vec2 operator/(const Vec2& lhs, double rhs) noexcept 
+    inline Vec2 operator/(const Vec2& lhs, double rhs) noexcept
     {
         return Vec2(lhs) /= rhs;
     }
@@ -551,9 +552,9 @@ namespace nc
     /// @param vec
     /// @return std::ostream
     ///
-    inline std::ostream& operator<<(std::ostream& stream, const Vec2& vec) 
+    inline std::ostream& operator<<(std::ostream& stream, const Vec2& vec)
     {
         stream << vec.toString() << std::endl;
         return stream;
     }
-}  // namespace nc
+} // namespace nc

@@ -3,7 +3,7 @@
 /// [GitHub Repository](https://github.com/dpilger26/NumCpp)
 ///
 /// License
-/// Copyright 2018-2022 David Pilger
+/// Copyright 2018-2023 David Pilger
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy of this
 /// software and associated documentation files(the "Software"), to deal in the Software
@@ -27,30 +27,27 @@
 ///
 #pragma once
 
-#include "NumCpp/Core/Internal/StaticAsserts.hpp"
-#include "NumCpp/Core/Internal/TypeTraits.hpp"
-
 #include <cmath>
 #include <complex>
 
-namespace nc
-{
-    namespace utils
-    {
-        //============================================================================
-        /// Raises the input value to a floating point power
-        ///
-        /// @param inValue
-        /// @param inPower
-        ///
-        /// @return inValue raised to inPower
-        ///
-        template<typename dtype1, typename dtype2>
-        auto powerf(dtype1 inValue, const dtype2 inPower) noexcept 
-        {
-            STATIC_ASSERT_ARITHMETIC_OR_COMPLEX(dtype1);
+#include "NumCpp/Core/Internal/StaticAsserts.hpp"
+#include "NumCpp/Core/Internal/TypeTraits.hpp"
 
-            return std::pow(inValue, inPower);
-        }
-    } // namespace utils
-} // namespace nc
+namespace nc::utils
+{
+    //============================================================================
+    /// Raises the input value to a floating point power
+    ///
+    /// @param inValue
+    /// @param inPower
+    ///
+    /// @return inValue raised to inPower
+    ///
+    template<typename dtype1, typename dtype2>
+    auto powerf(dtype1 inValue, const dtype2 inPower) noexcept
+    {
+        STATIC_ASSERT_ARITHMETIC_OR_COMPLEX(dtype1);
+
+        return std::pow(inValue, inPower);
+    }
+} // namespace nc::utils

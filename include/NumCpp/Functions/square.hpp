@@ -3,7 +3,7 @@
 /// [GitHub Repository](https://github.com/dpilger26/NumCpp)
 ///
 /// License
-/// Copyright 2018-2022 David Pilger
+/// Copyright 2018-2023 David Pilger
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy of this
 /// software and associated documentation files(the "Software"), to deal in the Software
@@ -61,15 +61,14 @@ namespace nc
     /// @return NdArray
     ///
     template<typename dtype>
-    NdArray<dtype> square(const NdArray<dtype>& inArray) 
+    NdArray<dtype> square(const NdArray<dtype>& inArray)
     {
         NdArray<dtype> returnArray(inArray.shape());
-        stl_algorithms::transform(inArray.cbegin(), inArray.cend(), returnArray.begin(),
-            [](dtype inValue) noexcept -> dtype
-            { 
-                return square(inValue);
-            });
+        stl_algorithms::transform(inArray.cbegin(),
+                                  inArray.cend(),
+                                  returnArray.begin(),
+                                  [](dtype inValue) noexcept -> dtype { return square(inValue); });
 
         return returnArray;
     }
-}  // namespace nc
+} // namespace nc

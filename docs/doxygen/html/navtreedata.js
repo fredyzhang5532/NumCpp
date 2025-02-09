@@ -25,10 +25,10 @@
 var NAVTREE =
 [
   [ "NumCpp", "index.html", [
-    [ "Release Notes", "md__c___github__num_cpp_docs_markdown__release_notes.html", null ],
-    [ "Installation", "md__c___github__num_cpp_docs_markdown__installation.html", null ],
-    [ "Building", "md__c___github__num_cpp_docs_markdown__building.html", null ],
-    [ "Compiler Flags", "md__c___github__num_cpp_docs_markdown__compiler_flags.html", null ],
+    [ "Release Notes", "md__2home_2dpilger_2_github_2_num_cpp_2docs_2markdown_2_release_notes.html", null ],
+    [ "Installation", "md__2home_2dpilger_2_github_2_num_cpp_2docs_2markdown_2_installation.html", null ],
+    [ "Building", "md__2home_2dpilger_2_github_2_num_cpp_2docs_2markdown_2_building.html", null ],
+    [ "Flags", "md__2home_2dpilger_2_github_2_num_cpp_2docs_2markdown_2_compiler_flags.html", null ],
     [ "Namespaces", "namespaces.html", [
       [ "Namespace List", "namespaces.html", "namespaces_dup" ],
       [ "Namespace Members", "namespacemembers.html", [
@@ -48,7 +48,8 @@ var NAVTREE =
         [ "Functions", "functions_func.html", "functions_func" ],
         [ "Variables", "functions_vars.html", null ],
         [ "Typedefs", "functions_type.html", null ],
-        [ "Related Functions", "functions_rela.html", null ]
+        [ "Enumerations", "functions_enum.html", null ],
+        [ "Related Symbols", "functions_rela.html", null ]
       ] ]
     ] ],
     [ "Files", "files.html", [
@@ -64,21 +65,29 @@ var NAVTREE =
 
 var NAVTREEINDEX =
 [
-"_bisection_8hpp.html",
-"_random_2beta_8hpp.html#a9cf5ddddc350278c76e077c67b5254ab",
-"arccosh_8hpp.html#a725eab730b946eca5d197933b9f955fa",
-"classnc_1_1_nd_array.html#a094424d8f368eaa3730102a5f75f0c2e",
-"classnc_1_1_nd_array_const_column_iterator.html#ad7a25b0cb28882ed45417dd3ed01e094",
-"classnc_1_1image_processing_1_1_cluster.html#ae89900f4557d6273fc49b330417e324e",
-"corrcoef_8hpp.html",
-"full__like_8hpp.html#ad7e958219ad5b01b015edaf725eb4b7a",
-"log2_8hpp_source.html",
-"namespacenc.html#a26bec2e52fdab966f0f3714d1e2ea8bb",
-"namespacenc.html#a8f5045ed0f0a08d87fd76d7a74ac128d",
-"namespacenc_1_1constants.html#a2f1219a120c9cc1434486d9de75a8221",
-"namespacenc_1_1special.html#a8f98455b0421ab89f4722377d9606091",
-"ptp_8hpp.html#ae336fd0ff89427cca931a05fd9a9697a",
-"swapaxes_8hpp.html"
+"_a_e_r_8hpp.html",
+"_integrate_8hpp_source.html",
+"_rotations_8hpp_source.html",
+"arctanh_8hpp.html#a1b71f03b842e44890312fa09ed1aa594",
+"classnc_1_1_data_cube.html#af5e50bad9937b89f6e6fc5eca672239d",
+"classnc_1_1_nd_array.html#a4ebe59dc21a3b5e035ff1c4e6e82189d",
+"classnc_1_1_nd_array.html#adb4a1e1a3c3420c4b2133ba81a44a0e0",
+"classnc_1_1_nd_array_iterator.html#a871a849294da1c7e7b99250008471138",
+"classnc_1_1coordinates_1_1_cartesian.html#a9f51fd4fa6aad2c318df86588ed6a34f",
+"classnc_1_1coordinates_1_1reference__frames_1_1_e_n_u.html#ae265cf20496d00a8f3c1a95426977b82",
+"classnc_1_1linalg_1_1_s_v_d.html",
+"classnc_1_1random_1_1_r_n_g.html#ae7df952d6e30b7b3e74c53c7e30ef388",
+"classnc_1_1rotations_1_1_quaternion.html#ad63920fa01f5bd4949c0fbb3ff7c7137",
+"empty_8hpp_source.html",
+"generate_threshold_8hpp.html#a356989d12dda6e1b0748d22d50d4ecaa",
+"maximum_filter_8hpp.html#a998f7c3ef568195b9281e3219f3f983e",
+"namespacenc.html#a3199cea21b1c12730260ce79a46adffc",
+"namespacenc.html#a859c4c094d75de63f0aede46f07c2003",
+"namespacenc.html#aec20f8e16942711f377588975ec7716d",
+"namespacenc_1_1linalg.html#afa7cc2a8a4084e94b4af00484d3a511e",
+"namespacenc_1_1stl__algorithms.html#a153f9d463238e80e4566f455ded45426",
+"put_8hpp.html#a34fd32b4ac2703d6256ec75546cd65f8",
+"structnc_1_1all__same.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

@@ -3,7 +3,7 @@
 /// [GitHub Repository](https://github.com/dpilger26/NumCpp)
 ///
 /// License
-/// Copyright 2018-2022 David Pilger
+/// Copyright 2018-2023 David Pilger
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy of this
 /// software and associated documentation files(the "Software"), to deal in the Software
@@ -47,10 +47,10 @@ namespace nc
     /// @return NdArray
     ///
     template<typename dtype>
-    NdArray<double> nanvar(const NdArray<dtype>& inArray, Axis inAxis = Axis::NONE) 
+    NdArray<double> nanvar(const NdArray<dtype>& inArray, Axis inAxis = Axis::NONE)
     {
         STATIC_ASSERT_FLOAT(dtype);
 
         return square(nanstdev(inArray, inAxis));
     }
-}  // namespace nc
+} // namespace nc
